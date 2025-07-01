@@ -1,0 +1,85 @@
+<p>abc works!</p>
+<div class="datos">
+<table class="datosTable">
+    <tr>
+        <td>Dias o Tardes
+        <input type="text" [value]="time()" (input)="timeChangeHandler($event)"></td>
+        <td>Fecha
+        <input type="text" [value]="fecha()" (input)="fechaChangeHandler($event)"></td>
+        <td>Alerta
+        <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)"></td>
+        <td>Aplicaci&oacute;n
+        <input type="text" [value]="aplicacion()" (input)="aplicacionChangeHandler($event)"></td>
+    </tr>
+    <tr>
+        <td>Normativa
+        <input type="text" [value]="normativa()" (input)="normativaChangeHandler($event)"></td>
+        <td>Host
+        <input type="text" [value]="host()" (input)="hostChangeHandler($event)"></td>
+        <td>Nombre Usuario
+        <input type="text" [value]="nombreusr()" (input)="nombreusrChangeHandler($event)"></td>
+        <td>Usuario ejecutor
+        <input type="text" [value]="usrej()" (input)="usrejChangeHandler($event)"></td>
+    </tr>
+    <tr>
+        <td>Usuarios afectados
+        <input type="text" [value]="usrafectados()" (input)="usrafecChangeHandler($event)"></td>
+        <td>Acci&oacute;n
+        <input type="text" [value]="accion()" (input)="accionChangeHandler($event)"></td>
+    </tr>
+</table>
+</div>
+<br>
+<hr>
+<p>{{time()}},
+ <br><br>
+    Les notificamos que se ha realizado un cambio en la aplicaci&oacute;n <b>{{aplicacion()}}</b>, este movimiento fue realizado por el usuario <b>{{usrej()}}</b> realizando un <b>{{accion()}}</b>, al usuario <b>{{usrafectados()}}</b>.
+    <br><br>
+    Solicitamos de su ayuda para justificar la actividad.
+    <br><br>
+    Adjuntamos detalle del evento:
+</p>
+<table class="mailtable" role="region" tabindex="0">
+    <caption></caption>
+   <THead>
+        <th colspan="4">Detalle del evento</th>
+   </THead>
+    <tbody>
+        <tr>
+            <th colspan="1">Severidad</th>
+            <td colspan="3"><b> ☐Critica  ☒Alta  ☐Media  ☐Baja</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Tipo de amenaza:</th>
+            <td colspan="3"><b>{{alerta()}}</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Normativa:</th>
+            <td colspan="3">{{normativa()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1">Fecha:</th>
+            <td colspan="3">{{fecha()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1">Host:</th>
+            <td colspan="3">{{host()}}</td>
+        </tr>
+        <tr>
+            <th>Usuario ejecutor:</th>
+            <td>{{usrej()}}</td>
+            <th>Nombre de Usuario:</th>
+            <td>{{nombreusr()}}</td>
+        </tr>
+        <tr>
+            <th>Usuarios afectados:</th>
+            <td>{{usrafectados()}}</td>
+            <th>Acci&oacute;n:</th>
+            <td>{{accion()}}</td>
+        </tr>
+
+   </tbody>
+</table>
+<p>Quedamospendientes a sus comentarios</p>
+<p>Saludos</p>
+<hr>

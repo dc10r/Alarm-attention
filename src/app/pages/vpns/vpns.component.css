@@ -1,0 +1,39 @@
+.table_component {
+    overflow: auto;
+    width: 100%;
+}
+
+.table_component table {
+    border: 1px solid rgb(255, 0, 0);
+    height: 50%;
+    width: 60%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 3px;
+    text-align: left;
+}
+
+.table_component caption {
+    caption-side: top;
+    text-align: center;
+}
+
+.table_component th {
+    border: 2px solid #000000;
+    background-color: rgb(0, 162, 255);
+    color: rgb(255, 255, 255);
+    padding: 0px;
+    writing-mode: vertical-rl; /* This will rotate the text vertically */
+    transform: rotate(0deg);  /* Optional: You can also rotate with transform if needed */
+    white-space: nowrap;
+}
+
+.table_component td {
+    border: 2px solid #8c00ff;
+    background-color: #ffffff;
+    color: #000000;
+    padding: 0px;
+    writing-mode: vertical-rl; /* This will rotate the text vertically */
+    transform: rotate(0deg);  /* Optional: You can also rotate with transform if needed */
+    white-space: nowrap;
+    }
