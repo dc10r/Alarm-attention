@@ -10,22 +10,19 @@
     <tr>
         <td>Host <br>
         <input type="text" [value]="host()" (input)="hostChangeHandler($event)"></td>
-        <td>Nombre Usuario <br> 
-        <input type="text" [value]="nombreusr()" (input)="nombreusrChangeHandler($event)"></td>
         <td>Usuario ejecutor <br>
         <input type="text" [value]="usrej()" (input)="usrejChangeHandler($event)"></td>
+        <td>Nombre Usuario <br> 
+        <input type="text" [value]="nombreusr()" (input)="nombreusrChangeHandler($event)"></td>
     </tr>
     <tr>
         <td>IP origen <br>
         <input type="text" [value]="iporg()" (input)="iporgChangeHandler($event)"></td>
         <td>IP destino <br>
         <input type="text" [value]="ipdest()" (input)="ipdestChangeHandler($event)"></td>
-        <td>Acci&oacute;n <br>
-        <input type="text" [value]="accion()" (input)="accionChangeHandler($event)"></td>
     </tr>
     </table>
 </div>
-
 <hr>
 <h1>Correo</h1>
 <button (click)="copyContent(textToCopy)">  
@@ -36,24 +33,21 @@
 <div #textToCopy>
 <p>{{tiempo}},
  <br><br>
- El motivo del correo es para indicarle que estamos recibiendo alertamientos de <b>{{alerta()}}</b> donde visualizamos la credencial <b>{{usrej()}}</b> que pertenece a <b>{{nombreusr()}}</b>. 
- <br><br>
- Solicitamos de su ayuda para justificar la actividad con un código ya sea RFC/INC/REQ o alguna justificación de la actividad
+ Se identificaron m&uacute;ltiples intentos de acceso fallido realizados con su usuario <b>{{usrej()}}</b>, por lo cual necesitamos que nos confirme que estos intentos fueron realizados por usted.
 <br><br>
-  
- Nota: En caso de no reconocer la actividad favor de notificarnos, 
-  
+Nota: Si no reconoce la conexi&oacute;n es probable que su usuario este siendo utilizado en alg&uacute;n proceso que se est&aacute; ejecutando autom&aacute;ticamente, solicitamos de su apoyo para realizar la revisión en la(s) IP que se detallan en la siguiente tabla.
+
  
 </p>
 <br>
 <table class="mailtable" role="region" tabindex="0">
     <caption></caption>
-   <Thead>
-        <th colspan="4" >Detalle del evento</th>
-   </Thead>
+   <THead>
+        <th colspan="4">Detalle del evento</th>
+   </THead>
     <tbody>
         <tr>
-            <th  colspan="1">Severidad</th>
+            <th colspan="1">Severidad</th>
             <td colspan="3"> <b>☐Critica  ☒Alta  ☐Media  ☐Baja</b></td>
         </tr>
         <tr>
@@ -63,6 +57,10 @@
         <tr>
             <th colspan="1">Fecha:</th>
             <td colspan="3">{{fecha()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1">Host:</th>
+            <td colspan="3">{{host()}}</td>
         </tr>
         <tr>
             <th>Usuario:</th>
@@ -76,25 +74,18 @@
             <th>IP destino:</th>
             <td>{{ipdest()}}</td>
         </tr>
-        <tr>
-            <th>Host:</th>
-            <td>{{host()}}</td>
-            <th>Acci&oacute;n:</th>
-            <td>{{accion()}}</td>
-        </tr>
    </tbody>
 </table>
+<p><b>Se adjunta concentrado del total de IP´s vistas en el alertamiento.</b></p>
 <p>Quedamos pendientes a sus comentarios</p>
 
 <p>Saludos</p>
 </div>
-
 <hr>
 
 <h1>Documentaci&oacute;n </h1>
 <p>
-<br>
-- Descripción del evento/Incidente: {{alerta()}} <br>
+- Descripci&oacute;n del evento/Incidente: {{alerta()}} <br>
 - Impacto/Potencial: ALTA. <br>
 - Reportado a: {{nombreusr()}} <br>
 - Hallazgos: Se observa la acción {{accion()}} <br>

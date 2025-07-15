@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-
+import { Component, signal, Input } from '@angular/core';
+import {Tiempo} from './tiempo.model';
 @Component({
   selector: 'app-abc',
   imports: [],
@@ -7,8 +7,9 @@ import { Component, signal } from '@angular/core';
   styleUrl: './abc.component.css'
 })
 export class AbcComponent {
+@Input() tiempo!: String;
 
-time = signal('Buenos dias');
+
 aplicacion = signal('Windows,lunix, etc');
 alerta =signal('alerta');
 normativa =signal('N/A');
@@ -19,11 +20,7 @@ usrej =signal('');
 usrafectados =signal('');
 accion =signal('');
 
-    timeChangeHandler (event: Event) {
-      const input = event.target as HTMLInputElement;
-      const newValue = input.value.trim();
-      this.time.set(newValue);
-    };
+
     aplicacionChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
       const newValue = input.value.trim();
@@ -72,5 +69,40 @@ accion =signal('');
       this.usrafectados.set(newValue);
     };
 
+  copiado = false;
+
+copyContent(element: HTMLElement) {
+  const text = 
+  ` 
+<style> 
+table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 2px solid rgb(0, 0, 0);
+    text-align: center;
+}
+th{
+    background-color: rgb(0, 168, 224);
+    color: white;
+    border: 2px solid rgb(0, 0, 0);
+
+}
+td {
+    border: 2px solid rgb(0, 0, 0);
+}
+.mailtable{
+    height: 350px;
+}
+  </style>
+    ${element.outerHTML}
+  `;
+const blob = new Blob([text], { type: 'text/html' });
+  const data = [new ClipboardItem({ 'text/html': blob })];
+
+  navigator.clipboard.write(data)
+    .then(() => console.log('Contenido copiado con éxito'))
+    .catch(err => console.error('Error al copiar:', err));
+    this.copiado= true;
+}
 
 }

@@ -10,7 +10,7 @@
 }
 
 .panel{
-    background-color: rgb(194, 232, 255);
+    background-color: rgb(255, 255, 255);
     border: 2px solid rgb(98, 195, 255);
     padding: 3px;
     display: flex;

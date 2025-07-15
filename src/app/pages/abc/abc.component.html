@@ -1,41 +1,49 @@
-<p>abc works!</p>
+
 <div class="datos">
 <table class="datosTable">
     <tr>
-        <td>Dias o Tardes
-        <input type="text" [value]="time()" (input)="timeChangeHandler($event)"></td>
-        <td>Fecha
+        <td>Fecha <br>
         <input type="text" [value]="fecha()" (input)="fechaChangeHandler($event)"></td>
-        <td>Alerta
+        <td>Alerta <br>
         <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)"></td>
-        <td>Aplicaci&oacute;n
+        <td>Aplicaci&oacute;n <br>
         <input type="text" [value]="aplicacion()" (input)="aplicacionChangeHandler($event)"></td>
+        <td>Normativa <br>
+        <input type="text" [value]="normativa()" (input)="normativaChangeHandler($event)"></td>
+        
     </tr>
     <tr>
-        <td>Normativa
-        <input type="text" [value]="normativa()" (input)="normativaChangeHandler($event)"></td>
-        <td>Host
+        <td>Host <br>
         <input type="text" [value]="host()" (input)="hostChangeHandler($event)"></td>
-        <td>Nombre Usuario
+        <td>Nombre Usuario <br>
         <input type="text" [value]="nombreusr()" (input)="nombreusrChangeHandler($event)"></td>
-        <td>Usuario ejecutor
+        <td>Usuario ejecutor <br>
         <input type="text" [value]="usrej()" (input)="usrejChangeHandler($event)"></td>
     </tr>
     <tr>
-        <td>Usuarios afectados
+        <td>Usuarios afectados <br>
         <input type="text" [value]="usrafectados()" (input)="usrafecChangeHandler($event)"></td>
-        <td>Acci&oacute;n
+        <td>Acci&oacute;n <br>
         <input type="text" [value]="accion()" (input)="accionChangeHandler($event)"></td>
     </tr>
 </table>
 </div>
 <br>
 <hr>
-<p>{{time()}},
+<h1>Correo</h1>
+<button (click)="copyContent(textToCopy)">  
+    {{ copiado ? 'Copiado!' : 'Copiar' }}
+</button>
+
+
+
+
+<div #textToCopy>
+<p>{{tiempo}},
  <br><br>
     Les notificamos que se ha realizado un cambio en la aplicaci&oacute;n <b>{{aplicacion()}}</b>, este movimiento fue realizado por el usuario <b>{{usrej()}}</b> realizando un <b>{{accion()}}</b>, al usuario <b>{{usrafectados()}}</b>.
     <br><br>
-    Solicitamos de su ayuda para justificar la actividad.
+    Solicitamos de su ayuda para justificar la actividad con un código ya sea RFC/INC/REQ o alguna justificación de dichos movimientos.
     <br><br>
     Adjuntamos detalle del evento:
 </p>
@@ -80,6 +88,19 @@
 
    </tbody>
 </table>
-<p>Quedamospendientes a sus comentarios</p>
+<p>Quedamos pendientes a sus comentarios</p>
 <p>Saludos</p>
+</div>
 <hr>
+
+<h1>Documentaci&oacute;n</h1>
+<p>
+
+- Descripción del evento/Incidente: {{alerta()}} <br>
+- Impacto/Potencial: ALTA. <br>
+- Reportado a: {{nombreusr()}} <br>
+- Hallazgos: Se observa la acción {{accion()}} <br>
+- Retroalimentación: Se envia correo a {{nombreusr()}} <br>
+- Veredicto/Conclusión:En espera de respuesta <br>
+
+</p>

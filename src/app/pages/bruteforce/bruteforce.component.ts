@@ -1,12 +1,12 @@
 import { Component, signal, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-acps',
+  selector: 'app-bruteforce',
   imports: [],
-  templateUrl: './acps.component.html',
-  styleUrl: './acps.component.css'
+  templateUrl: './bruteforce.component.html',
+  styleUrl: './bruteforce.component.css'
 })
-export class AcpsComponent {
+export class BruteforceComponent {
 @Input() tiempo!: String;
 
 
@@ -72,14 +72,13 @@ accion =signal('');
       this.ipdest.set(newValue);
     };
 
-
-  copiado = false;
+  
+    copiado = false;
 
 copyContent(element: HTMLElement) {
   const text = 
   ` 
-  <style>
-  
+<style> 
 table {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
@@ -95,10 +94,11 @@ th{
 td {
     border: 2px solid rgb(0, 0, 0);
 }
-
-
 .mailtable{
     height: 350px;
+}
+.red{
+    color: red;
 }
   </style>
     ${element.outerHTML}
@@ -111,4 +111,6 @@ const blob = new Blob([text], { type: 'text/html' });
     .catch(err => console.error('Error al copiar:', err));
     this.copiado= true;
 }
+
+
 }

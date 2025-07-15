@@ -1,4 +1,4 @@
-import { Component, Signal, signal } from '@angular/core';
+import { Component, Input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms';
 
@@ -9,6 +9,9 @@ import {FormsModule} from '@angular/forms';
   styleUrls: ['./vpns.component.css']  
 })
 export class VpnsComponent {
+@Input() tiempo!: String;
+
+  
   caso=signal('');
   pais= signal('Brasil');
   destIP = signal('N/A');
@@ -37,7 +40,7 @@ export class VpnsComponent {
   lineaNegocio= signal('');
   tecnologiauser= signal('THE HIVE');
   hostorg= signal('N/A');
-  rececpcionAlerta = signal('15/04/2025 21:48');
+  fecha = signal('15/04/2025 21:48');
   notificacionAlerta= signal('15/04/2025 21:48');
   cierreAlerta= signal('15/04/2025 21:48');
   currentuser = signal('David Cruz');
@@ -54,9 +57,7 @@ export class VpnsComponent {
   Criticidad=signal('Alta');
   hostdest=signal('N/A');
   
-  alert = {
-    
-  };
+  alert = {};
 
   
   estaVacChangeHandler (event: Event) {
@@ -149,10 +150,10 @@ export class VpnsComponent {
     this.destIP.set(newValue);
   };
   
-  recalertChangeHandler (event: Event) {
+  fechaChangeHandler (event: Event) {
     const input = event.target as HTMLInputElement;
     const newValue = input.value.trim();
-    this.rececpcionAlerta.set(newValue);
+    this.fecha.set(newValue);
   };
 
   notalertChangeHandler (event: Event) {
@@ -264,7 +265,45 @@ export class VpnsComponent {
   };
   
   
-  
+    copiado = false;
+
+copyContent(element: HTMLElement) {
+  const text = 
+  ` 
+<style> 
+table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 2px solid rgb(0, 0, 0);
+    text-align: center;
+}
+th{
+    background-color: rgb(0, 168, 224);
+    color: white;
+    border: 2px solid rgb(0, 0, 0);
+
+}
+td {
+    border: 2px solid rgb(0, 0, 0);
+}
+.mailtable{
+    height: 350px;
+}
+.red{
+    color: red;
+}
+  </style>
+    ${element.outerHTML}
+  `;
+const blob = new Blob([text], { type: 'text/html' });
+  const data = [new ClipboardItem({ 'text/html': blob })];
+
+  navigator.clipboard.write(data)
+    .then(() => console.log('Contenido copiado con éxito'))
+    .catch(err => console.error('Error al copiar:', err));
+    this.copiado= true;
+}
+
   
   
   
