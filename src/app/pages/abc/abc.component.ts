@@ -1,13 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, signal, Input } from '@angular/core';
-import {Tiempo} from './tiempo.model';
+import {PuntosComponent} from '../puntos/puntos.component';
+
 @Component({
   selector: 'app-abc',
-  imports: [],
+  imports: [CommonModule, PuntosComponent],
   templateUrl: './abc.component.html',
   styleUrl: './abc.component.css'
 })
 export class AbcComponent {
 @Input() tiempo!: String;
+@Input() atendido_Por!: String;
 
 
 aplicacion = signal('Windows,lunix, etc');
@@ -103,6 +106,7 @@ const blob = new Blob([text], { type: 'text/html' });
     .then(() => console.log('Contenido copiado con éxito'))
     .catch(err => console.error('Error al copiar:', err));
     this.copiado= true;
+    setTimeout(() => this.copiado = false, 2000);
 }
 
 }

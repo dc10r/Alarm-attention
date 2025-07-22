@@ -37,7 +37,7 @@
 
 
 
-
+<!--Correo -->
 <div #textToCopy>
 <p>{{tiempo}},
  <br><br>
@@ -93,14 +93,4 @@
 </div>
 <hr>
 
-<h1>Documentaci&oacute;n</h1>
-<p>
-
-- Descripción del evento/Incidente: {{alerta()}} <br>
-- Impacto/Potencial: ALTA. <br>
-- Reportado a: {{nombreusr()}} <br>
-- Hallazgos: Se observa la acción {{accion()}} <br>
-- Retroalimentación: Se envia correo a {{nombreusr()}} <br>
-- Veredicto/Conclusión:En espera de respuesta <br>
-
-</p>
+<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="nombreusr()" [accion]="accion()"></app-puntos>

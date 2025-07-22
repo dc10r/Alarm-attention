@@ -21,6 +21,12 @@ export class WindowComponent {
   tiempo = signal<string>('Buenos días');
   tiempos: string[] = ['Buenos días', 'Buenas tardes', 'Buenas noches'];
   
+  atendido_Por = signal<string>('N/A')
+  atendidoPorChangeHandler (event: Event) {
+      const input = event.target as HTMLInputElement;
+      const newValue = input.value.trim();
+      this.atendido_Por.set(newValue);
+    };
 
 
 

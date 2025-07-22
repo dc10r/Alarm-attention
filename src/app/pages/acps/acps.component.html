@@ -58,7 +58,7 @@
         </tr>
         <tr>
             <th colspan="1">Tipo de amenaza:</th>
-            <td colspan="3"><b>Actividad privilegiada</b></td>
+            <td colspan="3"><b>{{alerta()}}</b></td>
         </tr>
         <tr>
             <th colspan="1">Fecha:</th>
@@ -91,14 +91,6 @@
 
 <hr>
 
-<h1>Documentaci&oacute;n </h1>
-<p>
-<br>
-- Descripción del evento/Incidente: {{alerta()}} <br>
-- Impacto/Potencial: ALTA. <br>
-- Reportado a: {{nombreusr()}} <br>
-- Hallazgos: Se observa la acción {{accion()}} <br>
-- Retroalimentación: Se envia correo a {{nombreusr()}} <br>
-- Veredicto/Conclusión:En espera de respuesta <br>
-</p>
+
+<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="nombreusr()" [accion]="accion()"></app-puntos>
 

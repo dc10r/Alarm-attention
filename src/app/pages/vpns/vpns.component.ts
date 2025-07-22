@@ -10,10 +10,11 @@ import {FormsModule} from '@angular/forms';
 })
 export class VpnsComponent {
 @Input() tiempo!: String;
+@Input() atendido_Por!: String;
 
   
   caso=signal('');
-  pais= signal('Brasil');
+  pais= signal('México');
   destIP = signal('N/A');
   SrcIp=signal('N/A');
   user=signal('');
@@ -302,7 +303,19 @@ const blob = new Blob([text], { type: 'text/html' });
     .then(() => console.log('Contenido copiado con éxito'))
     .catch(err => console.error('Error al copiar:', err));
     this.copiado= true;
+    setTimeout(() => this.copiado = false, 2000);
 }
+
+doccopiado = false;
+
+doccopyContent(element: HTMLElement) {
+  const text = element.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    this.doccopiado = true;
+    setTimeout(() => this.doccopiado = false, 2000);
+  });
+}
+
 
   
   

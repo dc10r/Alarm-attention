@@ -21,11 +21,11 @@
             </td>
             <td>
                 <p>Normativa</p>
-                <input type="text" [value]="SrcIp()" (input)="normaChangeHandler($event)">
+                <input type="text" [value]="Normativa()" (input)="normaChangeHandler($event)">
             </td>
             <td>
                 <p>Fecha</p>
-                <input type="text" [value]="SrcIp()" (input)="fechaChangeHandler($event)">
+                <input type="text" [value]="fecha()" (input)="fechaChangeHandler($event)">
             </td>
         </tr>
         <tr>
@@ -146,14 +146,15 @@
 </div>
 
 <hr>
-<h1>Correo</h1>
-<button (click)="copyContent(textToCopy)">  
+<!--Generación de correo -->
+<div *ngIf="pais() != 'México'" >
+    <h1>Correo</h1>
+        <button (click)="copyContent(textToCopy)">  
     {{ copiado ? 'Copiado!' : 'Copiar' }}
-</button>
-
-
-<div #textToCopy>
-<div *ngIf=" car() == 'Interno'" >
+        </button>
+<!--Correo Interno -->
+    <div #textToCopy>
+        <div *ngIf=" car() == 'Interno'" >
     <p> 
         {{tiempo}}, <br> <br>
         Hemos detectado una conexi&oacute;n de VPN realizada fuera de M&eacute;xico con el usuario (<b>{{user()}}</b>) (<b>{{name()}} – {{cargo()}}</b>). <br> 
@@ -205,12 +206,14 @@
 <p class="red"> 
     <b>
         Nota: Debido a la importancia y criticidad del evento necesitamos que su respuesta sea m&aacute;xima en una hora (01:00 hrs.), ya que de lo contrario se realizar&aacute; el bloqueo de la cuenta de VPN como medida preventiva evitando con esto un mal uso de credenciales y exposici&oacute;n de datos confidenciales. <br>
-        Sin más por el momento me despido deseando un excelente d&iacute;a y quedando atento a cualquier duda o comentario
     </b>
 </p>
-
-</div>
-<div *ngIf=" car() == 'Externo'" >
+<p>
+    Quedamos atentos a cualquier duda o comentario
+</p>
+        </div>
+<!--Correo Externo -->
+        <div *ngIf=" car() == 'Externo'" >
         <p> 
         {{tiempo}}, <br> <br>
         Hemos detectado una conexi&oacute;n de VPN realizada fuera de M&eacute;xico del usuario bajo su cargo (<b>{{user()}}</b>) (<b>{{name()}} – {{cargo()}}</b>). <br> 
@@ -260,14 +263,25 @@
 
 <p class="red"> 
     <b>
-        Nota: Debido a la importancia y criticidad del evento necesitamos que su respuesta sea máxima en una hora (01:00 hrs.), ya que de lo contrario se realizará el bloqueo de la cuenta de VPN como medida preventiva evitando con esto un mal uso de credenciales y exposición de datos confidenciales. Sin más por el momento me despido deseando un excelente día y quedando atento a cualquier duda o comentario
+        Nota: Debido a la importancia y criticidad del evento necesitamos que su respuesta sea máxima en una hora (01:00 hrs.), ya que de lo contrario se realizará el bloqueo de la cuenta de VPN como medida preventiva evitando con esto un mal uso de credenciales y exposición de datos confidenciales. 
     </b>
 </p>
+<p>
+    Quedamos atentos a cualquier duda o comentario.
+</p>
 
+        </div>
+    </div>
 </div>
-</div>
+
+
 <hr>
 <h1>Documentaci&oacute;n</h1>
+<button (click)="doccopyContent(docToCopy)">  
+    {{ doccopiado ? 'Copiado!' : 'Copiar' }}
+        </button>
+
+<div #docToCopy >
 <p>Se realiza el an&aacute;lisis de los campos involucrados en esta alerta.</p>
 <p>- Usuario involucrado: (**{{user()}}**)</p>
 <p>- IP origen/IP destino: (**{{SrcIp()}} / {{destIP()}}**)</p>
@@ -297,18 +311,8 @@
 <div *ngIf=" pais() == 'México'" >
     <p>Se procede al cierre debido a que se valida que la IP ORIGEN (**{{SrcIp()}}**) pertenece al país (**{{pais()}}**) </p>
 </div>
-
-<hr>
-<h1>Documentaci&oacute;n</h1>
-
-<p> Se realiza el análisis de la IP Origen (**{{SrcIp()}}**), en la herramienta Cisco Talos, donde se determina que la IP pertenece a (**{{pais()}}**).</p>
-<p> Se realiza el análisis de la IP Origen (**{{SrcIp()}}**), en la herramienta Virus Total, donde se determina que la IP pertenece a (**{{pais()}}**).</p>
-<p> Se realiza el análisis de la IP Origen (**{{SrcIp()}}**), en la herramienta IBM X-Force, donde se determina que la IP pertenece a (**{{pais()}}**).</p>    
-
-<p>Cisco_Talos_{{SrcIp()}}</p>
-<p>IBM_X_Force_{{SrcIp()}}</p>
-<p>Virus_Total_{{SrcIp()}}</p>
-<p>WEBPHONE_{{user()}}</p>
+<p *ngIf="atendido_Por != 'N/A'"> - Atendido por: {{atendido_Por}} </p>
+</div>
 
 <hr>
 

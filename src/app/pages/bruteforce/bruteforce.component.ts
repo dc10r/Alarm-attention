@@ -1,14 +1,15 @@
 import { Component, signal, Input } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
+import {PuntosComponent} from '../puntos/puntos.component'
 @Component({
   selector: 'app-bruteforce',
-  imports: [],
+  imports: [CommonModule, PuntosComponent],
   templateUrl: './bruteforce.component.html',
   styleUrl: './bruteforce.component.css'
 })
 export class BruteforceComponent {
 @Input() tiempo!: String;
-
+@Input() atendido_Por!: String;
 
 aplicacion = signal('Windows,lunix, etc');
 alerta =signal('alerta');
@@ -110,6 +111,7 @@ const blob = new Blob([text], { type: 'text/html' });
     .then(() => console.log('Contenido copiado con éxito'))
     .catch(err => console.error('Error al copiar:', err));
     this.copiado= true;
+    setTimeout(() => this.copiado = false, 2000);
 }
 
 
