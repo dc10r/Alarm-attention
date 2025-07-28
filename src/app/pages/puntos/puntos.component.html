@@ -1,0 +1,29 @@
+
+
+<h1>Documentaci&oacute;n </h1>
+        <button (click)="copyContent(puntosToCopy)">  
+    {{ copiado ? 'Copiado!' : 'Copiar' }}
+        </button>
+<div #puntosToCopy>
+<!-- 5 sin nombre-->
+<p *ngIf="atendido_Por == 'N/A'">
+- Descripci&oacute;n del evento/Incidente: {{alerta}} <br>
+- Impacto/Potencial: ALTA. <br>
+- Reportado a: {{nombreusr}} <br>
+- Hallazgos: Se observa la acci&oacute;n {{accion}} <br>
+- Retroalimentaci&oacute;n: Se env&iacute;a correo a {{nombreusr}} <br>
+- Veredicto/Conclusi&oacute;n: En espera de respuesta <br>
+</p>
+<!-- 5 con nombre -->
+<p *ngIf="atendido_Por != 'N/A'">
+- Descripci&oacute;n del evento/Incidente: {{alerta}} <br>
+- Impacto/Potencial: ALTA. <br>
+- Reportado a: {{nombreusr}} <br>
+- Hallazgos: Se observa la acci&oacute;n {{accion}} <br>
+- Retroalimentaci&oacute;n: Se env&iacute;a correo a {{nombreusr}} <br>
+- Veredicto/Conclusi&oacute;n: En espera de respuesta <br>
+- Atendido por: {{atendido_Por}} <br>
+</p>
+
+</div>
+
