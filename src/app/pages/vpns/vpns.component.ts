@@ -6,14 +6,13 @@ import {FormsModule} from '@angular/forms';
   selector: 'app-vpns',
   imports: [CommonModule, FormsModule],
   templateUrl: './vpns.component.html',
-  styleUrls: ['./vpns.component.css']  
+  styleUrls: ['./vpns.component.css']
 })
 export class VpnsComponent {
 @Input() tiempo!: String;
 @Input() atendido_Por!: String;
 
-  
-  caso=signal('');
+
   pais= signal('México');
   destIP = signal('N/A');
   SrcIp=signal('N/A');
@@ -27,6 +26,10 @@ export class VpnsComponent {
   bjrcargo = signal('');
   VacacionesDoc=signal('N/A');
   estaVac = signal('NO');
+  hostorg= signal('N/A');
+  fecha = signal('15/04/2025 21:48');
+  Normativa=signal('N/A');
+  alertype=signal('');
 
   car = signal<string>('Externo');
   cars: string[] = ['Externo', 'Interno'];
@@ -38,50 +41,27 @@ export class VpnsComponent {
   negocios: string[] = ['Enterpise', 'Mobile'];
 
 
-  lineaNegocio= signal('');
-  tecnologiauser= signal('THE HIVE');
-  hostorg= signal('N/A');
-  fecha = signal('15/04/2025 21:48');
-  notificacionAlerta= signal('15/04/2025 21:48');
-  cierreAlerta= signal('15/04/2025 21:48');
-  currentuser = signal('David Cruz');
-  spk=signal('');
-  alertype=signal('');
-  categoria=signal('VPN');
-  status=signal('CLOSED');
-  Clasifiacion=signal('VERDADERO POSITIVO');
-  Ingt1=signal('David Cruz');
-  Ingt2=signal('Oscar de Los Santos');
-  super=signal('Daniel Sanchez');
-  turno=signal('NOCTURNO');
-  Normativa=signal('NO SOX | NO PCI');
-  Criticidad=signal('Alta');
-  hostdest=signal('N/A');
-  
-  alert = {};
+  borrado= false
 
-  
-  estaVacChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newValue = input.value.trim();
-    this.estaVac.set(newValue);
-  };
-
-    
-
-
-
-  spkChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newValue = input.value.trim();
-    this.spk.set(newValue);
-  };
-
-  casoChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newValue = input.value.trim();
-    this.caso.set(newValue);
-  };
+deleteData(){
+  this.pais.set('México');
+  this.destIP.set('');
+  this.SrcIp.set('');
+  this.user.set('');
+  this.name.set('');
+  this.cargo.set('');
+  this.jefe.set('');
+  this.cargojefe.set('');
+  this.bpjrname.set('');
+  this.bjrcargo.set('');
+  this.VacacionesDoc.set('');
+  this.hostorg.set('');
+  this.fecha.set('');
+  this.Normativa.set('');
+  this.alertype.set('');
+  this.borrado= true;
+  setTimeout(() => this.borrado = false, 2000);
+}
 
   alertypeChangeHandler (event: Event) {
     const input = event.target as HTMLInputElement;
@@ -89,34 +69,16 @@ export class VpnsComponent {
     this.alertype.set(newValue);
   };
 
-  categoriaChangeHandler (event: Event) {
+  estaVacChangeHandler (event: Event) {
     const input = event.target as HTMLInputElement;
     const newValue = input.value.trim();
-    this.categoria.set(newValue);
-  };
-
-  statusChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newValue = input.value.trim();
-    this.status.set(newValue);
-  };
-
-  turnoChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newValue = input.value.trim();
-    this.turno.set(newValue);
+    this.estaVac.set(newValue);
   };
 
   normaChangeHandler (event: Event) {
     const input = event.target as HTMLInputElement;
     const newValue = input.value.trim();
     this.Normativa.set(newValue);
-  };
-
-  criticidadChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newValue = input.value;
-    this.Criticidad.set(newValue);
   };
 
   hostorgChangeHandler (event: Event) {
@@ -135,14 +97,6 @@ export class VpnsComponent {
     this.SrcIp.set(newValue);
   };
 
-  hostdestChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    let newValue = input.value;
-    newValue = input.value.trim();
-    newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
-    this.hostdest.set(newValue);
-  };
-
   destipChangeHandler (event: Event) {
     const input = event.target as HTMLInputElement;
     let newValue = input.value;
@@ -150,23 +104,11 @@ export class VpnsComponent {
     newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
     this.destIP.set(newValue);
   };
-  
+
   fechaChangeHandler (event: Event) {
     const input = event.target as HTMLInputElement;
     const newValue = input.value.trim();
     this.fecha.set(newValue);
-  };
-
-  notalertChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newValue = input.value.trim();
-    this.notificacionAlerta.set(newValue);
-  };
-
-  cierrealChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newValue = input.value.trim();
-    this.cierreAlerta.set(newValue);
   };
 
   userChangeHandler (event: Event) {
@@ -174,7 +116,7 @@ export class VpnsComponent {
     const newValue = input.value.trim();
     this.user.set(newValue);
   };
-  
+
   nameChangeHandler (event: Event) {
     const input = event.target as HTMLInputElement;
     const newValue = input.value.trim();
@@ -217,61 +159,24 @@ export class VpnsComponent {
     this.bjrcargo.set(newValue);
   };
 
-  linnegChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newValue = input.value.trim();
-    this.lineaNegocio.set(newValue);
-  };
-
-  tecChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newValue = input.value.trim();
-    this.tecnologiauser.set(newValue);
-  };
-  
-  clasifiChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newValue = input.value.trim();
-    this.Clasifiacion.set(newValue);
-  };
-
   vacaionesDocChangeHandler (event: Event) {
     const input = event.target as HTMLInputElement;
     const newValue = input.value.trim();
     this.VacacionesDoc.set(newValue);
   };
 
-  ingt1ChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newValue = input.value.trim();
-    this.Ingt1.set(newValue);
-  };
-
-  ingt2ChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newValue = input.value.trim();
-    this.Ingt2.set(newValue);
-  };
-
-  superChangeHandler (event: Event) {
-    const input = event.target as HTMLInputElement;
-    const newValue = input.value.trim();
-    this.super.set(newValue);
-  };
-  
   paisChangeHandler (event: Event) {
     const input = event.target as HTMLInputElement;
     const newValue = input.value.trim();
     this.pais.set(newValue);
   };
-  
-  
+
     copiado = false;
 
 copyContent(element: HTMLElement) {
-  const text = 
-  ` 
-<style> 
+  const text =
+  `
+<style>
 table {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
@@ -316,30 +221,7 @@ doccopyContent(element: HTMLElement) {
   });
 }
 
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-
-
-
-
-
-
-
-
-  Keydownhandler (event: KeyboardEvent){
+Keydownhandler (event: KeyboardEvent){
     const input = event.target as HTMLInputElement;
   };
 

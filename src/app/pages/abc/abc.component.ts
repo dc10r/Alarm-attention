@@ -23,16 +23,31 @@ usrej =signal('');
 usrafectados =signal('');
 accion =signal('');
 
+borrado= false
 
-    aplicacionChangeHandler (event: Event) {
-      const input = event.target as HTMLInputElement;
-      const newValue = input.value.trim();
-      this.aplicacion.set(newValue);
-    };
+deleteData(){
+  this.aplicacion.set('');
+  this.alerta.set('');
+  this.fecha.set('');
+  this.host.set('');
+  this.nombreusr.set('');
+  this.usrej.set('');
+  this.normativa.set('');
+  this.accion.set('');
+  this.usrafectados.set('');
+  this.borrado= true;
+  setTimeout(() => this.borrado = false, 2000);
+}
+
+
+
     alertaChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
       const newValue = input.value.trim();
       this.alerta.set(newValue);
+
+      const appName = newValue.split(': ')[0];
+      this.aplicacion.set(appName);
     };
     fechaChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
@@ -75,9 +90,9 @@ accion =signal('');
   copiado = false;
 
 copyContent(element: HTMLElement) {
-  const text = 
-  ` 
-<style> 
+  const text =
+  `
+<style>
 table {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;

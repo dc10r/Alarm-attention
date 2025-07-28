@@ -15,7 +15,15 @@
     <tr>
         <td colspan="3"><p>{{alerta()}}_{{user()}}_{{ip()}}</p></td>
     </tr>
-
+    <tr>
+      <td colspan="3"><p>{{alerta()}}_{{user()}}</p></td>
+    </tr>
 </table>
+<div>
+<button (click)="deleteData()">
+    {{ borrado ? 'Datos Borrados!' : 'Borrar Datos' }}
+</button>
+</div>
+
 
 <p>Title icon by Freepik</p>

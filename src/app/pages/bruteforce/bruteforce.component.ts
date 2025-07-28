@@ -21,6 +21,22 @@ ipdest =signal('');
 iporg =signal('');
 accion =signal('');
 
+borrado= false
+
+deleteData(){
+  this.aplicacion.set('');
+  this.alerta.set('');
+  this.fecha.set('');
+  this.host.set('');
+  this.nombreusr.set('');
+  this.usrej.set('');
+  this.ipdest.set('');
+  this.iporg.set('');
+  this.accion.set('');
+  this.borrado= true;
+  setTimeout(() => this.borrado = false, 2000);
+}
+
     aplicacionChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
       const newValue = input.value.trim();
@@ -56,7 +72,7 @@ accion =signal('');
       let newValue = input.value;
       newValue =input.value.trim();
       newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
-      this.host.set(newValue);      
+      this.host.set(newValue);
     };
     iporgChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
@@ -73,13 +89,13 @@ accion =signal('');
       this.ipdest.set(newValue);
     };
 
-  
+
     copiado = false;
 
 copyContent(element: HTMLElement) {
-  const text = 
-  ` 
-<style> 
+  const text =
+  `
+<style>
 table {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;

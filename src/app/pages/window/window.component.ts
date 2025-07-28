@@ -15,12 +15,12 @@ import { BruteforceComponent } from "../bruteforce/bruteforce.component";
 export class WindowComponent {
 
   alerta= signal<string>('Inicio');
-  alertas: string[] = ['Inicio','VPN', 'ABC', 'ACPS','Brute Force'];
+  alertas: string[] = ['Inicio','VPN', 'ABC', 'ACPS','Brute Force (.50/.100)'];
 
-  
+
   tiempo = signal<string>('Buenos días');
   tiempos: string[] = ['Buenos días', 'Buenas tardes', 'Buenas noches'];
-  
+
   atendido_Por = signal<string>('N/A')
   atendidoPorChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;

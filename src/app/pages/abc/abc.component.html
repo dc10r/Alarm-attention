@@ -6,11 +6,9 @@
         <input type="text" [value]="fecha()" (input)="fechaChangeHandler($event)"></td>
         <td>Alerta <br>
         <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)"></td>
-        <td>Aplicaci&oacute;n <br>
-        <input type="text" [value]="aplicacion()" (input)="aplicacionChangeHandler($event)"></td>
         <td>Normativa <br>
         <input type="text" [value]="normativa()" (input)="normativaChangeHandler($event)"></td>
-        
+
     </tr>
     <tr>
         <td>Host <br>
@@ -28,10 +26,16 @@
     </tr>
 </table>
 </div>
+<div>
+<button (click)="deleteData()">
+    {{ borrado ? 'Borrados!' : 'Borrar Datos' }}
+</button>
+</div>
+
 <br>
 <hr>
 <h1>Correo</h1>
-<button (click)="copyContent(textToCopy)">  
+<button (click)="copyContent(textToCopy)">
     {{ copiado ? 'Copiado!' : 'Copiar' }}
 </button>
 

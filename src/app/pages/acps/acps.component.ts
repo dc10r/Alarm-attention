@@ -12,7 +12,7 @@ export class AcpsComponent {
 @Input() atendido_Por!: String;
 
 
-aplicacion = signal('Windows,lunix, etc');
+aplicacion = <string>('Windows,lunix, etc');
 alerta =signal('alerta');
 fecha =signal('2025-05-20 08:00');
 host =signal('N/A');
@@ -22,15 +22,28 @@ ipdest =signal('');
 iporg =signal('');
 accion =signal('');
 
-    aplicacionChangeHandler (event: Event) {
-      const input = event.target as HTMLInputElement;
-      const newValue = input.value.trim();
-      this.aplicacion.set(newValue);
-    };
+borrado= false
+
+deleteData(){
+  this.alerta.set('');
+  this.fecha.set('');
+  this.host.set('');
+  this.nombreusr.set('');
+  this.usrej.set('');
+  this.ipdest.set('');
+  this.iporg.set('');
+  this.accion.set('');
+  this.borrado= true;
+  setTimeout(() => this.borrado = false, 2000);
+}
+
+
     alertaChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
       const newValue = input.value.trim();
       this.alerta.set(newValue);
+      const aplicacion = this.alerta().split(': ')[0];
+
     };
     fechaChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
@@ -57,7 +70,7 @@ accion =signal('');
       let newValue = input.value;
       newValue =input.value.trim();
       newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
-      this.host.set(newValue);      
+      this.host.set(newValue);
     };
     iporgChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
@@ -78,10 +91,10 @@ accion =signal('');
   copiado = false;
 
 copyContent(element: HTMLElement) {
-  const text = 
-  ` 
+  const text =
+  `
   <style>
-  
+
 table {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
@@ -114,4 +127,8 @@ const blob = new Blob([text], { type: 'text/html' });
     this.copiado= true;
     setTimeout(() => this.copiado = false, 2000);
 }
+
+
+
+
 }
