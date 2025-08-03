@@ -1,0 +1,30 @@
+<div class="datos">
+    <table>
+        <tr>
+                <td>Alerta<br>
+                <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)">
+        </tr>
+    </table>
+</div>
+<div>
+<button (click)="deleteData()">
+    {{ borrado ? 'Borrados!' : 'Borrar Datos' }}
+</button>
+</div>
+<hr>
+<h1>Correo</h1>
+<button (click)="copyContent(textToCopy)">
+    {{ copiado ? 'Copiado!' : 'Copiar' }}
+</button>
+<div #textToCopy>
+<p>{{tiempo}} &#64;SIEM Infrastructure Security,
+<br> <br>
+Solicitando de su valioso apoyo para la revisión del alertamiento de <b>{{alerta()}}</b>, nos apoyan a validar que no sea problemática de la herramienta (SPLUNK)
+<br> <br>
+En caso de que el problema no esté relacionado con la herramienta, por favor indíquenos cuál es el elemento integrado de la plataforma que está causando el problema.
+<br><br>
+Adjuntamos mas detalles: 
+<br>
+</p>
+</div>
+<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="'SIEM'" [accion]="'Interuci&oacute;n de Eventos'"></app-puntos>
