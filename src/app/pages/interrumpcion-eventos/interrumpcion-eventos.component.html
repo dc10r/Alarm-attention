@@ -2,7 +2,9 @@
     <table>
         <tr>
                 <td>Alerta<br>
-                <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)">
+                <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)"> </td>
+                <td>Host<br>
+                <input type="text" [value]="host()" (input)="hostChangeHandler($event)"> </td>
         </tr>
     </table>
 </div>
@@ -11,6 +13,13 @@
     {{ borrado ? 'Borrados!' : 'Borrar Datos' }}
 </button>
 </div>
+<hr>
+    <h1>Sugerencia de Titulo?</h1>
+        <p>
+            {{alerta()}}_{{host()}} <br>
+        </p>
+<hr>
+
 <hr>
 <h1>Correo</h1>
 <button (click)="copyContent(textToCopy)">

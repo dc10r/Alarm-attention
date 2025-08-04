@@ -13,10 +13,15 @@ export class InterrumpcionEventosComponent {
 @Input() atendido_Por!: String;
 
 alerta =signal('alerta');
+host =signal('N/A');
+
 borrado= false
 copiado= false
+
+
 deleteData(){
   this.alerta.set('');
+  this.host.set('')
   this.borrado= true;
   setTimeout(() => this.borrado = false, 2000);
 }
@@ -27,6 +32,13 @@ deleteData(){
       const newValue = input.value.trim();
       this.alerta.set(newValue);
 }
+
+    hostChangeHandler (event: Event) {
+      const input = event.target as HTMLInputElement;
+      const newValue = input.value.trim();
+      this.host.set(newValue);
+}
+
 
 copyContent(element: HTMLElement) {
   const text = element.innerText;

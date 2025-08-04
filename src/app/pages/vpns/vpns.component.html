@@ -145,8 +145,13 @@
     {{ borrado ? 'Borrados!' : 'Borrar Datos' }}
 </button>
 </div>
+<hr>
+    <h1>Sugerencia de Titulo?</h1>
+        <p>
+            {{user()}}_{{SrcIp()}} <br> <br>
 
-
+            {{alertype()}}_{{user()}}_{{SrcIp()}}
+        </p>
 <hr>
 <!--Generación de correo -->
 <div *ngIf="pais() != 'México'" >

@@ -23,8 +23,13 @@
 </button>
 </div>
 
-<br>
 <hr>
+    <h1>Sugerencia de Titulo?</h1>
+        <p>
+            Reporte Tablespaces Seguridad | {{bases()}}
+        </p>
+<hr>
+
 <h1>Correo</h1>
 <button (click)="copyContent(textToCopy)">
     {{ copiado ? 'Copiado!' : 'Copiar' }}
@@ -98,7 +103,7 @@ Solicitamos de su apoyo para la revisión y acciones para disminuir el almacenam
 <div #puntosToCopy>
 <!-- 5 sin nombre-->
 <p *ngIf="atendido_Por == 'N/A'">
-- Descripci&oacute;n del evento/Incidente: {{bases()}} <br>
+- Descripci&oacute;n del evento/Incidente: Se recibe alertamiento de Reporte Tablespaces Seguridad | {{bases()}} <br>
 - Impacto/Potencial: ALTA. <br>
 - Reportado a: TIER II <br>
 - Hallazgos: Se observa la database {{bases()}}<br>
@@ -107,7 +112,7 @@ Solicitamos de su apoyo para la revisión y acciones para disminuir el almacenam
 </p>
 <!-- 5 con nombre -->
 <p *ngIf="atendido_Por != 'N/A'">
-- Descripci&oacute;n del evento/Incidente: {{bases()}} <br>
+- Descripci&oacute;n del evento/Incidente: Se recibe alertamiento de Reporte Tablespaces Seguridad | {{bases()}} <br>
 - Impacto/Potencial: ALTA. <br>
 - Reportado a: TIER II <br>
 - Hallazgos: Se observa la database {{bases()}}<br>
@@ -115,5 +120,6 @@ Solicitamos de su apoyo para la revisión y acciones para disminuir el almacenam
 - Atendido por: {{atendido_Por}} <br>
 </p>
 
+<p>Se notifica y escala al equipo de TIER II, Se adjunta evidencia.</p>
 </div>
 
