@@ -2,6 +2,9 @@
 
 Proyecto egenerado para la atención de alertas
 :P 
+
+Version 1.08.10
+
 Para mayor informes consultar a dc10r
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.

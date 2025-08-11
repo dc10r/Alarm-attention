@@ -33,11 +33,13 @@ deleteData(){
       this.alerta.set(newValue);
 }
 
-    hostChangeHandler (event: Event) {
+     hostChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
-      const newValue = input.value.trim();
+      let newValue = input.value;
+      newValue = input.value.trim();
+      newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
       this.host.set(newValue);
-}
+    };
 
 
 copyContent(element: HTMLElement) {
