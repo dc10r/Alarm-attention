@@ -3,7 +3,8 @@
 Proyecto egenerado para la atención de alertas
 :P 
 
-Version 1.08.10
+Version 1.08.13
+modificación de platillas brute force/ acps / 5 puntos
 
 Para mayor informes consultar a dc10r
 

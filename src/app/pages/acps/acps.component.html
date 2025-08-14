@@ -5,23 +5,24 @@
         <input type="text" [value]="fecha()" (input)="fechaChangeHandler($event)"></td>
         <td>Alerta <br>
         <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)"></td>
+        <td>Normativa <br>
+        <input type="text" [value]="normativa()" (input)="normativaChangeHandler($event)"></td>
 
     </tr>
     <tr>
-        <td>Host <br>
-        <input type="text" [value]="host()" (input)="hostChangeHandler($event)"></td>
-        <td>Nombre Usuario <br>
-        <input type="text" [value]="nombreusr()" (input)="nombreusrChangeHandler($event)"></td>
         <td>Usuario ejecutor <br>
         <input type="text" [value]="usrej()" (input)="usrejChangeHandler($event)"></td>
+        <td>Nombre Usuario <br>
+        <input type="text" [value]="nombreusr()" (input)="nombreusrChangeHandler($event)"></td>
+        <td>Usuario  privilegiado<br>
+        <input type="text" [value]="privilegedUser()" (input)="privilegedUserChangeHandler($event)"></td>
+                    
     </tr>
     <tr>
         <td>IP origen <br>
         <input type="text" [value]="iporg()" (input)="iporgChangeHandler($event)"></td>
         <td>IP destino <br>
         <input type="text" [value]="ipdest()" (input)="ipdestChangeHandler($event)"></td>
-        <td>Acci&oacute;n <br>
-        <input type="text" [value]="accion()" (input)="accionChangeHandler($event)"></td>
     </tr>
     </table>
 </div>
@@ -34,8 +35,9 @@
 <hr>
     <h1>Sugerencia de Titulo?</h1>
         <p>
+            Case ####_[Tecnología]: Accesos de cuentas privilegiadas_usuario_IPDestino <br><br>
             {{alerta()}}_{{usrej()}}  <br><br>             
-            {{alerta()}}_{{usrej()}}_{{iporg()}}
+            {{alerta()}}_{{usrej()}}_{{ipdest()}}
         </p>
 <hr>
 
@@ -48,14 +50,9 @@
 <div #textToCopy>
 <p>{{tiempo}},
  <br><br>
- El motivo del correo es para indicarle que estamos recibiendo alertamientos de <b>{{alerta()}}</b> donde visualizamos la credencial <b>{{usrej()}}</b> que pertenece a <b>{{nombreusr()}}</b>.
+ Le notificamos que se ha realizado un acceso con la cuenta privilegiada <b>{{privilegedUser()}}</b>, solicitamos de su ayuda para justificar la actividad.
  <br><br>
- Solicitamos de su ayuda para justificar la actividad con un código ya sea RFC/INC/REQ o alguna justificación de la actividad
-<br><br>
-
- Nota: En caso de no reconocer la actividad favor de notificarnos,
-
-
+ Adjuntamos detalle del evento:
 </p>
 <br>
 <table class="mailtable" role="region" tabindex="0">
@@ -77,10 +74,14 @@
             <td colspan="3">{{fecha()}}</td>
         </tr>
         <tr>
-            <th>Usuario:</th>
+            <th>Usuario ejecutor:</th>
             <td>{{usrej()}}</td>
             <th>Nombre de Usuario:</th>
             <td>{{nombreusr()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1">Usuario privilegiado:</th>
+            <td colspan="3">{{privilegedUser()}}</td>      
         </tr>
         <tr>
             <th>IP origen interna:</th>
@@ -88,16 +89,13 @@
             <th>IP destino:</th>
             <td>{{ipdest()}}</td>
         </tr>
-        <tr>
-            <th>Host:</th>
-            <td>{{host()}}</td>
-            <th>Acci&oacute;n:</th>
-            <td>{{accion()}}</td>
-        </tr>
+
    </tbody>
 </table>
 <br><br>
-<p>Quedamos pendientes a sus comentarios</p>
+<p>Se anexa mayor detalle a continuación:</p>
+<br><br>
+<p>Quedo pendientes a sus comentarios</p>
 
 <p>Saludos</p>
 </div>
@@ -105,5 +103,5 @@
 <hr>
 
 
-<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="nombreusr()" [accion]="accion()"></app-puntos>
+<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="nombreusr()" [accion]="'Actividad privilegiada'"></app-puntos>
 

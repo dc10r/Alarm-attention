@@ -20,7 +20,8 @@ nombreusr = signal('N/A');
 usrej =signal('');
 ipdest =signal('');
 iporg =signal('');
-accion =signal('');
+normativa =signal('');
+privilegedUser =signal('');
 
 borrado= false
 
@@ -32,7 +33,8 @@ deleteData(){
   this.usrej.set('');
   this.ipdest.set('');
   this.iporg.set('');
-  this.accion.set('');
+  this.normativa.set('');
+  this.privilegedUser.set('');
   this.borrado= true;
   setTimeout(() => this.borrado = false, 2000);
 }
@@ -60,18 +62,17 @@ deleteData(){
       const newValue = input.value.trim();
       this.usrej.set(newValue);
     };
-    accionChangeHandler (event: Event) {
+    normativaChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
       const newValue = input.value.trim();
-      this.accion.set(newValue);
+      this.normativa.set(newValue);
     };
-    hostChangeHandler (event: Event) {
+    privilegedUserChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
-      let newValue = input.value;
-      newValue =input.value.trim();
-      newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
-      this.host.set(newValue);
+      const newValue = input.value.trim();
+      this.privilegedUser.set(newValue);
     };
+
     iporgChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
       let newValue = input.value;

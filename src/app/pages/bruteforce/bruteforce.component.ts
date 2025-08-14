@@ -17,9 +17,10 @@ fecha =signal('2025-05-20 08:00');
 host =signal('N/A');
 nombreusr = signal('N/A');
 usrej =signal('');
-ipdest =signal('');
-iporg =signal('');
-accion =signal('');
+ipdest =signal('N/A');
+iporg =signal('N/A');
+ipdestp =signal('N/A');
+iporgp =signal('N/A');
 
 borrado= false
 
@@ -30,9 +31,11 @@ deleteData(){
   this.host.set('');
   this.nombreusr.set('');
   this.usrej.set('');
-  this.ipdest.set('');
-  this.iporg.set('');
-  this.accion.set('');
+  this.ipdest.set('N/A');
+  this.iporg.set('N/A');
+  this.ipdestp.set('N/A');
+  this.iporgp.set('N/A');
+
   this.borrado= true;
   setTimeout(() => this.borrado = false, 2000);
 }
@@ -62,18 +65,7 @@ deleteData(){
       const newValue = input.value.trim();
       this.usrej.set(newValue);
     };
-    accionChangeHandler (event: Event) {
-      const input = event.target as HTMLInputElement;
-      const newValue = input.value.trim();
-      this.accion.set(newValue);
-    };
-    hostChangeHandler (event: Event) {
-      const input = event.target as HTMLInputElement;
-      let newValue = input.value;
-      newValue =input.value.trim();
-      newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
-      this.host.set(newValue);
-    };
+
     iporgChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
       let newValue = input.value;
@@ -87,6 +79,20 @@ deleteData(){
       newValue = input.value.trim();
       newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
       this.ipdest.set(newValue);
+    };
+    iporgpChangeHandler (event: Event) {
+      const input = event.target as HTMLInputElement;
+      let newValue = input.value;
+      newValue = input.value.trim();
+      newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
+      this.iporgp.set(newValue);
+    };
+    ipdestpChangeHandler (event: Event) {
+      const input = event.target as HTMLInputElement;
+      let newValue = input.value;
+      newValue = input.value.trim();
+      newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
+      this.ipdestp.set(newValue);
     };
 
 
