@@ -80,6 +80,7 @@ table {
     border-collapse: collapse;
     border: 2px solid rgb(0, 0, 0);
     text-align: center;
+    height: 100px;
 }
 th{
     background-color: rgb(0, 168, 224);
@@ -90,9 +91,30 @@ th{
 td {
     border: 2px solid rgb(0, 0, 0);
 }
-.mailtable{
+p{
+font-family: Arial, Helvetica, sans-serif;
+}
+.mailtable {
     height: 350px;
 }
+
+.valor{
+    color: red;
+}
+
+.datos{
+    padding: 3px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.datosTable{
+    padding: 3px;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
   </style>
     ${element.outerHTML}
   `;
