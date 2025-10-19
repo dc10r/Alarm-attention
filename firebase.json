@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dis/pvn/browser",
+    "public": "dist/pvn/browser",
     "ignore": [
       "firebase.json",
       "**/.*",

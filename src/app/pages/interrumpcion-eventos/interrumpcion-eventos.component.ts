@@ -14,6 +14,7 @@ export class InterrumpcionEventosComponent {
 
 alerta =signal('alerta');
 host =signal('N/A');
+tecnologia = signal('')
 
 borrado= false
 copiado= false
@@ -31,7 +32,11 @@ deleteData(){
       const input = event.target as HTMLInputElement;
       const newValue = input.value.trim();
       this.alerta.set(newValue);
-}
+
+      const appName = newValue.split(': ')[0];
+      this.tecnologia.set(appName);
+ 
+    }
 
      hostChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
@@ -41,6 +46,8 @@ deleteData(){
       this.host.set(newValue);
     };
 
+ 
+    
 
 copyContent(element: HTMLElement) {
   const text =

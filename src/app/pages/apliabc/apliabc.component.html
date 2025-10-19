@@ -1,0 +1,134 @@
+<!--form-->
+<div class="datos">
+<table class="datosTable">
+    <tr>
+        <td>Alerta <br>
+        <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)"></td>
+        <td>Normativa <br>
+        <input type="text" [value]="normativa()" (input)="normativaChangeHandler($event)"></td>
+        <td>Fecha <br>
+        <input type="text" [value]="fecha()" (input)="fechaChangeHandler($event)"></td>
+        
+    </tr>
+    <tr>
+        <td>Usuario ejecutor <br>
+        <input type="text" [value]="userEje()" (input)="userEjeChangeHandler($event)"></td>
+
+        <td>User SO <br>
+        <input type="text" [value]="userso()" (input)="usersoChangeHandler($event)"></td>
+        
+        <td>Tipo de Objeto <br>
+        <input type="text" [value]="tipodeobj()" (input)="tipodeobjChangeHandler($event)"></td>
+    </tr>
+    <tr>   
+        <td>Host Origen <br>
+        <input type="text" [value]="hostorg()" (input)="hostorgChangeHandler($event)"></td>
+
+        <td>Nombre de Usuario <br>
+        <input type="text" [value]="nombreUser()" (input)="nombreUserChangeHandler($event)"></td>        
+
+        <td>Tipo de Movimineto <br>
+        <input type="text" [value]="tipodemov()" (input)="tipodemovChangeHandler($event)"></td>        
+
+    </tr>
+    <tr>
+
+        <td>Usuarios Afectados <br>
+        <input type="text" [value]="userAfectados()" (input)="userAfectadosChangeHandler($event)"></td>        
+
+        <td>Host Destino <br>
+        <input type="text" [value]="hostdest()" (input)="hostdestChangeHandler($event)"></td>
+        
+        <td>:p <br> 
+        vacio</td>
+        
+    </tr>
+</table>
+</div>
+<div>
+<button (click)="deleteData()">
+    {{ borrado ? 'Borrados!' : 'Borrar Datos' }}
+</button>
+</div>
+
+<hr>
+    <h1>Sugerencia de Titulo?</h1>
+        <p>
+            Case ####_[Aplicación]: ABC_Usuarios_Host
+            <br>
+            {{alerta()}}_{{hostdest()}} <br><br>               
+        </p>
+<hr>
+
+<h1>Correo</h1>
+<button (click)="copyContent(textToCopy)">
+    {{ copiado ? 'Copiado!' : 'Copiar' }}
+</button>
+
+
+
+<!--Correo -->
+<div #textToCopy>
+<p>{{tiempo}},
+ <br><br>
+    Les notificamos que se ha realizado un cambio en la aplicación <b>{{aplicacion()}}</b> , este movimiento fue realizado por el usuario {{userEje()}} afectando la cuenta <b>{{userAfectados()}}</b> realizando un <b>{{tipodemov()}}</b>,  solicitamos de su ayuda para justificar la actividad.   
+ <br><br>
+    Adjuntamos detalle del evento:
+</p>
+<table class="mailtable" role="region" tabindex="0">
+    <caption></caption>
+   <THead>
+        <th colspan="4">Detalle del evento</th>
+   </THead>
+    <tbody>
+        <tr>
+            <th colspan="1">Severidad</th>
+            <td colspan="3"><b> ☐Critica  ☒Alta  ☐Media  ☐Baja</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Tipo de amenaza:</th>
+            <td colspan="3"><b>{{alerta()}}</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Normativa:</th>
+            <td colspan="3">{{normativa()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1">Fecha:</th>
+            <td colspan="3">{{fecha()}}</td>
+        </tr>
+        <tr>
+            <th>Usuario ejecutor:</th>
+            <td>{{userEje()}}</td>
+            <th>Nombre de Usuario:</th>
+            <td>{{nombreUser()}}</td>
+        </tr>
+                <tr>
+            <th>Usuario de SO:</th>
+            <td>{{userso()}}</td>
+            <th>Tipo de Movimineto:</th>
+            <td>{{tipodemov()}}</td>
+        </tr>
+        <tr>
+            <th>Tipo de Objeto:</th>
+            <td>{{tipodeobj()}}</td>
+            <th>Usuario afectado:</th>
+            <td>{{userAfectados()}}</td>
+        </tr>
+                <tr>
+            <th>Hostname Origen:</th>
+            <td>{{hostorg()}}</td>
+            <th>Hostname Destino</th>
+            <td>{{hostdest()}}</td>
+        </tr>
+
+   </tbody>
+</table>
+<br><br>
+<p>Se anexa mayor detalle a continuación:</p>
+<p>Quedo pendiente a sus comentarios</p>
+<p>Saludos</p>
+</div>
+<hr>
+
+<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="nombreUser()" [accion]="tipodemov()"></app-puntos>

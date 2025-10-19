@@ -65,9 +65,11 @@ deleteData(){
 
   alertypeChangeHandler (event: Event) {
     const input = event.target as HTMLInputElement;
-    const newValue = input.value.trim();
+    let newValue = input.value;
+    newValue = input.value.trim();
+    newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
     this.alertype.set(newValue);
-  };
+    };
 
   estaVacChangeHandler (event: Event) {
     const input = event.target as HTMLInputElement;

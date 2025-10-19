@@ -27,13 +27,13 @@
 </button>
 <div #textToCopy>
 <p>{{tiempo}} &#64;SIEM Infrastructure Security,
-<br> <br>
-Solicitando de su valioso apoyo para la revisión del alertamiento de <b>{{alerta()}}</b>, nos apoyan a validar que no sea problemática de la herramienta (SPLUNK)
-<br> <br>
-En caso de que el problema no esté relacionado con la herramienta, por favor indíquenos cuál es el elemento integrado de la plataforma que está causando el problema.
+    <br><br>
+    Hemos recibido una alerta de Interrupción de eventos en la 
+    <b>{{tecnologia()}}</b>, por lo que solicitamos de su apoyo para indicarnos si existió pérdida de logs durante el periodo del evento, 
+        así como la condición actual de la <b>{{tecnologia()}}</b>.
 <br><br>
-Adjuntamos mas detalles: 
-<br>
+En caso de que se determine que la alerta no corresponde a una falla relacionada a la plataforma de Splunk, solicitamos nos indique la causa relacionada de acuerdo con su análisis realizado.
 </p>
 </div>
+<p>[Adjuntar evidencia del detalle de la alerta que abarque la pantalla completa que muestre la fecha y hora del sistema]. Ejemplo:</p>
 <app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="'SIEM'" [accion]="'Interrupci&oacute;n de Eventos'"></app-puntos>
