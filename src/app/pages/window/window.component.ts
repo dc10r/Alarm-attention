@@ -10,17 +10,18 @@ import { BdMovComponent } from "../bd-mov/bd-mov.component";
 import { ApliabcComponent } from '../apliabc/apliabc.component';
 import { SoabcComponent } from "../soabc/soabc.component";
 import { DbabcComponent } from "../dbabc/dbabc.component";
-
+import { NeabcComponent } from '../neabc/neabc.component';
+import { Brute25Component } from "../brute25/brute25.component";
 @Component({
   selector: 'app-window',
-  imports: [CommonModule, ApliabcComponent, AcpsComponent, VpnsComponent, AbcComponent, BruteforceComponent, InterrumpcionEventosComponent, TableSpaceComponent, BdMovComponent, SoabcComponent, DbabcComponent],
+  imports: [CommonModule, NeabcComponent, ApliabcComponent, AcpsComponent, VpnsComponent, AbcComponent, BruteforceComponent, InterrumpcionEventosComponent, TableSpaceComponent, BdMovComponent, SoabcComponent, DbabcComponent, Brute25Component],
   templateUrl: './window.component.html',
   styleUrl: './window.component.css'
 })
 export class WindowComponent {
 
   alerta= signal<string>('Inicio');
-  alertas: string[] = ['Inicio','VPN','App abc','DB abc','SO abc','ACPS', 'BD Mov Crea Modi Dep' , 'Interrupción de Eventos','Brute Force (.50/.100)', 'Table Space','ABC'];
+  alertas: string[] = ['Inicio','VPN','App abc','DB abc','SO abc','ACPS','NE abc', 'BD Mov Crea Modi Dep' , 'Interrupción de Eventos','Brute Force .25','Brute Force (.50/.100)', 'Table Space','ABC'];
 
 
   tiempo = signal<string>('Buenos días');

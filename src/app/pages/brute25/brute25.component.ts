@@ -2,47 +2,42 @@ import { CommonModule } from '@angular/common';
 import { Component, signal, Input } from '@angular/core';
 import {PuntosComponent} from '../puntos/puntos.component';
 
+
 @Component({
-  selector: 'app-neabc',
+  selector: 'app-brute25',
   imports: [CommonModule, PuntosComponent],
-  templateUrl: './neabc.component.html',
-  styleUrl: './neabc.component.css'
+  templateUrl: './brute25.component.html',
+  styleUrl: './brute25.component.css'
 })
-export class NeabcComponent {
+export class Brute25Component {
 
 @Input() tiempo!: String;
+
 @Input() atendido_Por!: String;
 
 aplicacion = signal('');
 alerta = signal(''); 
-normativa = signal(''); 
 fecha = signal(''); 
-userEje = signal(''); 
-UserSO = signal(''); 
-tipodeObj = signal(''); 
-hostnameOrg = signal(''); 
-nombreUser = signal(''); 
-tipodeMov = signal(''); 
-userAfec = signal(''); 
-hostnameDest = signal(''); 
+serviciosIden = signal(''); 
+ipOrg = signal(''); 
+ipDest = signal(''); 
+cantInt = signal(''); 
 
 borrado= false
 
 deleteData(){
- this.alerta.set(''); 
-  this.normativa.set(''); 
-  this.fecha.set(''); 
-  this.userEje.set(''); 
-  this.UserSO.set(''); 
-  this.tipodeObj.set(''); 
-  this.hostnameOrg.set(''); 
-  this.nombreUser.set(''); 
-  this.tipodeMov.set(''); 
-  this.userAfec.set(''); 
-  this.hostnameDest.set(''); 
+  this.aplicacion.set('');
+  this.alerta.set('');
+  this.fecha.set('');
+  this.serviciosIden.set(''); 
+  this.ipOrg.set(''); 
+  this.ipDest.set(''); 
+  this.cantInt.set(''); 
+
   this.borrado= true;
   setTimeout(() => this.borrado = false, 2000);
 }
+
 
 
     alertaChangeHandler (event: Event) {
@@ -54,14 +49,6 @@ deleteData(){
       this.aplicacion.set(appName);
     };
 
-normativaChangeHandler (event: Event) {
-  const input = event.target as HTMLInputElement;
-  let newValue = input.value;
-  newValue = input.value.trim();
-  newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
-  this.normativa.set(newValue);
-};
-
 fechaChangeHandler (event: Event) {
   const input = event.target as HTMLInputElement;
   let newValue = input.value;
@@ -70,73 +57,41 @@ fechaChangeHandler (event: Event) {
   this.fecha.set(newValue);
 };
 
-userEjeChangeHandler (event: Event) {
+serviciosIdenChangeHandler (event: Event) {
   const input = event.target as HTMLInputElement;
   let newValue = input.value;
   newValue = input.value.trim();
   newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
-  this.userEje.set(newValue);
+  this.serviciosIden.set(newValue);
 };
 
-UserSOChangeHandler (event: Event) {
+ipOrgChangeHandler (event: Event) {
   const input = event.target as HTMLInputElement;
   let newValue = input.value;
   newValue = input.value.trim();
   newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
-  this.UserSO.set(newValue);
+  this.ipOrg.set(newValue);
 };
 
-tipodeObjChangeHandler (event: Event) {
+ipDestChangeHandler (event: Event) {
   const input = event.target as HTMLInputElement;
   let newValue = input.value;
   newValue = input.value.trim();
   newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
-  this.tipodeObj.set(newValue);
+  this.ipDest.set(newValue);
 };
 
-hostnameOrgChangeHandler (event: Event) {
+cantIntChangeHandler (event: Event) {
   const input = event.target as HTMLInputElement;
   let newValue = input.value;
   newValue = input.value.trim();
   newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
-  this.hostnameOrg.set(newValue);
-};
-
-nombreUserChangeHandler (event: Event) {
-  const input = event.target as HTMLInputElement;
-  let newValue = input.value;
-  newValue = input.value.trim();
-  newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
-  this.nombreUser.set(newValue);
-};
-
-tipodeMovChangeHandler (event: Event) {
-  const input = event.target as HTMLInputElement;
-  let newValue = input.value;
-  newValue = input.value.trim();
-  newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
-  this.tipodeMov.set(newValue);
-};
-
-userAfecChangeHandler (event: Event) {
-  const input = event.target as HTMLInputElement;
-  let newValue = input.value;
-  newValue = input.value.trim();
-  newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
-  this.userAfec.set(newValue);
-};
-
-hostnameDestChangeHandler (event: Event) {
-  const input = event.target as HTMLInputElement;
-  let newValue = input.value;
-  newValue = input.value.trim();
-  newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
-  this.hostnameDest.set(newValue);
+  this.cantInt.set(newValue);
 };
 
 
 
-copiado = false;
+    copiado = false;
 
 copyContent(element: HTMLElement) {
   const text =
