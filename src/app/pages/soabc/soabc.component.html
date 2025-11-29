@@ -42,7 +42,7 @@
     <h1>Sugerencia de Titulo?</h1>
     <p>Case ####_[SO]: ABC_Usuarios_Host</p>    
     <p>
-            {{alerta()}}_{{hostname()}} <br><br>               
+            {{alerta()}}_{{userEje()}}_{{hostname()}} <br><br>               
         </p>
 <hr>
 
@@ -57,8 +57,7 @@
 <div #textToCopy>
 <p>{{tiempo}},
  <br><br>
-    Les notificamos que se ha realizado un cambio en el hostname <b>{{hostname()}}</b>, este movimiento fue realizado por el usuario <b>{{userEje()}}</b> afectando la cuenta <b>{{Userafec()}}</b> realizando un <b>{{tipodeMov()}}</b>,  solicitamos de su ayuda para justificar la actividad.
-     
+    Les notificamos que se ha realizado un cambio en el hostname <b>{{hostname()}}</b>, este movimiento fue realizado por el usuario <b>{{userEje()}}</b> afectando la cuenta <b>{{Userafec()}}</b> realizando un <b>{{tipodeMov()}}</b>. Para fines de validaci&oacute;n, <b>solicitamos</b> su apoyo compartiendo la justificación de la actividad mediante el folio de <b>REQ/CHG/INC</b> que respalde su ejecución.
     <br><br>
     Adjuntamos detalle del evento:
 </p>
@@ -91,7 +90,7 @@
             <td>{{nombreUser()}}</td>
         </tr>
         <tr>
-            <th>Usuarios afectados:</th>
+            <th>Usuario afectado:</th>
             <td>{{Userafec()}}</td>
             <th>Tipo de movimiento</th>
             <td>{{tipodeMov()}}</td>

@@ -21,7 +21,7 @@ import { Brute25Component } from "../brute25/brute25.component";
 export class WindowComponent {
 
   alerta= signal<string>('Inicio');
-  alertas: string[] = ['Inicio','VPN','App abc','DB abc','SO abc','ACPS','NE abc', 'BD Mov Crea Modi Dep' , 'Interrupción de Eventos','Brute Force .25','Brute Force (.50/.100)', 'Table Space','ABC'];
+  alertas: string[] = ['Inicio','VPN','ACPS','App abc','DB abc','SO abc','NE abc', 'BD Mov Crea Modi Dep' , 'Interrupción de Eventos','Brute Force .25','Brute Force (.50/.100)', 'Table Space'];
 
 
   tiempo = signal<string>('Buenos días');

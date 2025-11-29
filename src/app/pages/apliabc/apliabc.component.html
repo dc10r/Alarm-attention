@@ -14,9 +14,6 @@
         <td>Usuario ejecutor <br>
         <input type="text" [value]="userEje()" (input)="userEjeChangeHandler($event)"></td>
 
-        <td>User SO <br>
-        <input type="text" [value]="userso()" (input)="usersoChangeHandler($event)"></td>
-        
         <td>Nombre de Usuario <br>
         <input type="text" [value]="nombreUser()" (input)="nombreUserChangeHandler($event)"></td>        
 
@@ -25,9 +22,6 @@
         <td>Tipo de Movimineto <br>
         <input type="text" [value]="tipodemov()" (input)="tipodemovChangeHandler($event)"></td>        
 
-        <td>Tipo de Objeto <br>
-        <input type="text" [value]="tipodeobj()" (input)="tipodeobjChangeHandler($event)"></td>
-
         <td>Usuarios Afectados <br>
         <input type="text" [value]="userAfectados()" (input)="userAfectadosChangeHandler($event)"></td>        
 
@@ -35,9 +29,6 @@
     <tr>
         <td>Host Origen <br>
         <input type="text" [value]="hostorg()" (input)="hostorgChangeHandler($event)"></td>
-
-        <td>Host Destino <br>
-        <input type="text" [value]="hostdest()" (input)="hostdestChangeHandler($event)"></td>
         
         <td>:p <br> 
         vacio</td>
@@ -56,7 +47,7 @@
         <p>
             Case ####_[Aplicación]: ABC_Usuarios_Host
             <br>
-            {{alerta()}}_{{hostdest()}} <br><br>               
+            {{alerta()}}_{{userEje()}}_{{hostdest()}} <br><br>               
         </p>
 <hr>
 
@@ -71,7 +62,8 @@
 <div #textToCopy>
 <p>{{tiempo}},
  <br><br>
-    Les notificamos que se ha realizado un cambio en la aplicación <b>{{aplicacion()}}</b> , este movimiento fue realizado por el usuario {{userEje()}} afectando la cuenta <b>{{userAfectados()}}</b> realizando un <b>{{tipodemov()}}</b>,  solicitamos de su ayuda para justificar la actividad.   
+    Les notificamos que se ha realizado un cambio en la aplicación <b>{{aplicacion()}}</b>, este movimiento fue realizado por el usuario {{userEje()}} afectando la cuenta <b>{{userAfectados()}}</b> realizando un <b>{{tipodemov()}}</b>.
+     Para fines de validaci&oacute;n, <b>solicitamos</b> su apoyo compartiendo la justificación de la actividad mediante el folio de <b>REQ/CHG/INC</b> que respalde su ejecuci&oacute;n.
  <br><br>
     Adjuntamos detalle del evento:
 </p>
@@ -103,23 +95,15 @@
             <th>Nombre de Usuario:</th>
             <td>{{nombreUser()}}</td>
         </tr>
-                <tr>
-            <th>Usuario de SO:</th>
-            <td>{{userso()}}</td>
-            <th>Tipo de Movimineto:</th>
+        <tr>
+            <th>Usuario afectado:</th>
+            <td>{{userAfectados()}}</td>
+            <th>Tipo de movimineto:</th>
             <td>{{tipodemov()}}</td>
         </tr>
         <tr>
-            <th>Tipo de Objeto:</th>
-            <td>{{tipodeobj()}}</td>
-            <th>Usuario afectado:</th>
-            <td>{{userAfectados()}}</td>
-        </tr>
-                <tr>
-            <th>Hostname Origen:</th>
-            <td>{{hostorg()}}</td>
-            <th>Hostname Destino</th>
-            <td>{{hostdest()}}</td>
+            <th colspan="1">Hostname origen:</th>
+            <td colspan="3">{{hostorg()}}</td>
         </tr>
 
    </tbody>

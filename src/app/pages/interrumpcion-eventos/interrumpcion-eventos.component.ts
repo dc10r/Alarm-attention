@@ -33,7 +33,7 @@ deleteData(){
       const newValue = input.value.trim();
       this.alerta.set(newValue);
 
-      const appName = newValue.split(': ')[0];
+      const appName = newValue.split(':')[0];
       this.tecnologia.set(appName);
  
     }
