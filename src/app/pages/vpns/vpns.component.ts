@@ -34,7 +34,7 @@ export class VpnsComponent {
   car = signal<string>('Externo');
   cars: string[] = ['Externo', 'Interno'];
 
-  vac = signal<string>('No');
+  vac = signal<string>('Si');
   vacs: string[] = ['Si', 'No'];
 
   negocio= signal<string>('Enterprise');
