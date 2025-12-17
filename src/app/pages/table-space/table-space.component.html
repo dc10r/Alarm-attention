@@ -1,0 +1,127 @@
+
+<div class="datos">
+<table class="datosTable">
+    <tr>
+        <td>Fecha <br>
+        <input type="text" [value]="fecha()" (input)="fechaChangeHandler($event)"></td>
+        <td>Base(s) de Datos <br>
+        <input type="text" [value]="bases()" (input)="basesChangeHandler($event)"></td>
+    </tr>
+    <tr>
+        <td>Valor <br>
+        <input type="text" [value]="valor()" (input)="valorChangeHandler($event)"></td>
+        <td>Error <br>
+        <input type="text" [value]="error()" (input)="errorChangeHandler($event)"></td>
+        <td>Warning <br>
+        <input type="text" [value]="warning()" (input)="warningChangeHandler($event)"></td>
+        
+    </tr>
+</table>
+</div>
+<div>
+<button (click)="deleteData()">
+    {{ borrado ? 'Borrados!' : 'Borrar Datos' }}
+</button>
+</div>
+
+<hr>
+    <h1>Sugerencia de Titulo?</h1>
+        <p>
+            Reporte Tablespaces Seguridad | {{bases()}}
+        </p>
+<hr>
+
+<h1>Correo</h1>
+<button (click)="copyContent(textToCopy)">
+    {{ copiado ? 'Copiado!' : 'Copiar' }}
+</button>
+
+
+
+<!--Correo -->
+<div #textToCopy>
+<p>{{tiempo}} &#64;MX CERT Monitoreo Seguridad,
+<br><br>
+  <b>En proceso atenci&oacute;n</b>  
+<br><br>
+Solicitamos de su apoyo para la revisión y acciones para disminuir el almacenamiento de la Base de Datos <b>{{bases()}}</b> más detalle en la siguiente tabla.
+</p>
+<table class="mailtable" role="region" tabindex="0">
+    <caption></caption>
+   <THead>
+        <th colspan="4">Detalle del evento</th>
+   </THead>
+    <tbody>
+        <tr>
+            <th colspan="1">Severidad</th>
+            <td colspan="3"><b> ☒Critica  ☐Alta  ☐Media  ☐Baja</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Tipo de amenaza:</th>
+            <td colspan="3"><b>Reporte Tablespaces Seguridad /BD {{bases()}}</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Normativa:</th>
+            <td colspan="3">N/A</td>
+        </tr>
+        <tr>
+            <th colspan="1">Fecha:</th>
+            <td colspan="3">{{fecha()}}</td>
+        </tr>
+        <tr>
+            <th>Base de Datos:</th>
+            <td>{{bases()}}</td>
+            <th>Descripción:</th>
+            <td>TS_ITUSRS</td>
+        </tr>
+        <tr>
+            <th>Warning:</th>
+            <td>{{warning()}}</td>
+            <th>Error</th>
+            <td>{{error()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1">Valor:</th>
+            <td colspan="3" class="valor">{{valor()}}</td>
+        </tr>
+        <tr>
+            <th colspan="4">Evidencia</th>
+        </tr>
+   </tbody>
+</table>
+<br><br>
+<p>Quedamos pendientes a sus comentarios</p>
+<p>Saludos</p>
+</div>
+<hr>
+
+<h1>Documentaci&oacute;n </h1>
+        <button (click)="copydotsContent(puntosToCopy)">  
+    {{ copiadodots ? 'Copiado!' : 'Copiar' }}
+        </button>
+<div #puntosToCopy>
+
+<p>Se realiza el an&aacute;lisis de los campos involucrados en esta alerta.</p>
+
+<!-- 5 sin nombre-->
+<p *ngIf="atendido_Por == 'N/A'">
+- Descripci&oacute;n del evento/Incidente: Se recibe alertamiento de Reporte Tablespaces Seguridad | {{bases()}} <br>
+- Impacto/Potencial: ALTA. <br>
+- Reportado a: TIER II <br>
+- Hallazgos: Se observa la database {{bases()}}<br>
+- Retroalimentaci&oacute;n:  Se crea caso para notificaci&oacute;n de alertamiento, se notifica y escala al equipo de TIER II <br>
+
+</p>
+<!-- 5 con nombre -->
+<p *ngIf="atendido_Por != 'N/A'">
+- Descripci&oacute;n del evento/Incidente: Se recibe alertamiento de Reporte Tablespaces Seguridad | {{bases()}} <br>
+- Impacto/Potencial: ALTA. <br>
+- Reportado a: TIER II <br>
+- Hallazgos: Se observa la database {{bases()}}<br>
+- Retroalimentaci&oacute;n:  Se crea caso para notificaci&oacute;n de alertamiento, se notifica y escala al equipo de TIER II <br>
+- Atendido por: {{atendido_Por}} <br>
+</p>
+</div>
+<hr>
+<p>Se notifica y escala al equipo de TIER II, Se adjunta evidencia.</p>
+

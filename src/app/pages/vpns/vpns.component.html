@@ -1,0 +1,339 @@
+<h1>Documentacion de alerta VPN  </h1>
+<table class="data">
+    <thead>
+    <tr>
+        <td>Informacion de la alerta</td>
+    </tr>
+    </thead>
+    <tbody>
+<!-- Primera liena-->
+        <tr>
+            <td>
+                <p>Enterpise / Mobile</p>
+                    <label for="EmpSelect"></label>
+                        <select id="EmpSelect" (change)="negocio.set($any($event.target).value)">
+                            <option *ngFor="let c of negocios" [value]="c">{{ c }}</option>
+                        </select>
+            </td>
+            <td>
+                <p>Alerta</p>
+                <input type="text" [value]="alertype()" (input)="alertypeChangeHandler($event)">
+            </td>
+            <td>
+                <p>Normativa</p>
+                <input type="text" [value]="Normativa()" (input)="normaChangeHandler($event)">
+            </td>
+            <td>
+                <p>Fecha</p>
+                <input type="text" [value]="fecha()" (input)="fechaChangeHandler($event)">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Src IP</p>
+                <input type="text" [value]="SrcIp()" (input)="srcipChangeHandler($event)">
+            </td>
+            <td>
+                <p>DestIP</p>
+                <input type="text" [value]="destIP()" (input)="destipChangeHandler($event)">
+            </td>
+            <td>
+                <p>Pais</p>
+                <input type="text" [value]="pais()" (input)="paisChangeHandler($event)">
+            </td>
+
+        </tr>
+
+    <!-- terceraa liena-->
+    <tr>
+       <td>
+            <p>Interno / Externo</p>
+            <label for="carSelect"></label>
+            <select id="carSelect" (change)="car.set($any($event.target).value)">
+                <option *ngFor="let c of cars" [value]="c">{{ c }}</option>
+            </select>
+        </td>
+        <td>
+            <p>User</p>
+            <input type="text" [value]="user()" (input)="userChangeHandler($event)">
+        </td>
+        <td>
+            <p>name</p>
+            <input type="text" [value]="name()" (input)="nameChangeHandler($event)">
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+
+
+    <!-- table interno-->
+<div *ngIf=" car() == 'Interno'" >
+    <table class="data">
+        <tbody>
+        <tr>
+            <td>
+                <p>Cargo</p>
+                <input type="text" [value]="cargo()" (input)="cargoChangeHandler($event)">
+            </td>
+            <td>
+                <p>Jefe</p>
+                <input type="text" [value]="jefe()" (input)="jefeChangeHandler($event)">
+            </td>
+            <td>
+                <p>Cargo Jefe</p>
+                <input type="text" [value]="cargojefe()" (input)="cargojefeChangeHandler($event)">
+            </td>
+        </tr>
+        <!-- Cuarta liena-->
+        <tr>
+            <td>
+                <p>Bp Jr Name</p>
+                <input type="text" [value]="bpjrname()" (input)="bpnameChangeHandler($event)">
+            </td>
+            <td>
+                <p>Correo Bp Jr</p>
+                <input type="text" [value]="bjrcargo()" (input)="bpcargoChangeHandler($event)">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Archivo de vacaiones</p>
+                <input type="text" [value]="VacacionesDoc()" (input)="vacaionesDocChangeHandler($event)">
+            </td>
+            <td>
+                <p>Esta de vacaciones?</p>
+                <label for="vacSelect"></label>
+                    <select id="vacSelect" (change)="vac.set($any($event.target).value)">
+                        <option *ngFor="let v of vacs" [value]="v">{{ v }}</option>
+                    </select>
+
+            </td>
+
+        </tr>
+    </tbody>
+</table>
+</div>
+    <!-- table externo-->
+<div *ngIf=" car() == 'Externo'" >
+    <table class="data">
+        <tbody>
+        <tr>
+            <td>
+                <p>Compañia</p>
+                <input type="text" [value]="cargo()" (input)="cargoChangeHandler($event)">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>Jefe</p>
+                <input type="text" [value]="jefe()" (input)="jefeChangeHandler($event)">
+            </td>
+            <td>
+                <p>Cargo Jefe</p>
+                <input type="text" [value]="cargojefe()" (input)="cargojefeChangeHandler($event)">
+            </td>
+        </tr>
+        <!-- Cuarta liena-->
+    </tbody>
+</table>
+
+</div>
+<div>
+<button (click)="deleteData()">
+    {{ borrado ? 'Borrados!' : 'Borrar Datos' }}
+</button>
+</div>
+<hr>
+    <h1>Sugerencia de Titulo?</h1>
+        <p>
+            {{user()}}_{{SrcIp()}} <br> <br>
+
+            {{alertype()}}_{{user()}}_{{SrcIp()}}
+        </p>
+<hr>
+<!--Generación de correo -->
+<div *ngIf="pais() != 'México'" >
+    <h1>Correo</h1>
+        <button (click)="copyContent(textToCopy)">
+    {{ copiado ? 'Copiado!' : 'Copiar' }}
+        </button>
+<!--Correo Interno -->
+    <div #textToCopy>
+        <div *ngIf=" car() == 'Interno'" >
+    <p>
+        {{tiempo}}, <br> <br>
+        Hemos detectado una conexi&oacute;n de VPN realizada fuera de M&eacute;xico con el usuario (<b>{{user()}}</b>) (<b>{{name()}} – {{cargo()}}</b>). <br>
+        Solicitamos de su apoyo para confirmar la conexi&oacute;n, si no la reconoce es importante que nos indique para tomar medidas preventivas. <br><br>
+        En caso de ser temporal, indicar el periodo que permanecer&aacute; en dicho pa&iacute;s <br><br>
+        Adjuntamos detalle del evento: <br>
+    </p>
+    <table class="mailtable" role="region" tabindex="0">
+    <caption></caption>
+   <THead>
+        <th colspan="4" class="tdclass">Detalle del evento</th>
+   </THead>
+    <tbody>
+        <tr>
+            <th colspan="1" class="tdclass">Severidad</th>
+            <td colspan="3" class="tdclass"><b> ☐Critica  ☒Alta  ☐Media  ☐Baja</b></td>
+        </tr>
+        <tr>
+            <th colspan="1" class="tdclass">Tipo de amenaza:</th>
+            <td colspan="3" class="tdclass"><b>{{alertype()}}</b></td>
+        </tr>
+        <tr>
+            <th colspan="1" class="tdclass">Normativa:</th>
+            <td colspan="3" class="tdclass">{{Normativa()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1" class="tdclass">Fecha:</th>
+            <td colspan="3" class="tdclass">{{fecha()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1" class="tdclass">Pa&iacute;s:</th>
+            <td colspan="3" class="tdclass">{{pais()}}</td>
+        </tr>
+        <tr>
+            <th class="tdclass">Usuario ejecutor:</th>
+            <td class="tdclass">{{user()}}</td>
+            <th class="tdclass">Nombre de Usuario:</th>
+            <td class="tdclass">{{name()}}</td>
+        </tr>
+        <tr>
+            <th class="tdclass">IP Origen:</th>
+            <td class="tdclass">{{SrcIp()}}</td>
+            <th class="tdclass">IP asignada:</th>
+            <td class="tdclass">{{destIP()}}</td>
+        </tr>
+
+   </tbody>
+</table>
+<p class="red">
+    <b>
+        Nota: Debido a la importancia y criticidad del evento necesitamos que su respuesta sea m&aacute;xima en una hora (01:00 hrs.), ya que de lo contrario se realizar&aacute; el bloqueo de la cuenta de VPN como medida preventiva evitando con esto un mal uso de credenciales y exposici&oacute;n de datos confidenciales. <br>
+    </b>
+</p>
+<p>
+    Quedamos atentos a cualquier duda o comentario
+</p>
+        </div>
+<!--Correo Externo -->
+        <div *ngIf=" car() == 'Externo'" >
+        <p>
+        {{tiempo}}, <br> <br>
+        Hemos detectado una conexi&oacute;n de VPN realizada fuera de M&eacute;xico del usuario bajo su cargo (<b>{{user()}}</b>) (<b>{{name()}} – {{cargo()}}</b>). <br>
+        Solicitamos de su apoyo para confirmar la conexi&oacute;n, si no la reconoce es importante que nos indique para tomar medidas preventivas. <br><br>
+        En caso de ser temporal, indicar el periodo que permanecer&aacute; en dicho pa&iacute;s <br><br>
+        Adjuntamos detalle del evento: <br>
+    </p>
+    <table class="mailtable" role="region" tabindex="0">
+    <caption></caption>
+   <Thead>
+        <th colspan="4" class="tdclass">Detalle del evento</th>
+   </Thead>
+    <tbody>
+        <tr>
+            <th colspan="1" class="tdclass">Severidad</th>
+            <td colspan="3" class="tdclass"><b> ☐Critica  ☒Alta  ☐Media  ☐Baja</b></td>
+        </tr>
+        <tr>
+            <th colspan="1" class="tdclass">Tipo de amenaza:</th>
+            <td colspan="3" class="tdclass"><b>{{alertype()}}</b></td>
+        </tr>
+        <tr>
+            <th colspan="1" class="tdclass">Normativa:</th>
+            <td colspan="3" class="tdclass">{{Normativa()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1" class="tdclass">Fecha:</th>
+            <td colspan="3" class="tdclass">{{fecha()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1" class="tdclass">Pa&iacute;s:</th>
+            <td colspan="3" class="tdclass">{{pais()}}</td>
+        </tr>
+        <tr>
+            <th class="tdclass">Usuario ejecutor:</th>
+            <td class="tdclass">{{user()}}</td>
+            <th class="tdclass">Nombre de Usuario:</th>
+            <td class="tdclass">{{name()}}</td>
+        </tr>
+        <tr>
+            <th class="tdclass">IP Origen:</th>
+            <td class="tdclass">{{SrcIp()}}</td>
+            <th class="tdclass">IP asignada:</th>
+            <td class="tdclass">{{destIP()}}</td>
+        </tr>
+</table>
+
+<p class="red">
+    <b>
+        Nota: Debido a la importancia y criticidad del evento necesitamos que su respuesta sea máxima en una hora (01:00 hrs.), ya que de lo contrario se realizará el bloqueo de la cuenta de VPN como medida preventiva evitando con esto un mal uso de credenciales y exposición de datos confidenciales.
+    </b>
+</p>
+<p>
+    Quedamos atentos a cualquier duda o comentario.
+</p>
+
+        </div>
+    </div>
+</div>
+
+
+<hr>
+<h1>Documentaci&oacute;n</h1>
+<button (click)="doccopyContent(docToCopy)">
+    {{ doccopiado ? 'Copiado!' : 'Copiar' }}
+        </button>
+
+<div #docToCopy >
+<p>Se realiza el an&aacute;lisis de los campos involucrados en esta alerta.</p>
+<p>- Usuario involucrado: (**{{user()}}**)</p>
+<p>- IP origen/IP destino: (**{{SrcIp()}} / {{destIP()}}**)</p>
+<p>- Número de eventos detonados:(**1**)</p>
+<p>- Acción realizada: (**Conexión VPN {{negocio()}}**)</p>
+<p>Se valida en la app Webphone que el user es: (**{{car()}}**)</p>
+
+<div *ngIf=" car() == 'Interno'" >
+    <p> **Usuario Interno:**</p>
+
+    <p> Se realiza el análisis de la IP Origen (**{{SrcIp()}}**), en las herramientas Cisco Talos, Virus Total, IBM XFORCE, donde se determina que la IP pertenece a (**{{pais()}}**).</p>
+
+    <p>Se valida la cuenta (**{{user()}}**) en la herramienta WebPhone y le pertenece al user (**{{name()}}  - {{cargo()}}**) donde su Jefe Directo es el user (**{{jefe()}} - {{cargojefe()}}**)</p>
+
+    <p>Se valida en el documento de vacaciones de la semana del (**{{VacacionesDoc()}}**), donde el user (**{{vac()}}**) se encuentra de vacaciones.</p>
+
+    <p>- Se identifica el BP Jr. (**{{bpjrname()}} - {{bjrcargo()}}**)</p>
+</div>
+<div *ngIf=" car() == 'Externo'" >
+    <p> **Usuario Externo**</p>
+
+    <p> Se realiza el análisis de la IP Origen (**{{SrcIp()}}**), en las herramientas Cisco Talos, Virus Total, IBM XFORCE, donde se determina que la IP pertenece a (**{{pais()}}**).</p>
+
+    <p>Se valida la cuenta (**{{user()}}**) en la herramienta WebPhone y le pertenece al user (**{{name()}}  - {{cargo()}}**) donde su Jefe Directo es el user (**{{jefe()}} - {{cargojefe()}}**)</p>
+
+</div>
+<div *ngIf=" pais() == 'México'" >
+    <p>Se procede al cierre debido a que se valida que la IP ORIGEN (**{{SrcIp()}}**) pertenece al país (**{{pais()}}**) </p>
+</div>
+<p *ngIf="atendido_Por != 'N/A'"> - Atendido por: {{atendido_Por}} </p>
+</div>
+
+<hr>
+
+<h1>Docuementacion</h1>
+
+<p> Se realiza el análisis de la IP Origen (**{{SrcIp()}}**), en la herramienta Cisco Talos, donde se determina que la IP pertenece a (**{{pais()}}**).</p>
+<p> Se realiza el análisis de la IP Origen (**{{SrcIp()}}**), en la herramienta Virus Total, donde se determina que la IP pertenece a (**{{pais()}}**).</p>
+<p> Se realiza el análisis de la IP Origen (**{{SrcIp()}}**), en la herramienta IBM X-Force, donde se determina que la IP pertenece a (**{{pais()}}**).</p>    
+
+<p>Cisco_Talos_{{SrcIp()}}</p>
+<p>IBM_X_Force_{{SrcIp()}}</p>
+<p>Virus_Total_{{SrcIp()}}</p>
+<p>WEBPHONE_{{user()}}</p>
+
+<hr>
+
+

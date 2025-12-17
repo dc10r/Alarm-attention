@@ -1,0 +1,127 @@
+
+<div class="datos">
+<table class="datosTable">
+    <tr>
+        <td>Fecha <br>
+        <input type="text" [value]="fecha()" (input)="fechaChangeHandler($event)"></td>
+    
+        <td>Alerta <br>
+        <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)"></td>
+    
+        <td>Normativa <br>
+        <input type="text" [value]="normativa()" (input)="normativaChangeHandler($event)"></td>
+
+    </tr>
+    <tr>
+        <td>usuario ejecutor <br>
+        <input type="text" [value]="userEje()" (input)="userEjeChangeHandler($event)"></td>
+
+        <td>Usuario de So<br>
+        <input type="text" [value]="userSo()" (input)="userSoChangeHandler($event)"></td>
+        
+        <td>Nombre de Usuario<br>
+        <input type="text" [value]="nombreUser()" (input)="nombreUserChangeHandler($event)"></td>
+        
+    </tr>
+    
+    <tr>
+        <td>Host<br>
+        <input type="text" [value]="host()" (input)="hostChangeHandler($event)"></td>
+        
+        <td>Tipo de objeto<br>
+        <input type="text" [value]="tipodeObj()" (input)="tipodeObjChangeHandler($event)"></td>
+
+        <td>Tipo de movimiento:<br>
+        <input type="text" [value]="tipodeMov()" (input)="tipodeMovChangeHandler($event)"></td>
+
+        <td>Usuario afectado:<br>
+        <input type="text" [value]="Userafec()" (input)="UserafecChangeHandler($event)"></td>
+   
+    </tr>
+</table>
+</div>
+<div>
+<button (click)="deleteData()">
+    {{ borrado ? 'Borrados!' : 'Borrar Datos' }}
+</button>
+</div>
+
+<hr>
+    <h1>Sugerencia de Titulo?</h1>
+        <p>Case ####_Base de Datos: ABC Usuarios_Host</p>
+        <p>
+            {{alerta()}}_{{host()}} <br><br>               
+        </p>
+<hr>
+
+<h1>Correo</h1>
+<button (click)="copyContent(textToCopy)">
+    {{ copiado ? 'Copiado!' : 'Copiar' }}
+</button>
+
+
+
+<!--Correo -->
+<div #textToCopy>
+<p>{{tiempo}},
+ <br><br>
+    Les notificamos que se ha realizado un cambio en la base de datos <b>{{host()}}</b>, este movimiento fue realizado por el usuario <b>{{userEje()}}</b> afectando la cuenta <b>{{Userafec()}}</b> realizando un <b>{{tipodeMov()}}</b>.
+     Para fines de validaci&oacute;n, <b>solicitamos</b> su apoyo compartiendo la justificación de la actividad mediante alg&uacute;n folio de <b>REQ/CHG/INC</b> que respalde su ejecuci&oacute;n.
+    <br><br>
+    Adjuntamos detalle del evento:
+</p>
+<table class="mailtable" role="region" tabindex="0">
+    <caption></caption>
+   <THead>
+        <th colspan="4">Detalle del evento</th>
+   </THead>
+    <tbody>
+        <tr>
+            <th colspan="1">Severidad</th>
+            <td colspan="3"><b> ☐Critica  ☒Alta  ☐Media  ☐Baja</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Tipo de amenaza:</th>
+            <td colspan="3"><b>{{alerta()}}</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Normativa:</th>
+            <td colspan="3">{{normativa()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1">Fecha:</th>
+            <td colspan="3">{{fecha()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1">Host:</th>
+            <td colspan="3">{{host()}}</td>
+        </tr>
+        <tr>
+            <th>Usuario ejecutor:</th>
+            <td>{{userEje()}}</td>
+            <th>Nombre de Usuario:</th>
+            <td>{{nombreUser()}}</td>
+        </tr>
+                <tr>
+            <th>Usuario de SO:</th>
+            <td>{{userSo()}}</td>
+            <th>Tipo de movimiento</th>
+            <td>{{tipodeMov()}}</td>
+        </tr>
+        <tr>
+            <th>Tipo deobjeto:</th>
+            <td>{{tipodeObj()}}</td>
+            <th>Usuario afectado:</th>
+            <td>{{Userafec()}}</td>
+        </tr>
+
+   </tbody>
+</table>
+<br><br>
+<p>Se anexa mayor detalle a continuación:</p>
+<p>Quedo pendiente a sus comentarios</p>
+<p>Saludos.</p>
+</div>
+<hr>
+
+<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="nombreUser()" [accion]="tipodeMov()"></app-puntos>

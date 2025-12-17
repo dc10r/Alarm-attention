@@ -1,0 +1,100 @@
+<h1>  comandos cisco </h1>
+<p>
+Delete the startup configuration on all 3 switches.
+	<br><br>
+	- en <br>
+	- erase startup-config <br>
+	- sh flash <br>
+	- delete vla.dat <br>
+	- reload <br>
+
+Configure VLANs <br><br>
+
+	- S1#(config)# vlan 10 <br>
+
+	- S1#(config-vlan)# name Faculty/Staff<br><br>
+
+Configure trunking on S1 and use VLAN 99 as the native VLAN.<br><br>
+
+	- Open configuration window<br><br>
+
+	Configure G0/1 and G0/2 interfaces on S1 for trunking.<br>
+
+		- S1(config)# interface range g0/1 - 2<br>
+
+		- S1(config-if)# switchport mode trunk<br>
+
+	Configure VLAN 99 as the native VLAN for G0/1 and G0/2 interfaces on S1.<br>
+
+		- S1(config-if)# switchport trunk native vlan 99<br><br>
+
+command to confirm that DTP has successfully negotiated trunking<br><br>
+
+	- show interface trunk<br><br>
+
+
+Assign VLANs to ports on S2 <br><br>
+
+
+	- S2(config-if)# interface range f0/1 - 8<br>
+
+	- S2(config-if-range)# switchport mode access<br>
+
+	- S2(config-if-range)# switchport access vlan 10<br>
+
+	- S2(config-if-range)# interface range f0/9 -16<br>
+
+	- S2(config-if-range)# switchport mode access<br>
+
+	- S2(config-if-range)# switchport access vlan 20<br>
+
+	- S2(config-if-range)# interface range f0/17 - 24<br>
+
+	 - S2(config-if-range)# switchport mode access<br>
+
+	- S2(config-if-range)# switchport access vlan 30<br><br>
+
+ create VLAN 10 and name it Red.<br><br>
+
+
+	- S2(config)# vlan 10<br>
+
+	- S2(config-vlan)# name Red<br><br>
+
+On switch S1, configure the trunk link to dynamic desirable on the GigabitEthernet 0/1 interface.<br><br>
+	
+	- S1(config)# interface g0/1<br>
+
+	- S1(config-if)# switchport mode dynamic desirable<br><br>
+
+Verify that the trunk has been negotiated by entering the <br><br>
+	
+	- show interfaces trunk<br><br>
+
+configure interface GigabitEthernet 0/2 as a static trunk link on S1. <br>
+In addition, disable DTP negotiation on interface G0/2 on S1. <br><br>
+
+	- S1(config)# interface g0/2<br>
+
+	- S1(config-if)# switchport mode trunk<br>
+
+	- S1(config-if)# switchport nonegotiate<br><br>
+
+command to verify the status of DTP.<br><br>
+
+	- show dtp <br><br>
+
+Configure VLAN 999 as the native VLAN for the trunk links on S1.<br><br>
+
+	- S1(config)# interface range g0/1 - 2<br>
+
+	- S1(config-if-range)# switchport trunk native vlan 999<br>
+
+</p>
+
+<p>
+
+ <img src="./public/d.png" alt="GIF FRIEREEEN">
+:p
+
+</p>

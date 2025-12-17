@@ -1,0 +1,110 @@
+<div class="datos">
+    <table clas="datosTable" >
+    <tr>
+        <td>Fecha <br>
+        <input type="text" [value]="fecha()" (input)="fechaChangeHandler($event)"></td>
+        <td>Alerta <br>
+        <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)"></td>
+
+    </tr>
+    <tr>
+        <td>Usuario <br>
+        <input type="text" [value]="usrej()" (input)="usrejChangeHandler($event)"></td>
+        <td>Nombre Usuario <br>
+        <input type="text" [value]="nombreusr()" (input)="nombreusrChangeHandler($event)"></td>
+    </tr>
+    <tr>
+        <td>IP origen  interna<br>
+        <input type="text" [value]="iporg()" (input)="iporgChangeHandler($event)"></td>
+        <td>IP destino interna <br>
+        <input type="text" [value]="ipdest()" (input)="ipdestChangeHandler($event)"></td>
+    </tr>
+        <tr>
+        <td>IP origen  publica<br>
+        <input type="text" [value]="iporgp()" (input)="iporgpChangeHandler($event)"></td>
+        <td>IP destino publica <br>
+        <input type="text" [value]="ipdestp()" (input)="ipdestpChangeHandler($event)"></td>
+    </tr>
+    </table>
+</div>
+<div>
+<button (click)="deleteData()">
+    {{ borrado ? 'Borrados!' : 'Borrar Datos' }}
+</button>
+</div>
+
+<hr>
+    <h1>Sugerencia de Titulo?</h1>
+        <p>
+            Case ####_ Brute Force (T1110.50 / T1110.100)_User_IP Origen <br><br>
+            {{alerta()}}_{{usrej()}}    <br><br>           
+            {{alerta()}}_{{usrej()}}_{{iporg()}}
+        </p>
+<hr>
+
+<h1>Correo</h1>
+<button (click)="copyContent(textToCopy)">
+    {{ copiado ? 'Copiado!' : 'Copiar' }}
+</button>
+
+
+<div #textToCopy>
+<p>{{tiempo}},
+ <br><br>
+ Se identificaron m&uacute;ltiples intentos de acceso fallido realizados con su usuario <b>{{usrej()}}</b>, por lo cual necesitamos que nos confirme que estos intentos fueron realizados por usted.
+<br><br>
+Nota: Si no reconoce la conexi&oacute;n es probable que su usuario este siendo utilizado en alg&uacute;n proceso que se est&aacute; ejecutando autom&aacute;ticamente, solicitamos de su apoyo para realizar la revisión en la(s) IP que se detallan en la siguiente tabla.
+
+
+</p>
+<br>
+<table class="mailtable" role="region" tabindex="0">
+    <caption></caption>
+   <THead>
+        <th colspan="4">Detalle del evento</th>
+   </THead>
+    <tbody>
+        <tr>
+            <th colspan="1">Severidad</th>
+            <td colspan="3"> <b>☐Critica  ☒Alta  ☐Media  ☐Baja</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Tipo de amenaza:</th>
+            <td colspan="3"><b>{{alerta()}}</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Fecha:</th>
+            <td colspan="3">{{fecha()}}</td>
+        </tr>
+        <tr>
+            <th>Usuario:</th>
+            <td>{{usrej()}}</td>
+            <th>Nombre de Usuario:</th>
+            <td>{{nombreusr()}}</td>
+        </tr>
+        <tr>
+            <th>IP origen interna:</th>
+            <td>{{iporg()}}</td>
+            <th>IP destino interna:</th>
+            <td>{{ipdest()}}</td>
+        </tr>
+                <tr>
+            <th>IP origen publica:</th>
+            <td>{{iporgp()}}</td>
+            <th>IP destino publica:</th>
+            <td>{{ipdestp()}}</td>
+        </tr>
+
+   </tbody>
+</table>
+<br><br>
+<p><b>Se adjunta concentrado del total de IP´s vistas en el alertamiento.</b></p>
+<p>Quedo pendientes a sus comentarios</p>
+
+<p>Saludos</p>
+</div>
+<hr>
+
+<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="nombreusr()" [accion]="'múltiples intentos de acceso fallido'"></app-puntos>
+
+

@@ -1,0 +1,104 @@
+
+<div class="datos">
+<table class="datosTable">
+    <tr>
+        <td>Fecha <br>
+        <input type="text" [value]="fecha()" (input)="fechaChangeHandler($event)"></td>
+        <td>Alerta <br>
+        <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)"></td>
+    </tr>
+    <tr>
+
+        <td>IP Origen <br>
+        <input type="text" [value]="ipOrg()" (input)="ipOrgChangeHandler($event)"></td>
+        
+        <td>IP Destino  <br>
+        <input type="text" [value]="ipDest()" (input)="ipDestChangeHandler($event)"></td>
+    </tr>
+    <tr>
+        <td>Servicios Identificados  <br>
+        <input type="text" [value]="serviciosIden()" (input)="serviciosIdenChangeHandler($event)"></td>
+
+        <td>Cantidad de Intentos  <br>
+        <input type="text" [value]="cantInt()" (input)="cantIntChangeHandler($event)"></td>
+        
+
+    
+    </tr>
+</table>
+</div>
+<div>
+<button (click)="deleteData()">
+    {{ borrado ? 'Borrados!' : 'Borrar Datos' }}
+</button>
+</div>
+
+<hr>
+    <h1>Sugerencia de Titulo?</h1>
+    <p>Case ####_[Tecnología]: Brute Force T1110.25_[Origen o "Múltiples IPs"]</p>    
+        <p>
+            {{alerta()}}_{{ipOrg()}} <br><br>               
+        </p>
+<hr>
+
+<h1>Correo</h1>
+<button (click)="copyContent(textToCopy)">
+    {{ copiado ? 'Copiado!' : 'Copiar' }}
+</button>
+
+
+
+<!--Correo -->
+<div #textToCopy>
+<p>{{tiempo}}, <b>Seguridad Perimetral / IP Core / CSO Infraestructura</b>
+ <br><br>
+Solicitamos su apoyo para la atención del incidente <b>[#Folio de incidente]</b> ejecutando las acciones de contención pertinentes. 
+<br>
+Anexamos detalle del análisis:
+
+</p>
+<table class="mailtable" role="region" tabindex="0">
+    <caption></caption>
+   <THead>
+        <th colspan="4">Detalle del evento</th>
+   </THead>
+    <tbody>
+        <tr>
+            <th colspan="1">Severidad</th>
+            <td colspan="3"><b> ☐Critica  ☒Alta  ☐Media  ☐Baja</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Tipo de amenaza:</th>
+            <td colspan="3"><b>{{alerta()}}</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Servicio(s) <br>
+                            identificado:</th>
+            <td colspan="3">{{serviciosIden()}}</td>
+        </tr>
+        <tr>
+            <th>IP origen:</th>
+            <td>{{ipOrg()}}</td>
+            <th>IP destino:</th>
+            <td>{{ipDest()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1">Cantidad de<br>
+                            Intentos:</th>
+            <td colspan="3">{{cantInt()}}</td>
+        </tr>
+
+
+   </tbody>
+</table>
+<br><br>
+<p><b>[Adjuntar .xls con análisis]</b></p>
+<p>Quedo pendiente de su respuesta</p>
+<p>Saludos</p>
+</div>
+<hr>
+
+<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="'Seguridad Perimetral / IP Core / CSO Infraestructura'" [accion]="'Multiples Intentos Fallidos'"></app-puntos>
+
+
+

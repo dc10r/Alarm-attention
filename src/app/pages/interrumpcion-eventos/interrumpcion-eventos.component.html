@@ -1,0 +1,43 @@
+<div class="datos">
+    <table>
+        <tr>
+                <td>Alerta<br>
+                <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)"> </td>
+                <td>Host<br>
+                <input type="text" [value]="host()" (input)="hostChangeHandler($event)"> </td>
+        </tr>
+    </table>
+</div>
+<div>
+<button (click)="deleteData()">
+    {{ borrado ? 'Borrados!' : 'Borrar Datos' }}
+</button>
+</div>
+<hr>
+    <h1>Sugerencia de Titulo?</h1>
+    <p>Case ####_Interrupción de eventos [TECNOLOGIA]</p>
+        <p>
+            Interrupcion de eventos: {{tecnologia()}}_{{host()}} <br>
+        </p>
+<hr>
+
+<hr>
+<h1>Correo</h1>
+<button (click)="copyContent(textToCopy)">
+    {{ copiado ? 'Copiado!' : 'Copiar' }}
+</button>
+<div #textToCopy>
+<p>{{tiempo}} &#64;SIEM Infrastructure Security,
+    <br><br>
+    Hemos recibido una alerta de Interrupción de eventos en la tecnolog&iacute;a
+    <b>{{tecnologia()}}</b>, por lo que solicitamos de su apoyo para indicarnos si existió pérdida de logs durante el periodo del evento, 
+        así como la condición actual del Host <b>{{host()}}</b>.
+<br><br>
+En caso de que se determine que la alerta no corresponde a una falla relacionada a la plataforma de Splunk, solicitamos nos indique la causa relacionada de acuerdo con su análisis realizado.
+</p>
+</div>
+<p>[Adjuntar evidencia del detalle de la alerta que abarque la pantalla completa que muestre la fecha y hora del sistema]. Ejemplo:</p>
+<hr>
+
+
+<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="'SIEM'" [accion]="'Interrupci&oacute;n de Eventos'"></app-puntos>

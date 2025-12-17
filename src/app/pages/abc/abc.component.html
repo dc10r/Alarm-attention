@@ -1,0 +1,106 @@
+
+<div class="datos">
+<table class="datosTable">
+    <tr>
+        <td>Fecha <br>
+        <input type="text" [value]="fecha()" (input)="fechaChangeHandler($event)"></td>
+        <td>Alerta <br>
+        <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)"></td>
+        <td>Normativa <br>
+        <input type="text" [value]="normativa()" (input)="normativaChangeHandler($event)"></td>
+
+    </tr>
+    <tr>
+        <td>Host <br>
+        <input type="text" [value]="host()" (input)="hostChangeHandler($event)"></td>
+        <td>Nombre Usuario <br>
+        <input type="text" [value]="nombreusr()" (input)="nombreusrChangeHandler($event)"></td>
+        <td>Usuario ejecutor <br>
+        <input type="text" [value]="usrej()" (input)="usrejChangeHandler($event)"></td>
+    </tr>
+    <tr>
+        <td>Usuarios afectados <br>
+        <input type="text" [value]="usrafectados()" (input)="usrafecChangeHandler($event)"></td>
+        <td>Acci&oacute;n <br>
+        <input type="text" [value]="accion()" (input)="accionChangeHandler($event)"></td>
+    </tr>
+</table>
+</div>
+<div>
+<button (click)="deleteData()">
+    {{ borrado ? 'Borrados!' : 'Borrar Datos' }}
+</button>
+</div>
+
+<hr>
+    <h1>Sugerencia de Titulo?</h1>
+        <p>
+            {{alerta()}}_{{usrej()}} <br><br>               
+        </p>
+<hr>
+
+<h1>Correo</h1>
+<button (click)="copyContent(textToCopy)">
+    {{ copiado ? 'Copiado!' : 'Copiar' }}
+</button>
+
+
+
+<!--Correo -->
+<div #textToCopy>
+<p>{{tiempo}},
+ <br><br>
+    Les notificamos que se ha realizado un cambio en <b>{{aplicacion()}}</b>, este movimiento fue realizado por el usuario <b>{{usrej()}}</b> realizando un <b>{{accion()}}</b>, al usuario <b>{{usrafectados()}}</b>.
+    <br><br>
+    Solicitamos de su ayuda para justificar la actividad con un código ya sea RFC/INC/REQ o alguna justificación de dichos movimientos.
+    <br><br>
+    Adjuntamos detalle del evento:
+</p>
+<table class="mailtable" role="region" tabindex="0">
+    <caption></caption>
+   <THead>
+        <th colspan="4">Detalle del evento</th>
+   </THead>
+    <tbody>
+        <tr>
+            <th colspan="1">Severidad</th>
+            <td colspan="3"><b> ☐Critica  ☒Alta  ☐Media  ☐Baja</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Tipo de amenaza:</th>
+            <td colspan="3"><b>{{alerta()}}</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Normativa:</th>
+            <td colspan="3">{{normativa()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1">Fecha:</th>
+            <td colspan="3">{{fecha()}}</td>
+        </tr>
+        <tr>
+            <th colspan="1">Host:</th>
+            <td colspan="3">{{host()}}</td>
+        </tr>
+        <tr>
+            <th>Usuario ejecutor:</th>
+            <td>{{usrej()}}</td>
+            <th>Nombre de Usuario:</th>
+            <td>{{nombreusr()}}</td>
+        </tr>
+        <tr>
+            <th>Usuarios afectados:</th>
+            <td>{{usrafectados()}}</td>
+            <th>Acci&oacute;n:</th>
+            <td>{{accion()}}</td>
+        </tr>
+
+   </tbody>
+</table>
+<br><br>
+<p>Quedamos pendientes a sus comentarios</p>
+<p>Saludos</p>
+</div>
+<hr>
+
+<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="nombreusr()" [accion]="accion()"></app-puntos>

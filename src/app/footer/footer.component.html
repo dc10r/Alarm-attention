@@ -1,0 +1,32 @@
+<p>made by dc10r</p>
+<table>
+    <tr colspan = 3>Generador de titulos</tr>
+    <tr>
+        <td>Alerta<br>
+            <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)"></td>
+        <td>User <br>
+            <input type="text" [value]="user()" (input)="userChangeHandler($event)"></td>
+        <td>Ip <br>
+            <input type="text" [value]="ip()" (input)="ipChangeHandler($event)"></td>
+    </tr>
+    <tr>
+        <td colspan="3">Alerta + user + Ip</td>
+    </tr>
+    <tr>
+        <td colspan="3"><p>{{alerta()}}_{{user()}}_{{ip()}}</p></td>
+    </tr>
+    <tr>
+        <td colspan="3">alerta + user</td>
+    </tr>
+    <tr>
+      <td colspan="3"><p>{{alerta()}}_{{user()}}</p></td>
+    </tr>
+</table>
+<div>
+<button (click)="deleteData()">
+    {{ borrado ? 'Datos Borrados!' : 'Borrar Datos' }}
+</button>
+</div>
+
+
+<p>Title icon by Freepik</p>

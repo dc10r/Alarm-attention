@@ -1,0 +1,15 @@
+.seleccion{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+}
+td{
+
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+}

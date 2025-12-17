@@ -1,0 +1,40 @@
+<div class="seleccion">
+<p>Selecciona una alerta para atender</p>
+    <label for="EmpSelect"></label>
+        <select id="EmpSelect" (change)="alerta.set($any($event.target).value)">
+            <option *ngFor="let c of alertas" [value]="c">{{ c }}</option>                        
+        </select>
+<table>
+    <tr>
+        <td>
+            <p>Saludo</p>
+            <label for="EmpSelect"></label>
+                <select id="EmpSelect" (change)="tiempo.set($any($event.target).value)">
+                    <option *ngFor="let c of tiempos" [value]="c">{{ c }}</option>                        
+                </select>
+        </td>
+        <td>
+            <p>Atendido por:</p>
+            <input type="text" [value]="atendido_Por()" (input)="atendidoPorChangeHandler($event)">
+        </td>
+    </tr>
+</table>
+</div>
+
+<div [ngSwitch]="alerta()" >
+<app-vpns *ngSwitchCase="'VPN'" [tiempo]="tiempo()" [atendido_Por]="atendido_Por()"></app-vpns>
+<app-acps *ngSwitchCase="'ACPS'" [tiempo]="tiempo()" [atendido_Por]="atendido_Por()"></app-acps>
+<app-abc *ngSwitchCase="'ABC'" [tiempo]="tiempo()" [atendido_Por]="atendido_Por()"></app-abc>
+<app-bruteforce *ngSwitchCase="'Brute Force (.50/.100)'" [tiempo]="tiempo()" [atendido_Por]="atendido_Por()"></app-bruteforce>    
+<app-interrumpcion-eventos *ngSwitchCase="'Interrupción de Eventos'" [tiempo]="tiempo()" [atendido_Por]="atendido_Por()"></app-interrumpcion-eventos>
+<app-table-space *ngSwitchCase="'Table Space'" [tiempo]="tiempo()" [atendido_Por]="atendido_Por()"></app-table-space>
+<app-bd-mov *ngSwitchCase="'BD Mov Crea Modi Dep'" [tiempo]="tiempo()" [atendido_Por]="atendido_Por()"></app-bd-mov>
+<app-apliabc *ngSwitchCase="'App abc'" [tiempo]="tiempo()" [atendido_Por]="atendido_Por()"></app-apliabc>
+<app-soabc *ngSwitchCase="'SO abc'" [tiempo]="tiempo()" [atendido_Por]="atendido_Por()"></app-soabc>
+<app-dbabc *ngSwitchCase="'DB abc'" [tiempo]="tiempo()" [atendido_Por]="atendido_Por()"></app-dbabc>
+<app-neabc *ngSwitchCase="'NE abc'" [tiempo]="tiempo()" [atendido_Por]="atendido_Por()"></app-neabc>
+<app-brute25 *ngSwitchCase="'Brute Force .25'" [tiempo]="tiempo()" [atendido_Por]="atendido_Por()"></app-brute25>
+<app-dados *ngSwitchCase="'Dados de baja'" [tiempo]="tiempo()" [atendido_Por]="atendido_Por()"></app-dados>
+
+</div>
+
