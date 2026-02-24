@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 body {
+    background: #1985a1;
+    /*background: linear-gradient(90deg, rgba(71, 218, 255, 1) 0%, rgba(172, 252, 0, 1) 50%, rgba(250, 0, 0, 1) 100%);    
     background-image: url("../public/deer.jpg");
-    background-size: contain;
+    background-size: contain;*/
 }
