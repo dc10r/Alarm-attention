@@ -21,7 +21,6 @@
         </p>
 <hr>
 
-<hr>
 <h1>Correo</h1>
 <button (click)="copyContent(textToCopy)">
     {{ copiado ? 'Copiado!' : 'Copiar' }}
@@ -38,6 +37,61 @@ En caso de que se determine que la alerta no corresponde a una falla relacionada
 </div>
 <p>[Adjuntar evidencia del detalle de la alerta que abarque la pantalla completa que muestre la fecha y hora del sistema]. Ejemplo:</p>
 <hr>
+<h1>Documentaci&oacute;n</h1>
+<div>
+        <h3>(1)</h3> 
+     <p>
+        <br><br>
+            **Descripci&oacute;n del evento:** 
+        <br>
+            Se recibe alerta por interrupci&oacute;n en la recepci&oacute;n de eventos provenientes del host {{host()}}, correspondiente a la tecnolog&iacute;a {{tecnologia()}}.
+        <br>
+            Se inicia validaci&oacute;n para confirmar estado de conectividad, funcionamiento del agente/servicio
+    </p>
+            <h3>(2)</h3> 
+        <br><br>
+    <p>
+            **Notificaci&oacute;n:** 
+        <br>
+            Se notifica al equipo del SIEM con respecto a la interrupci&oacute;n de eventos en la tecnolog&iacute;a {{tecnologia()}}.
+            en espera de confirmaci&oacute;n.
+        <br>
+    </p>
+            <h3>(3)</h3> 
+        <br><br>
+    <p>
+            **Seguimiento:** Se env&iacute;a correo de seguimiento solicitando respuesta del evento notificado previamente.(en caso de aplicar)
+        <br>
+    </p>
+            <h3>(5)</h3> 
+    <p>
+        <br>
+            (RESPUESTA V&aacute;LIDA UNICAMENTE SI SE RECIBE EVIDENCIA DE LA RECUPERACI&oacute;N DE LA INGESTA DE LOGS O DE ELEMENTO DE BAJA TRANSACCIONALIDAD)
+        <br>
+            **Validaci&oacute;n de la respuesta** 
+        <br>    
+            VERDADERO: OP 1_ (RECUPERACI&oacute;N) 
+        <br><br>    
+            **Validaci&oacute;n de la respuesta:** Se recibe evidencia por parte del SIEM confirmando la recuperaci&oacute;n del flujo de eventos desde {{host()}} {{tecnologia}} . se procede al cierre del caso.
+        <br><br> 
+            OP 2_ 
+        <br><br>
+            **Validaci&oacute;n de la respuesta:** Se valida evidencia proporcionada por el &aacute;rea del SIEM, confirmando que el elemento corresponde a un activo de baja transaccionalidad. Se procede al cierre del caso.
+        <br><br>
+            FALSO: 
+        <br><br>
+            **Validaci&oacute;n de la respuesta:** No se recibe evidencia que confirme la recuperaci&oacute;n del flujo de eventos.
+            Se procede a escalar el caso al equipo Tier II para an&aacute;lisis t&eacute;cnico y seguimiento.
+    
+        <br><br>
+    </p>
+            <h1>CIERRE</h1>
+    <p>
+        <br>
+            (1) **Conclusi&oacute;n:** Ingesta normalizada y validada sin afectaci&oacute;n activa.
+        <br><br>
+            (2) **Autorizaci&oacute;n para cierre:** Se da Vo.Bo para el cierre del caso por parte de Supervisi&oacute;n [NOMBRE]
+    </p>
+</div>
 
 
-<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="'SIEM'" [accion]="'Interrupci&oacute;n de Eventos'"></app-puntos>

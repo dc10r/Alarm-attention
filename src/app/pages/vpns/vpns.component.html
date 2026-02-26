@@ -284,37 +284,141 @@
 
 <hr>
 <h1>Documentaci&oacute;n</h1>
-<button (click)="doccopyContent(docToCopy)">
+<!--<button (click)="doccopyContent(docToCopy)">
     {{ doccopiado ? 'Copiado!' : 'Copiar' }}
-        </button>
+        </button> -->
 
 <div #docToCopy >
-<p>Se realiza el an&aacute;lisis de los campos involucrados en esta alerta.</p>
-<p>- Usuario involucrado: (**{{user()}}**)</p>
-<p>- IP origen/IP destino: (**{{SrcIp()}} / {{destIP()}}**)</p>
-<p>- Número de eventos detonados:(**1**)</p>
-<p>- Acción realizada: (**Conexión VPN {{negocio()}}**)</p>
-<p>Se valida en la app Webphone que el user es: (**{{car()}}**)</p>
+    <div *ngIf=" car() == 'Interno'" >
 
-<div *ngIf=" car() == 'Interno'" >
-    <p> **Usuario Interno:**</p>
+    <p>
+        
+        (1) **Descripci&oacute;n del evento:**
+ <br>
 
-    <p> Se realiza el análisis de la IP Origen (**{{SrcIp()}}**), en las herramientas Cisco Talos, Virus Total, IBM XFORCE, donde se determina que la IP pertenece a (**{{pais()}}**).</p>
+        Se detecta conexi&oacute;n del usuario **{{user()}}**, mediante VPN Enterprise con IP origen: **{{SrcIp()}}** correspondiente al pa&iacute;s {{pais()}} con destino **{{destIP()}}**; se inicia validaci&oacute;n del evento.
+<br><br>
+        (2) **Validaci&oacute;n del evento:**
+<br>
+        Se realiza el an&iacute;lisis de la IP de origen **{{SrcIp()}}** mediante distintas fuentes de inteligencia:
+<br>
+        - **VirusTotal:** Validaci&oacute;n de reputaci&oacute;n de la IP, sin detecciones maliciosas reportadas.
+<br>
+        - **IBM X-Force Exchange:** Consulta de reputaci&oacute;n y contexto de la IP, sin indicadores de actividad maliciosa.
+<br>
+        -  **Cisco Talos:** Validaci&oacute;n de reputaci&oacute;n y geolocalizaci&oacute;n, identific&aacute;ndose la IP como ubicada en {{pais()}}.
+<br>
+        -  **Webphone Validaci&oacute;n de los datos del usuario**
+<br><br>
 
-    <p>Se valida la cuenta (**{{user()}}**) en la herramienta WebPhone y le pertenece al user (**{{name()}}  - {{cargo()}}**) donde su Jefe Directo es el user (**{{jefe()}} - {{cargojefe()}}**)</p>
+        **Usuario interno**
+<br>
+        **Nombre: {{user()}}**
+<br>
+        **Cargo: {{cargo()}}**
+<br>
+        **Jefe Directo: {{jefe()}}**
+<br><br>
 
-    <p>Se valida en el documento de vacaciones de la semana del (**{{VacacionesDoc()}}**), donde el user (**{{ vac() }}**) se encuentra de vacaciones.</p>
+ (En caso de que no exista acuerdo de excepci&oacute;n) 
+        (3) **Validaci&oacute;n de excepciones**
+<br>
+        Se consulta el registro de excepciones vigente, sin identificar alg&uacute;n acuerdo o excepci&oacute;n asociado al evento.
+<br><br>
+        (En caso de excepci&oacute;n) 
+       (3) **Validaci&oacute;n de excepciones**
+    <br>
+        Se consulta el registro de excepciones vigente, identificando que existe un acuerdo operativo autorizado para excepci&oacute;n.
 
-    <p>- Se identifica el BP Jr. (**{{bpjrname()}} - {{bjrcargo()}}**)</p>
-</div>
-<div *ngIf=" car() == 'Externo'" >
-    <p> **Usuario Externo**</p>
+<br><br>
 
-    <p> Se realiza el análisis de la IP Origen (**{{SrcIp()}}**), en las herramientas Cisco Talos, Virus Total, IBM XFORCE, donde se determina que la IP pertenece a (**{{pais()}}**).</p>
+        (4) **Notificaci&oacute;n:** Se contacta al usuario **{{user()}}** para validar la conexi&oacute;n de la VPN y su ubicaci&oacute;n.
+<br><br>
+        (5) **Seguimiento:** Se env&iacute;a correo de seguimiento solicitando respuesta al usuario del evento notificado previamente.(en caso de aplicar)
+<br><br>
+        (6) **Validaci&oacute;n de la respuesta** Se recibe respuesta por parte del [Usuario/Jefe] indicando [reconoce/no reconoce] la actividad.
+<br><br>
 
-    <p>Se valida la cuenta (**{{user()}}**) en la herramienta WebPhone y le pertenece al user (**{{name()}}  - {{cargo()}}**) donde su Jefe Directo es el user (**{{jefe()}} - {{cargojefe()}}**)</p>
+        En caso de no reconocer la actividad...
+<br><br>
+        a.- Derivado de la validaci&oacute;n realizada, el [usuario/jefe] indica no reconocer la conexi&oacute;n, en consecuencia el evento se considera de riesgo , por lo que se procede a la aplicaci&oacute;n de las medidas de contenci&oacute;n correspondientes.
+<br><br>
+        b.- Solicitar los bloqueos con las &aacute;reas correspondientes... y documentar acciones.
+<br><br>
 
-</div>
+
+        </p>
+        
+
+    </div>
+    <div *ngIf=" car() == 'Externo'" >
+
+    <p>
+        
+        (1) **Descripci&oacute;n del evento:**
+ <br>
+
+        Se detecta conexi&oacute;n del usuario **{{user()}}**, mediante VPN Enterprise con IP origen: **{{SrcIp()}}** correspondiente al pa&iacute;s {{pais()}} con destino **{{destIP()}}**; se inicia validaci&oacute;n del evento.
+<br><br>
+        (2) **Validaci&oacute;n del evento:**
+<br>
+        Se realiza el an&iacute;lisis de la IP de origen **{{SrcIp()}}** mediante distintas fuentes de inteligencia:
+<br>
+        - **VirusTotal:** Validaci&oacute;n de reputaci&oacute;n de la IP, sin detecciones maliciosas reportadas.
+<br>
+        - **IBM X-Force Exchange:** Consulta de reputaci&oacute;n y contexto de la IP, sin indicadores de actividad maliciosa.
+<br>
+        -  **Cisco Talos:** Validaci&oacute;n de reputaci&oacute;n y geolocalizaci&oacute;n, identific&aacute;ndose la IP como ubicada en {{pais()}}.
+<br>
+        -  **Webphone Validaci&oacute;n de los datos del usuario**
+<br><br>
+
+        **Usuario Externo**
+<br>
+        **Nombre: {{user()}}**
+<br>
+        **Comoañia: {{cargo()}}**
+<br>
+        **Jefe Directo: {{jefe()}}**
+<br><br>
+
+ (En caso de que no exista acuerdo de excepci&oacute;n) 
+<br><br>
+        (3) **Validaci&oacute;n de excepciones**
+<br>
+        Se consulta el registro de excepciones vigente, sin identificar alg&uacute;n acuerdo o excepci&oacute;n asociado al evento.
+<br><br>
+        (En caso de excepci&oacute;n) 
+<br><br>
+       (3) **Validaci&oacute;n de excepciones**
+    <br>
+        Se consulta el registro de excepciones vigente, identificando que existe un acuerdo operativo autorizado para excepci&oacute;n.
+
+<br><br>
+
+        (4) **Notificaci&oacute;n:** Se contacta al usuario **{{jefe()}}** para validar la conexi&oacute;n de la VPN y su ubicaci&oacute;n.
+<br><br>
+        (5) **Seguimiento:** Se env&iacute;a correo de seguimiento solicitando respuesta al usuario del evento notificado previamente.(en caso de aplicar)
+<br><br>
+        (6) **Validaci&oacute;n de la respuesta** Se recibe respuesta por parte del [Usuario/Jefe] indicando [reconoce/no reconoce] la actividad.
+<br><br>
+
+        En caso de no reconocer la actividad...
+<br><br>
+        a.- Derivado de la validaci&oacute;n realizada, el [usuario/jefe] indica no reconocer la conexi&oacute;n, en consecuencia el evento se considera de riesgo , por lo que se procede a la aplicaci&oacute;n de las medidas de contenci&oacute;n correspondientes.
+<br><br>
+        b.- Solicitar los bloqueos con las &aacute;reas correspondientes... y documentar acciones.
+<br><br>
+
+
+        </p>
+        
+
+    </div>
+ 
+
+
+
 <div *ngIf=" pais() == 'México'" >
     <p>Se procede al cierre debido a que se valida que la IP ORIGEN (**{{SrcIp()}}**) pertenece al país (**{{pais()}}**) </p>
 </div>
@@ -323,11 +427,7 @@
 
 <hr>
 
-<h1>Docuementacion</h1>
-
-<p> Se realiza el análisis de la IP Origen (**{{SrcIp()}}**), en la herramienta Cisco Talos, donde se determina que la IP pertenece a (**{{pais()}}**).</p>
-<p> Se realiza el análisis de la IP Origen (**{{SrcIp()}}**), en la herramienta Virus Total, donde se determina que la IP pertenece a (**{{pais()}}**).</p>
-<p> Se realiza el análisis de la IP Origen (**{{SrcIp()}}**), en la herramienta IBM X-Force, donde se determina que la IP pertenece a (**{{pais()}}**).</p>    
+<h1>Para nombrar</h1>
 
 <p>Cisco_Talos_{{SrcIp()}}</p>
 <p>IBM_X_Force_{{SrcIp()}}</p>
@@ -335,5 +435,3 @@
 <p>WEBPHONE_{{user()}}</p>
 
 <hr>
-
-
