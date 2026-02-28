@@ -26,6 +26,12 @@ accion =signal('');
 userSO = signal('');
 tipoObj = signal(''); 
 
+car = signal<string>('Externo');
+  cars: string[] = ['Externo', 'Interno'];
+  
+  cargo= signal('');
+  jefe = signal('');
+  empresa=signal('N/A');
 
 borrado= false
 
@@ -41,6 +47,9 @@ deleteData(){
   this.usrafectados.set('');
   this.tipoObj.set('')
   this.userSO.set('')
+  this.jefe.set('');
+  this.cargo.set(''); 
+  this.empresa.set(''); 
   this.borrado= true;
   setTimeout(() => this.borrado = false, 2000);
 }
@@ -101,6 +110,24 @@ deleteData(){
       this.usrafectados.set(newValue);
     };
 
+    cargoChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value.trim();
+    this.cargo.set(newValue);
+  };
+  
+      jefeChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value;
+    this.jefe.set(newValue);
+  };
+  
+    empresaChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value.trim();
+    this.empresa.set(newValue);
+  };
+  
   copiado = false;
 
 copyContent(element: HTMLElement) {

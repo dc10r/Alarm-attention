@@ -27,6 +27,14 @@ tipodemov = signal('');
 userAfectados = signal(''); 
 hostdest = signal(''); 
 
+tecnologia = signal('')
+cargo= signal('');
+jefe = signal('');
+empresa=signal('N/A');
+
+car = signal<string>('Externo');
+cars: string[] = ['Externo', 'Interno'];
+  
 
 borrado= false
 
@@ -41,7 +49,10 @@ deleteData(){
   this.nombreUser.set(''); 
   this.tipodemov.set(''); 
   this.userAfectados.set(''); 
-  this.hostdest.set(''); 
+  this.hostdest.set('');
+  this.cargo.set('');
+  this.empresa.set('');
+  this.jefe.set(''); 
   setTimeout(() => this.borrado = false, 2000);
 }
 
@@ -135,7 +146,24 @@ deleteData(){
       this.hostdest.set(newValue);
     };
 
+      cargoChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value.trim();
+    this.cargo.set(newValue);
+  };
+  
+    jefeChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value;
+    this.jefe.set(newValue);
+  };
 
+ empresaChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value.trim();
+    this.empresa.set(newValue);
+  };
+  
 
   copiado = false;
 

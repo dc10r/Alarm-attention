@@ -14,6 +14,17 @@
         <input type="text" [value]="nombreusr()" (input)="nombreusrChangeHandler($event)"></td>
     </tr>
     <tr>
+        <td>
+        <p>Interno / Externo</p>
+        <label for="carSelect"></label>
+        <select id="carSelect" (change)="car.set($any($event.target).value)">
+            <option *ngFor="let c of cars" [value]="c">{{ c }}</option>
+        </select>
+        </td>
+
+        
+    </tr>
+    <tr>
         <td>IP origen  interna<br>
         <input type="text" [value]="iporg()" (input)="iporgChangeHandler($event)"></td>
         <td>IP destino interna <br>
@@ -105,6 +116,75 @@ Nota: Si no reconoce la conexi&oacute;n es probable que su usuario este siendo u
 </div>
 <hr>
 
-<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="nombreusr()" [accion]="'múltiples intentos de acceso fallido'"></app-puntos>
+<div>
+    <div *ngIf=" car() == 'Interno'">
+        <h1>DOCUMENTACI&oacute;N </h1>
 
+        2do. Escenario. M&aacute;s de 30 intentos en un minuto y/o 50 intentos en una hora desde una IP interna
+<br><br>
+        <h3>(1) </h3>
+        <br>**Descripci&oacute;n del evento:**
+        <br>
+        Se recibe alerta por m&uacute;ltiples intentos fallidos de autenticaci&oacute;n [+30 intentos en un minuto o 50 en 1 hora] detectados sobre el elemento {{ipdest()}} desde la IP interna origen {{iporg()}} Se inicia la validaci&oacute;n del evento.
+        <br>
+        <h3>(2) </h3>
+        <br>
+        **Validaci&oacute;n de usuario:** Se realiza la validaci&oacute;n del usuario determinando que se trata de una cuenta:
+        <br>
+        **Usuario Interno:** 
+        <br>
+        **Cuenta de servicio:** {{usrej()}}
+<br>
+        <h3>(3) </h3>
+        <br>
+        **Notificaci&oacute;n:** Se notifica al usuario ejecutor acerca del evento para validaci&oacute;n de la actividad.
+<br>
+        <h3>(4) </h3>
+        <br>
+        **Respuesta del usuario:** [detalle de la respuesta]
+<br>
+        <h3>(5) </h3>
+        <br>
+        **Validaci&oacute;n de respuesta:**
+<br>
+        RESPUESTA VALIDA **Validaci&oacute;n de respuesta:** Se valida directamente con el usuario la actividad reportada, quien confirma que corresponde a acciones leg&iacute;timas derivadas de: [FOLIO DE LA actividad/detalle]. No se evidencian anomal&iacute;as adicionales. En virtud de lo anterior, se determina cierre sin afectaci&oacute;n de seguridad.
+<br>
+        RESPUESTA NO VALIDA **Validaci&oacute;n de respuesta:** Actividad no justificada y sin folio de respaldo. Se mantiene caso en seguimiento y se escala al equipo de Tier II para definici&oacute;n de acciones.
+    </div>
+<div *ngIf=" car() == 'Externo'">
+        <h1>DOCUMENTACI&oacute;N </h1>
+
+        2do. Escenario. M&aacute;s de 30 intentos en un minuto y/o 50 intentos en una hora desde una IP interna
+<br><br>
+       <h3> (1) </h3>
+        <br>**Descripci&oacute;n del evento:**
+        <br>
+        Se recibe alerta por m&uacute;ltiples intentos fallidos de autenticaci&oacute;n [+30 intentos en un minuto o 50 en 1 hora] detectados sobre el elemento {{ipdest()}} desde la IP interna origen {{iporg()}} Se inicia la validaci&oacute;n del evento.
+        <br>
+        <h3>(2) </h3>
+        <br>
+        **Validaci&oacute;n de usuario:** Se realiza la validaci&oacute;n del usuario determinando que se trata de una cuenta:
+        <br>
+        **Usuario Externo:** 
+        <br>
+        **Cuenta de servicio:** {{usrej()}}
+<br>
+        <h3>(3) </h3>
+        <br>
+        **Notificaci&oacute;n:** Se notifica al usuario ejecutor acerca del evento para validaci&oacute;n de la actividad.
+<br>
+        <h3>(4) </h3>
+        <br>
+        **Respuesta del usuario:** [detalle de la respuesta]
+<br>
+        <h3>(5)</h3> 
+        <br>
+        **Validaci&oacute;n de respuesta:**
+<br>
+        RESPUESTA VALIDA **Validaci&oacute;n de respuesta:** Se valida directamente con el usuario la actividad reportada, quien confirma que corresponde a acciones leg&iacute;timas derivadas de: [FOLIO DE LA actividad/detalle]. No se evidencian anomal&iacute;as adicionales. En virtud de lo anterior, se determina cierre sin afectaci&oacute;n de seguridad.
+<br>
+        RESPUESTA NO VALIDA **Validaci&oacute;n de respuesta:** Actividad no justificada y sin folio de respaldo. Se mantiene caso en seguimiento y se escala al equipo de Tier II para definici&oacute;n de acciones.
+    </div>
+
+</div>
 

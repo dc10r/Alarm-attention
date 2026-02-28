@@ -116,31 +116,48 @@
         <button (click)="copydotsContent(puntosToCopy)">  
     {{ copiadodots ? 'Copiado!' : 'Copiar' }}
         </button>
-<div #puntosToCopy>
-
-<p>Se realiza el an&aacute;lisis de los campos involucrados en esta alerta.</p>
-
-<!-- 5 sin nombre-->
-<p *ngIf="atendido_Por == 'N/A'">
-- Descripci&oacute;n del evento/Incidente: Se recibe alertamiento de {{alerta()}} <br>
-- Impacto/Potencial: CRITICA. <br>
-- Reportado a: TIER II <br>
-- Hallazgos: Se observa la {{alerta()}}<br>
-- Retroalimentaci&oacute;n:  Se crea caso para notificaci&oacute;n de alertamiento, se notifica y escala al equipo de TIER II <br>
-
-</p>
-<!-- 5 con nombre -->
-<p *ngIf="atendido_Por != 'N/A'">
-- Descripci&oacute;n del evento/Incidente: Se recibe alertamiento de {{alerta()}} <br>
-- Impacto/Potencial: CRITICA. <br>
-- Reportado a: TIER II <br>
-- Hallazgos: Se observa la {{alerta()}}<br>
-- Retroalimentaci&oacute;n:  Se crea caso para notificaci&oacute;n de alertamiento, se notifica y escala al equipo de TIER II <br>
-- Atendido por: {{atendido_Por}} <br>
-</p>
-</div>
+    <div #puntosToCopy></div>
 <hr>
-<p>Se notifica y escala al equipo de TIER II, Se adjunta evidencia.</p>
+<div>
 
+    <h1>DOCUMENTACI&oacute;N</h1>
+<br>
+    <h3>(1) </h3>
+    <br>
+    **Descripci&oacute;n del evento:**
+<br>
+    **Descripci&oacute;n del evento:** Se identifica alertamiento de conexi&oacute;n vinculada a un usuario dado de baja de la instituci&oacute;n hacia la aplicaci&oacute;n {{aplicacion()}}.
+    Se inicia la validaci&oacute;n del evento.
+<br>
+    **Usuario:** {{attuid()}}<br>
+    **Nombre:** {{nombre()}} <br>
+    <h3>(2) </h3>
+    <br>
+    **Notificaci&oacute;n:** Se notifica y escala al equipo de TIER II para validaci&oacute;n y atenci&oacute;n del evento.
+<br>
+    TIER II
+    <br>
+    op 1. (Verdadero) 
+    <br>
+    (4) **Investigaci&oacute;n:** Se identifica una conexi&oacute;n [**exitosa**] por lo que se valida el estatus del usuario, actividad y movimientos durante la sesi&oacute;n, detectando [Detalle de movimientos e informaci&oacute;n de la sesi&oacute;n]
+    <br>
+    (5) **Solicitud de acciones de contenci&oacute;n:** Se solicita ejecutar contenci&oacute;n inmediata mediante bloqueo o deshabilitaci&oacute;n del acceso y confirmar las acciones realizadas.
+    <br>
+    (6) **Validaci&oacute;n de estatus de usuario:** Se contacta al jefe responsable del usuario que realiza la conexi&oacute;n.
+    <br>
+    (Respuesta no mas de 12 horas)
+    <br>
+    (7) **Validaci&oacute;n de respuesta** [Detalle de respuesta]
+    <br>
+    En caso de reingreso cerrar caso, en caso contrario escalar a TIER III
+    <br>
+    Op 2. (Falso) 
+    <br>**Investigaci&oacute;n:** Se identifica una conexi&oacute;n [** no exitosa**]. Al no existir conexi&oacute;n exitosa ni interacci&oacute;n con los sistemas, el evento se clasifica sin impacto de seguridad y se procede al cierre del caso
+    <br>
 
-
+    CIERRE
+<br>
+    (5) **Conclusi&oacute;n** [Detalle de la conclusi&oacute;n]
+    <br>
+    Reingreso: Se valida que el usuario cuenta con reingreso formal a la instituci&oacute;n, por lo que la actividad detectada corresponde a operaci&oacute;n leg&iacute;tima. No se identifican indicios de uso indebido de credenciales ni afectaci&oacute;n a los sistemas. Se procede al cierre del caso.
+</div>

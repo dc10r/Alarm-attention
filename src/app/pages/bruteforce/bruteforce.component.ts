@@ -22,6 +22,13 @@ iporg =signal('N/A');
 ipdestp =signal('N/A');
 iporgp =signal('N/A');
 
+car = signal<string>('Externo');
+  cars: string[] = ['Externo', 'Interno'];
+  
+  cargo= signal('');
+  jefe = signal('');
+    empresa=signal('N/A');
+
 borrado= false
 
 deleteData(){
@@ -35,7 +42,9 @@ deleteData(){
   this.iporg.set('N/A');
   this.ipdestp.set('N/A');
   this.iporgp.set('N/A');
-
+  this.jefe.set('');
+  this.cargo.set('');
+    this.empresa.set('');
   this.borrado= true;
   setTimeout(() => this.borrado = false, 2000);
 }
@@ -94,7 +103,23 @@ deleteData(){
       newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
       this.ipdestp.set(newValue);
     };
+  cargoChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value.trim();
+    this.cargo.set(newValue);
+  };
+  
+      jefeChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value;
+    this.jefe.set(newValue);
+  };
 
+      empresaChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value.trim();
+    this.empresa.set(newValue);
+  };
 
     copiado = false;
 

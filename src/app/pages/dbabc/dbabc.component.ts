@@ -26,6 +26,13 @@ Userafec = signal('');
 aplicacion = signal('');
 borrado= false
 
+car = signal<string>('Externo');
+cars: string[] = ['Externo', 'Interno'];
+  
+cargo= signal('');
+jefe = signal('');
+empresa=signal('N/A');  
+
 
 deleteData(){
   this.alerta.set(''); 
@@ -37,7 +44,9 @@ deleteData(){
   this.tipodeObj.set(''); 
   this.nombreUser.set(''); 
   this.tipodeMov.set(''); 
-  this.Userafec.set(''); 
+  this.Userafec.set('');
+  this.cargo.set('');
+  this.jefe.set(''); 
   this.borrado= true;
   setTimeout(() => this.borrado = false, 2000);
 }
@@ -124,6 +133,24 @@ UserafecChangeHandler (event: Event) {
   this.Userafec.set(newValue);
 };
 
+  cargoChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value.trim();
+    this.cargo.set(newValue);
+  };
+
+      jefeChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value;
+    this.jefe.set(newValue);
+  };
+
+      empresaChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value.trim();
+    this.empresa.set(newValue);
+  };
+  
 
 copiado = false;
 

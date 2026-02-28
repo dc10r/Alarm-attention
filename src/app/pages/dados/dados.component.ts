@@ -21,6 +21,7 @@ fechaBaja = signal('');
 attuid = signal(''); 
 iporg = signal(''); 
 nombre = signal(''); 
+aplicacion =signal(''); 
 accion = signal('LOGIN');
 borrado= false
 
@@ -37,13 +38,19 @@ deleteData(){
   setTimeout(() => this.borrado = false, 2000);
 }
 
-alertaChangeHandler (event: Event) {
+     alertaChangeHandler(event: Event) {
   const input = event.target as HTMLInputElement;
-  let newValue = input.value;
-  newValue = input.value.trim();
-  newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
+  const newValue = input.value.trim();
   this.alerta.set(newValue);
-};
+
+  let appName = "ATT";
+
+  if (newValue.includes(':')) {
+    appName = newValue.split(':')[0].trim();
+  }
+
+  this.aplicacion.set(appName);
+}
 
 normativaChangeHandler (event: Event) {
   const input = event.target as HTMLInputElement;

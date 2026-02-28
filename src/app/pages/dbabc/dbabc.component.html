@@ -20,8 +20,27 @@
         <input type="text" [value]="userSo()" (input)="userSoChangeHandler($event)"></td>
         
         <td>Nombre de Usuario<br>
-        <input type="text" [value]="nombreUser()" (input)="nombreUserChangeHandler($event)"></td>
+        <input type="text" [value]="nombreUser()" (input)="nombreUserChangeHandler($event)"></td>        
+    </tr>
+    <tr>
+        <td><p>Cargo</p>
+        <input type="text" [value]="cargo()" (input)="cargoChangeHandler($event)">
+        </td>
         
+        <td><p>Jefe</p>
+        <input type="text" [value]="jefe()" (input)="jefeChangeHandler($event)">
+        </td>
+
+               <td>
+            <p>Interno / Externo</p>
+            <label for="carSelect"></label>
+            <select id="carSelect" (change)="car.set($any($event.target).value)">
+                <option *ngFor="let c of cars" [value]="c">{{ c }}</option>
+            </select>
+        </td>
+        <td><p>Empresa</p>
+        <input type="text" [value]="empresa()" (input)="empresaChangeHandler($event)"></td>
+
     </tr>
     
     <tr>
@@ -33,7 +52,8 @@
 
         <td>Tipo de movimiento:<br>
         <input type="text" [value]="tipodeMov()" (input)="tipodeMovChangeHandler($event)"></td>
-
+    </tr>
+    <tr>
         <td>Usuario afectado:<br>
         <input type="text" [value]="Userafec()" (input)="UserafecChangeHandler($event)"></td>
    
@@ -123,5 +143,113 @@
 <p>Saludos.</p>
 </div>
 <hr>
+<div>
+        <h1>
+            DOCUMENTACI&oacute;N
+        </h1>
+<div *ngIf=" car() == 'Interno'" >
+       <h3> (1) </h3>
+        <br>
+        **Descripci&oacute;n del evento:**
+    <br>
+        Se detecta actividad de ABC de usuarios (Creaci&oacute;n/Baja/Actualizaci&oacute;n) generada por el usuario: **{{userEje()}}** ({{nombreUser()}} - {{cargo()}}) en la aplicaci&oacute;n: **{{aplicacion()}}**, con afectaci&oacute;n al usuario: **{{Userafec()}}**; se inicia validaci&oacute;n del evento.
+    <br>
+        <h3>(2) </h3>
+    <br>
+        **Validaci&oacute;n del evento:**
+    <br>
+        Se realiza la validaci&oacute;n del usuario <br>
+        • **Webphone** Validaci&oacute;n de los datos del usuario <br>
 
-<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="nombreUser()" [accion]="tipodeMov()"></app-puntos>
+        **Usuario interno** <br>
+
+        **Nombre: {{nombreUser()}}** <br>
+        **Cargo: {{cargo()}}**<br>
+        **Empresa: {{empresa()}}**<br>
+        **Jefe Directo: {{jefe()}}** <br>
+    <br>
+        <h3>(3) </h3>
+    <br>
+        **Notificaci&oacute;n:** Se contacta al usuario **{{nombreUser()}}** para validar el cambio del alertamiento
+    <br>
+        <h3>(4) </h3>
+    <br>
+        (en caso de aplicar)
+    <br>
+        **Seguimiento:** Se env&iacute;a correo de seguimiento solicitando respuesta al usuario del evento notificado previamente.
+    <br>    
+       <h3> (5)</h3>
+    <br> 
+        **Validaci&oacute;n de la respuesta** Se recibe respuesta por parte del {{nombreUser()}} indicando [detalle de la respuesta]
+    <br>
+        En caso de ser justificada la actividad... <br>
+        Si hay folio Validar con TII <br>
+        Si no hay folio, validar con AU <br>
+    <br>
+        Teniendo las validaciones pasar a tarea de cierre...
+    <br>    
+        No validado, escalar TII
+
+    <br><br>
+</div>
+
+<div *ngIf=" car() == 'Externo'" >
+        <h3>(1) </h3>
+        <br>
+        **Descripci&oacute;n del evento:**
+    <br>
+        Se detecta actividad de ABC de usuarios (Creaci&oacute;n/Baja/Actualizaci&oacute;n) generada por el usuario: **{{userEje()}}** ({{nombreUser()}} - {{cargo()}}) en la aplicaci&oacute;n: **{{aplicacion()}}**, con afectaci&oacute;n al usuario: **{{Userafec()}}**; se inicia validaci&oacute;n del evento.
+    <br>
+        <h3>(2) </h3>
+    <br>
+        **Validaci&oacute;n del evento:**
+    <br>
+        Se realiza la validaci&oacute;n del usuario
+        <br>
+        • **Webphone** Validaci&oacute;n de los datos del usuario
+<br>
+        **Usuario Externo**<br>
+        **Nombre: {{nombreUser()}}**<br>
+        **Cargo: {{cargo()}}**<br>
+        **Empresa: {{empresa()}}**<br>
+        **Jefe Directo: {{jefe()}}**<br>
+        <h3>(3) </h3>
+
+    <br>
+        **Notificaci&oacute;n:** Se contacta al usuario **{{nombreUser()}}** para validar el cambio del alertamiento
+    <br>
+        <h3>(4) </h3>
+    <br>
+        (en caso de aplicar)
+    <br>
+        **Seguimiento:** Se env&iacute;a correo de seguimiento solicitando respuesta al usuario del evento notificado previamente.
+    <br>    
+       <h3> (5)</h3>
+    <br> 
+        **Validaci&oacute;n de la respuesta** Se recibe respuesta por parte del {{nombreUser()}} indicando [detalle de la respuesta]
+    <br>
+        En caso de ser justificada la actividad... <br>
+        Si hay folio Validar con TII <br>
+        Si no hay folio, validar con AU <br>
+    <br>
+        Teniendo las validaciones pasar a tarea de cierre...
+    <br>    
+        No validado, escalar TII
+
+    <br><br>
+</div>
+
+
+<div>
+    <h1>CIERRE</h1>
+    <br>
+        (1) Conclusi&oacute;n:
+    <br>
+        El {{nombreUser()}}, confirma que el movimiento **(Alta/baja/cambio)** corresponde a una actividad valida debido a **[detalle de la actividad]**. Por lo anterior se procede al cierre del caso.
+    <br>
+        (2) 
+    <br>    
+        **Autorizaci&oacute;n para cierre:** Se da Vo.Bo para el cierre del caso por parte de Supervisi&oacute;n (NOMBRE)
+</div>
+
+</div>

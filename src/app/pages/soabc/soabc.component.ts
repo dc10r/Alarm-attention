@@ -22,6 +22,12 @@ nombreUser = signal('');
 tipodeMov = signal('');
 aplicacion = signal('');
 
+  car = signal<string>('Externo');
+  cars: string[] = ['Externo', 'Interno'];
+  
+  cargo= signal('');
+  jefe = signal('');
+  empresa=signal('N/A');
 borrado= false
 
 deleteData(){
@@ -32,7 +38,10 @@ deleteData(){
   this.Userafec.set(''); 
   this.hostname.set(''); 
   this.nombreUser.set(''); 
-  this.tipodeMov.set(''); 
+  this.tipodeMov.set('');
+  this.jefe.set(''); 
+  this.cargo.set('');
+  this.empresa.set('');
   this.borrado= true;
   setTimeout(() => this.borrado = false, 2000);
 }
@@ -104,7 +113,17 @@ tipodeMovChangeHandler (event: Event) {
   this.tipodeMov.set(newValue);
 };
 
-
+  cargoChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value.trim();
+    this.cargo.set(newValue);
+  };
+  
+      jefeChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value;
+    this.jefe.set(newValue);
+  };
 
 
 copiado = false;
@@ -144,5 +163,10 @@ const blob = new Blob([text], { type: 'text/html' });
     setTimeout(() => this.copiado = false, 2000);
 }
 
+    empresaChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value.trim();
+    this.empresa.set(newValue);
+  };
 
 }

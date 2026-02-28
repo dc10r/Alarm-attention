@@ -291,14 +291,18 @@
 <div #docToCopy >
     <div *ngIf=" car() == 'Interno'" >
 
-    <p>
+    
         
-        (1) **Descripci&oacute;n del evento:**
+        <h3>(1) </h3>
+        <br>
+        **Descripci&oacute;n del evento:**
  <br>
 
         Se detecta conexi&oacute;n del usuario **{{user()}}**, mediante VPN Enterprise con IP origen: **{{SrcIp()}}** correspondiente al pa&iacute;s {{pais()}} con destino **{{destIP()}}**; se inicia validaci&oacute;n del evento.
 <br><br>
-        (2) **Validaci&oacute;n del evento:**
+        <h3>(2) </h3>
+        <br>
+        **Validaci&oacute;n del evento:**
 <br>
         Se realiza el an&iacute;lisis de la IP de origen **{{SrcIp()}}** mediante distintas fuentes de inteligencia:
 <br>
@@ -321,22 +325,32 @@
 <br><br>
 
  (En caso de que no exista acuerdo de excepci&oacute;n) 
-        (3) **Validaci&oacute;n de excepciones**
+        <h3>(3) </h3>
+        <br>
+        **Validaci&oacute;n de excepciones**
 <br>
         Se consulta el registro de excepciones vigente, sin identificar alg&uacute;n acuerdo o excepci&oacute;n asociado al evento.
 <br><br>
         (En caso de excepci&oacute;n) 
-       (3) **Validaci&oacute;n de excepciones**
+       <h3>(3) </h3>
+       <br>
+       **Validaci&oacute;n de excepciones**
     <br>
         Se consulta el registro de excepciones vigente, identificando que existe un acuerdo operativo autorizado para excepci&oacute;n.
 
 <br><br>
 
-        (4) **Notificaci&oacute;n:** Se contacta al usuario **{{user()}}** para validar la conexi&oacute;n de la VPN y su ubicaci&oacute;n.
+        <h3>(4) </h3>
+        <br>
+        **Notificaci&oacute;n:** Se contacta al usuario **{{user()}}** para validar la conexi&oacute;n de la VPN y su ubicaci&oacute;n.
 <br><br>
-        (5) **Seguimiento:** Se env&iacute;a correo de seguimiento solicitando respuesta al usuario del evento notificado previamente.(en caso de aplicar)
+        <h3>(5) </h3>
+        <br>
+        **Seguimiento:** Se env&iacute;a correo de seguimiento solicitando respuesta al usuario del evento notificado previamente.(en caso de aplicar)
 <br><br>
-        (6) **Validaci&oacute;n de la respuesta** Se recibe respuesta por parte del [Usuario/Jefe] indicando [reconoce/no reconoce] la actividad.
+        <h3>(6) </h3>
+        <br>
+        **Validaci&oacute;n de la respuesta** Se recibe respuesta por parte del [Usuario/Jefe] indicando [reconoce/no reconoce] la actividad.
 <br><br>
 
         En caso de no reconocer la actividad...
@@ -347,20 +361,24 @@
 <br><br>
 
 
-        </p>
+        
         
 
     </div>
     <div *ngIf=" car() == 'Externo'" >
 
-    <p>
+    
         
-        (1) **Descripci&oacute;n del evento:**
+        <h3>(1) </h3>
+        <br>
+        **Descripci&oacute;n del evento:**
  <br>
 
         Se detecta conexi&oacute;n del usuario **{{user()}}**, mediante VPN Enterprise con IP origen: **{{SrcIp()}}** correspondiente al pa&iacute;s {{pais()}} con destino **{{destIP()}}**; se inicia validaci&oacute;n del evento.
 <br><br>
-        (2) **Validaci&oacute;n del evento:**
+        <h3>(2) </h3>
+        <br>
+        **Validaci&oacute;n del evento:**
 <br>
         Se realiza el an&iacute;lisis de la IP de origen **{{SrcIp()}}** mediante distintas fuentes de inteligencia:
 <br>
@@ -384,23 +402,33 @@
 
  (En caso de que no exista acuerdo de excepci&oacute;n) 
 <br><br>
-        (3) **Validaci&oacute;n de excepciones**
+        <h3>(3) </h3>
+        <br>
+        **Validaci&oacute;n de excepciones**
 <br>
         Se consulta el registro de excepciones vigente, sin identificar alg&uacute;n acuerdo o excepci&oacute;n asociado al evento.
 <br><br>
         (En caso de excepci&oacute;n) 
 <br><br>
-       (3) **Validaci&oacute;n de excepciones**
+       <h3>(3) </h3>
+       <br>
+       **Validaci&oacute;n de excepciones**
     <br>
         Se consulta el registro de excepciones vigente, identificando que existe un acuerdo operativo autorizado para excepci&oacute;n.
 
 <br><br>
 
-        (4) **Notificaci&oacute;n:** Se contacta al usuario **{{jefe()}}** para validar la conexi&oacute;n de la VPN y su ubicaci&oacute;n.
+        <h3>(4) </h3>
+        <br>
+        **Notificaci&oacute;n:** Se contacta al usuario **{{jefe()}}** para validar la conexi&oacute;n de la VPN y su ubicaci&oacute;n.
 <br><br>
-        (5) **Seguimiento:** Se env&iacute;a correo de seguimiento solicitando respuesta al usuario del evento notificado previamente.(en caso de aplicar)
+       <h3> (5) </h3>
+        <br>
+        **Seguimiento:** Se env&iacute;a correo de seguimiento solicitando respuesta al usuario del evento notificado previamente.(en caso de aplicar)
 <br><br>
-        (6) **Validaci&oacute;n de la respuesta** Se recibe respuesta por parte del [Usuario/Jefe] indicando [reconoce/no reconoce] la actividad.
+        <h3>(6) </h3>
+        <br>
+        **Validaci&oacute;n de la respuesta** Se recibe respuesta por parte del [Usuario/Jefe] indicando [reconoce/no reconoce] la actividad.
 <br><br>
 
         En caso de no reconocer la actividad...
@@ -411,7 +439,7 @@
 <br><br>
 
 
-        </p>
+        
         
 
     </div>

@@ -18,6 +18,19 @@
         <input type="text" [value]="privilegedUser()" (input)="privilegedUserChangeHandler($event)"></td>
                     
     </tr>
+           <td>
+            <p>Interno / Externo</p>
+            <label for="carSelect"></label>
+            <select id="carSelect" (change)="car.set($any($event.target).value)">
+                <option *ngFor="let c of cars" [value]="c">{{ c }}</option>
+            </select>
+        </td>
+        <td><p>Cargo</p>
+        <input type="text" [value]="cargo()" (input)="cargoChangeHandler($event)"></td>
+	    <td><p>Empresa</p>
+        <input type="text" [value]="empresa()" (input)="empresaChangeHandler($event)"></td>
+        <td><p>Jefe</p>
+        <input type="text" [value]="jefe()" (input)="jefeChangeHandler($event)"></td>
     <tr>
         <td>IP origen <br>
         <input type="text" [value]="iporg()" (input)="iporgChangeHandler($event)"></td>
@@ -50,7 +63,7 @@
 <div #textToCopy>
 <p>{{tiempo}},
  <br><br>
- Le notificamos que se ha realizado un acceso con la cuenta privilegiada <b>{{privilegedUser()}}</b>, solicitamos de su ayuda para justificar la actividad.
+ Le notificamos que se ha realizado un acceso con la cuenta privilegiada <b>{{privilegedUser()}}</b>. Para fines de validaci&oacute;n, <b>solicitamos</b> de su apoyo compartiendo la justificaci&oacute;n de la actividad mediante el folio <b>REG/CHG/INC</b> que respalde su ejecuci&oacute;n.
  <br><br>
  Adjuntamos detalle del evento:
 </p>
@@ -104,7 +117,117 @@
 </div>
 
 <hr>
+<div>
+<div *ngIf=" car() == 'Externo'" >
+    <h1>DOCUMENTACI&oacute;N</h1>
+<br>
+    <h3>(1)</h3>
+<br> 
+    **Descripci&oacute;n del evento:**<br>
 
+    Se detecta evento por acceso a cuenta privilegiada al elemento **{{aplicacion()}}** con IP origen interna **{{iporg()}}**, realizado por el usuario {{usrej()}} {{nombreusr()}} con el usuario privilegiado {{privilegedUser()}}
+    Se inicia la validaci&oacute;n del evento.<br>
+    <br>
+   <h3>(2)</h3> 
+    <br>
+    Se realiza la validaci&oacute;n del usuario<br>
+    • **Webphone** Validaci&oacute;n de los datos del usuario<br>
+    **Usuario externo **<br>
+    **Nombre: {{nombreusr()}}**<br>
+    **Cargo: {{cargo()}}**<br>
+    **Empresa: {{empresa()}}**<br>
+    **Jefe Directo: {{jefe()}}**<br>
+    <h2>ATENCI&oacute;N!!!!!! ----------> En el caso especifico del usuario s14275 la alerta VDI_USUARIOS:ACPS, IP Origen: 201.130.47.32 / SE DEBERA CERRAR COMO FALSO POSITIVO.</h2>
 
-<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="nombreusr()" [accion]="'Actividad privilegiada'"></app-puntos>
+    <h3>(3)</h3> 
+    <br>
+    **Notificaci&oacute;n:** Se realiza notificaci&oacute;n al usuario ejecutor identificado para validaci&oacute;n y justificaci&oacute;n del acceso detectado.
+    <br><br>
+    <h3>(4)</h3> 
+    <br>
+    **Seguimiento:** [Indicar cualquier informaci&oacute;n respecto a la atenci&oacute;n del evento en proceso]
+    <br><br>
+    <h3>(5)</h3> 
+    <br>
+    **Validaci&oacute;n de la respuesta** Se recibe respuesta por parte del {{nombreusr()}} indicando [detalle de la respuesta]
+    En caso de ser justificada la actividad...
+    <br>
+    Si hay folio Validar con TII
+    <br><br>
+    <h3>(6)</h3> 
+    <br>
+    RESPUESTA VALIDA. **Justificaci&oacute;n:** El usuario confirma y justifica la actividad notificada, se adjunta el folio de respaldo de la actividad [Folio] y se determina como evento legitimo por lo que se procede al cierre del caso.
+    <br>
+    RESPUESTA NO VALIDA. **Justificaci&oacute;n:** No se cuenta con una justificaci&oacute;n valida con respecto al acceso a la cuenta privilegiada, por lo que se escala con el equipo de Tier II para su seguimiento.
+    <br>
+    Teniendo las validaciones pasar a tarea de cierre...
+    <br>
+    No validado, escalar TII
+    <br>
+    <h1>CIERRE</h1>
+    <br><br>
+    <h3>(7)</h3> 
+    <br>
+    **Conclusi&oacute;n** Se confirm&oacute; que el evento corresponde a una actividad legitima autorizada por parte del usuario.
+    <br><br>
+    <h3>(8) </h3>
+    <br>
+    **Se da Vo.Bo para el cierre del caso por parte de Supervisi&oacute;n [Nombre]
+    </div>
+<div *ngIf=" car() == 'Interno'" >
+    <h1>DOCUMENTACI&oacute;N</h1>
+<br>
+    <h3>(1)</h3>
+<br> 
+    **Descripci&oacute;n del evento:**<br>
 
+    Se detecta evento por acceso a cuenta privilegiada al elemento **{{aplicacion()}}** con IP origen interna **{{iporg()}}**, realizado por el usuario {{usrej()}} {{nombreusr()}} con el usuario privilegiado {{privilegedUser()}}
+    Se inicia la validaci&oacute;n del evento.<br>
+    <br>
+    <h3>(2)</h3> 
+    <br>
+    Se realiza la validaci&oacute;n del usuario<br>
+    • **Webphone** Validaci&oacute;n de los datos del usuario<br>
+    **Usuario Interno **<br>
+    **Nombre: {{nombreusr()}}**<br>
+    **Cargo: {{cargo()}}**<br>
+    **Empresa: {{empresa()}}**<br>
+    **Jefe Directo: {{jefe()}}**<br>
+    <h2>ATENCI&oacute;N!!!!!! ----------> En el caso especifico del usuario s14275 la alerta VDI_USUARIOS:ACPS, IP Origen: 201.130.47.32 / SE DEBERA CERRAR COMO FALSO POSITIVO.</h2>
+
+    <h3>(3) </h3>
+    <br>
+    **Notificaci&oacute;n:** Se realiza notificaci&oacute;n al usuario ejecutor identificado para validaci&oacute;n y justificaci&oacute;n del acceso detectado.
+    <br><br>
+    <h3>(4)</h3> 
+    <br>
+    **Seguimiento:** [Indicar cualquier informaci&oacute;n respecto a la atenci&oacute;n del evento en proceso]
+    <br><br>
+    <h3>(5)</h3> 
+    <br>
+    **Validaci&oacute;n de la respuesta** Se recibe respuesta por parte del {{nombreusr()}} indicando [detalle de la respuesta]
+    En caso de ser justificada la actividad...
+    <br>
+    Si hay folio Validar con TII
+    <br><br>
+    <h3>(6)</h3> 
+    <br>
+    RESPUESTA VALIDA. **Justificaci&oacute;n:** El usuario confirma y justifica la actividad notificada, se adjunta el folio de respaldo de la actividad [Folio] y se determina como evento legitimo por lo que se procede al cierre del caso.
+    <br><br>
+    RESPUESTA NO VALIDA. **Justificaci&oacute;n:** No se cuenta con una justificaci&oacute;n valida con respecto al acceso a la cuenta privilegiada, por lo que se escala con el equipo de Tier II para su seguimiento.
+    <br><br>
+    Teniendo las validaciones pasar a tarea de cierre...
+    <br><br>
+    No validado, escalar TII
+    <br>
+    <h1>CIERRE</h1>
+    <br><br>
+    <h3>(7)</h3> 
+    <br>
+    **Conclusi&oacute;n** Se confirm&oacute; que el evento corresponde a una actividad legitima autorizada por parte del usuario.
+    <br><br>
+    <h3>(8) </h3>
+    <br>
+    **Se da Vo.Bo para el cierre del caso por parte de Supervisi&oacute;n [Nombre]
+    </div>
+</div>

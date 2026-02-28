@@ -12,7 +12,7 @@ export class AcpsComponent {
 @Input() atendido_Por!: String;
 
 
-aplicacion = <string>('Windows,lunix, etc');
+aplicacion = signal('Windows,lunix, etc');
 alerta =signal('alerta');
 fecha =signal('2025-05-20 08:00');
 host =signal('N/A');
@@ -22,6 +22,14 @@ ipdest =signal('');
 iporg =signal('');
 normativa =signal('');
 privilegedUser =signal('');
+
+  car = signal<string>('Externo');
+  cars: string[] = ['Externo', 'Interno'];
+  
+  cargo= signal('');
+  jefe = signal('');
+  empresa=signal('N/A');
+
 
 borrado= false
 
@@ -35,17 +43,21 @@ deleteData(){
   this.iporg.set('');
   this.normativa.set('');
   this.privilegedUser.set('');
+  this.jefe.set('');
+  this.cargo.set('');
+  this.empresa.set('');
+ 
   this.borrado= true;
   setTimeout(() => this.borrado = false, 2000);
 }
 
-
-    alertaChangeHandler (event: Event) {
+  alertaChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
       const newValue = input.value.trim();
       this.alerta.set(newValue);
-      const aplicacion = this.alerta().split(': ')[0];
 
+      const appName = newValue.split(': ')[0];
+      this.aplicacion.set(appName);
     };
     fechaChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;
@@ -88,6 +100,23 @@ deleteData(){
       this.ipdest.set(newValue);
     };
 
+  cargoChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value.trim();
+    this.cargo.set(newValue);
+  };
+  
+      jefeChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value;
+    this.jefe.set(newValue);
+  };
+
+      empresaChangeHandler (event: Event) {
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value.trim();
+    this.empresa.set(newValue);
+  };
 
   copiado = false;
 
