@@ -23,7 +23,7 @@ import { DadosComponent } from '../dados/dados.component';
 export class WindowComponent {
 
   alerta= signal<string>('Inicio');
-  alertas: string[] = ['Inicio','VPN','ACPS','App abc','DB abc','SO abc','NE abc', 'BD Mov Crea Modi Dep' , 'Interrupción de Eventos','Dados de baja','Brute Force .25','Brute Force (.50/.100)', 'Table Space'];
+  alertas: string[] = ['Inicio','VPN','ACPS','App abc','DB abc','SO abc','NE abc', 'BD Mov Crea Modi Dep' , 'Interrupción de Eventos','Dados de baja','Brute Force .25','Brute Force (.30/.50/.100)', 'Table Space'];
 
 
   tiempo = signal<string>('Buenos días');

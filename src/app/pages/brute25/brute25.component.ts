@@ -17,7 +17,8 @@ export class Brute25Component {
 
 aplicacion = signal('');
 alerta = signal(''); 
-fecha = signal(''); 
+fecha = signal('');
+normativa = signal(''); 
 serviciosIden = signal(''); 
 ipOrg = signal(''); 
 ipDest = signal(''); 
@@ -32,7 +33,8 @@ deleteData(){
   this.serviciosIden.set(''); 
   this.ipOrg.set(''); 
   this.ipDest.set(''); 
-  this.cantInt.set(''); 
+  this.cantInt.set('');
+  this.normativa.set(''); 
 
   this.borrado= true;
   setTimeout(() => this.borrado = false, 2000);
@@ -55,6 +57,13 @@ fechaChangeHandler (event: Event) {
   newValue = input.value.trim();
   newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
   this.fecha.set(newValue);
+};
+normativaChangeHandler (event: Event) {
+  const input = event.target as HTMLInputElement;
+  let newValue = input.value;
+  newValue = input.value.trim();
+  newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
+  this.normativa.set(newValue);
 };
 
 serviciosIdenChangeHandler (event: Event) {

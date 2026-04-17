@@ -6,6 +6,9 @@
         <input type="text" [value]="fecha()" (input)="fechaChangeHandler($event)"></td>
         <td>Alerta <br>
         <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)"></td>
+        <td>Normativa<br>
+        <input type="text" [value]="normativa()" (input)="normativaChangeHandler($event)"></td>
+
     </tr>
     <tr>
 
@@ -52,7 +55,7 @@
 <div #textToCopy>
 <p>{{tiempo}}, <b>Seguridad Perimetral / IP Core / CSO Infraestructura</b>
  <br><br>
-Solicitamos su apoyo para la atención del incidente <b>[#Folio de incidente]</b> ejecutando las acciones de contención pertinentes. 
+Solicitamos su apoyo para la atención del incidente <b>[#Folio de incidente]</b> ejecutando las acciones de contenci&oacute;n pertinentes. 
 <br>
 Anexamos detalle del análisis:
 
@@ -71,7 +74,16 @@ Anexamos detalle del análisis:
             <th colspan="1">Tipo de amenaza:</th>
             <td colspan="3"><b>{{alerta()}}</b></td>
         </tr>
+ 
         <tr>
+            <th colspan="1">Normativa:</th>
+            <td colspan="3"><b>{{normativa()}}</b></td>
+        </tr>
+        <tr>
+            <th colspan="1">Fecha:</th>
+            <td colspan="3">{{fecha()}}</td>
+        </tr>
+         <tr>
             <th colspan="1">Servicio(s) <br>
                             identificado:</th>
             <td colspan="3">{{serviciosIden()}}</td>
@@ -98,7 +110,6 @@ Anexamos detalle del análisis:
 </div>
 <hr>
 
-<app-puntos [alerta]="alerta()" [atendido_Por]="atendido_Por" [nombreusr]="'Seguridad Perimetral / IP Core / CSO Infraestructura'" [accion]="'Multiples Intentos Fallidos'"></app-puntos>
-
+<h1>REVISAR DOCUMENTACION</h1>
 
 

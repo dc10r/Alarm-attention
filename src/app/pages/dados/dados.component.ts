@@ -21,9 +21,13 @@ fechaBaja = signal('');
 attuid = signal(''); 
 iporg = signal(''); 
 nombre = signal(''); 
+cargo = signal('');
 aplicacion =signal(''); 
 accion = signal('LOGIN');
 borrado= false
+
+car = signal<string>('Externo');
+cars: string[] = ['Externo', 'Interno', 'No identificado'];
 
 deleteData(){
   this.alerta.set(''); 
@@ -82,6 +86,13 @@ attuidChangeHandler (event: Event) {
   newValue = input.value.trim();
   newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
   this.attuid.set(newValue);
+};
+cargoChangeHandler (event: Event) {
+  const input = event.target as HTMLInputElement;
+  let newValue = input.value;
+  newValue = input.value.trim();
+  newValue = newValue.replace(/[\[\]\(\)\{\}]/g, '');
+  this.cargo.set(newValue);
 };
 
 iporgChangeHandler (event: Event) {

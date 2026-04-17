@@ -21,6 +21,7 @@ ipdest =signal('N/A');
 iporg =signal('N/A');
 ipdestp =signal('N/A');
 iporgp =signal('N/A');
+normativa =signal('N/A');
 
 car = signal<string>('Externo');
   cars: string[] = ['Externo', 'Interno'];
@@ -45,6 +46,7 @@ deleteData(){
   this.jefe.set('');
   this.cargo.set('');
     this.empresa.set('');
+        this.normativa.set('');
   this.borrado= true;
   setTimeout(() => this.borrado = false, 2000);
 }
@@ -68,6 +70,11 @@ deleteData(){
       const input = event.target as HTMLInputElement;
       const newValue = input.value.trim();
       this.nombreusr.set(newValue);
+    };
+    normativaChangeHandler (event: Event) {
+      const input = event.target as HTMLInputElement;
+      const newValue = input.value.trim();
+      this.normativa.set(newValue);
     };
     usrejChangeHandler (event: Event) {
       const input = event.target as HTMLInputElement;

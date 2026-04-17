@@ -5,6 +5,8 @@
         <input type="text" [value]="fecha()" (input)="fechaChangeHandler($event)"></td>
         <td>Alerta <br>
         <input type="text" [value]="alerta()" (input)="alertaChangeHandler($event)"></td>
+        <td>Normativa<br>
+        <input type="text" [value]="normativa()" (input)="normativaChangeHandler($event)"></td>
 
     </tr>
     <tr>
@@ -12,8 +14,6 @@
         <input type="text" [value]="usrej()" (input)="usrejChangeHandler($event)"></td>
         <td>Nombre Usuario <br>
         <input type="text" [value]="nombreusr()" (input)="nombreusrChangeHandler($event)"></td>
-    </tr>
-    <tr>
         <td>
         <p>Interno / Externo</p>
         <label for="carSelect"></label>
@@ -29,13 +29,7 @@
         <input type="text" [value]="iporg()" (input)="iporgChangeHandler($event)"></td>
         <td>IP destino interna <br>
         <input type="text" [value]="ipdest()" (input)="ipdestChangeHandler($event)"></td>
-    </tr>
-        <tr>
-        <td>IP origen  publica<br>
-        <input type="text" [value]="iporgp()" (input)="iporgpChangeHandler($event)"></td>
-        <td>IP destino publica <br>
-        <input type="text" [value]="ipdestp()" (input)="ipdestpChangeHandler($event)"></td>
-    </tr>
+    
     </table>
 </div>
 <div>
@@ -62,9 +56,9 @@
 <div #textToCopy>
 <p>{{tiempo}},
  <br><br>
- Se identificaron m&uacute;ltiples intentos de acceso fallido realizados con su usuario <b>{{usrej()}}</b>, por lo cual necesitamos que nos confirme que estos intentos fueron realizados por usted.
+ Se han identificado m&uacute;ltiples intentos fallidos de acceso asociados a su cuenta de usuario <b>{{usrej()}}</b>, por lo cual necesitamos que nos confirme si dichos intentos fueron realizados por usted.
 <br><br>
-Nota: Si no reconoce la conexi&oacute;n es probable que su usuario este siendo utilizado en alg&uacute;n proceso que se est&aacute; ejecutando autom&aacute;ticamente, solicitamos de su apoyo para realizar la revisión en la(s) IP que se detallan en la siguiente tabla.
+Nota: Si no reconoce la conexi&oacute;n es probable su usuario est&eacute; siendo utilizado en alg&uacute;n proceso que se ejecuta autom&aacute;ticamente. <b>Solicitamos</b> su apoyo para revisar la IP(s) que se detallan en la siguiente tabla.
 
 
 </p>
@@ -84,6 +78,10 @@ Nota: Si no reconoce la conexi&oacute;n es probable que su usuario este siendo u
             <td colspan="3"><b>{{alerta()}}</b></td>
         </tr>
         <tr>
+            <th colspan="1">Normativa:</th>
+            <td colspan="3"><b>{{normativa()}}</b></td>
+        </tr>
+        <tr>
             <th colspan="1">Fecha:</th>
             <td colspan="3">{{fecha()}}</td>
         </tr>
@@ -98,18 +96,13 @@ Nota: Si no reconoce la conexi&oacute;n es probable que su usuario este siendo u
             <td>{{iporg()}}</td>
             <th>IP destino interna:</th>
             <td>{{ipdest()}}</td>
-        </tr>
-                <tr>
-            <th>IP origen publica:</th>
-            <td>{{iporgp()}}</td>
-            <th>IP destino publica:</th>
-            <td>{{ipdestp()}}</td>
-        </tr>
+        
 
    </tbody>
 </table>
 <br><br>
-<p><b>Se adjunta concentrado del total de IP´s vistas en el alertamiento.</b></p>
+<p><b>Se adjunta concentrado del total de IP(s) vistas en el alertamiento.</b></p>
+<p>Se anexa mayor detalle a continuación:</p>
 <p>Quedo pendientes a sus comentarios</p>
 
 <p>Saludos</p>
