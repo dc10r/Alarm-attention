@@ -4,7 +4,7 @@ import {PuntosComponent} from '../puntos/puntos.component';
 
 @Component({
   selector: 'app-soabc',
-  imports: [CommonModule, PuntosComponent],
+  imports: [CommonModule],
   templateUrl: './soabc.component.html',
   styleUrl: './soabc.component.css'
 })

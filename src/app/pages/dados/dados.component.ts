@@ -5,7 +5,7 @@ import {PuntosComponent} from '../puntos/puntos.component';
 
 @Component({
   selector: 'app-dados',
-  imports: [CommonModule, PuntosComponent],
+  imports: [CommonModule],
   templateUrl: './dados.component.html',
   styleUrl: './dados.component.css'
 })

@@ -5,7 +5,7 @@ import {PuntosComponent} from '../puntos/puntos.component';
 
 @Component({
   selector: 'app-bd-mov',
-  imports: [PuntosComponent, CommonModule],
+  imports: [CommonModule],
   templateUrl: './bd-mov.component.html',
   styleUrl: './bd-mov.component.css'
 })

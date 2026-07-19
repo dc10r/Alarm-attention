@@ -4,7 +4,7 @@ import {PuntosComponent} from '../puntos/puntos.component';
 
 @Component({
   selector: 'app-apliabc',
-  imports: [CommonModule, PuntosComponent],
+  imports: [CommonModule],
   templateUrl: './apliabc.component.html',
   styleUrl: './apliabc.component.css'
 })

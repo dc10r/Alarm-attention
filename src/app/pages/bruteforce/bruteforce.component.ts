@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {PuntosComponent} from '../puntos/puntos.component'
 @Component({
   selector: 'app-bruteforce',
-  imports: [CommonModule, PuntosComponent],
+  imports: [CommonModule],
   templateUrl: './bruteforce.component.html',
   styleUrl: './bruteforce.component.css'
 })

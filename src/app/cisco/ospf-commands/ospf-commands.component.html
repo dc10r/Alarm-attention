@@ -1,0 +1,163 @@
+<h1>OSPF command</h1>
+
+initializes the OSPF process.<br>
+<b>router ospf process-id</b>
+
+<h2>under OSPF process</h2> <br>
+<b>router-id router-id</b> <br><br>
+
+makes the interface passive <br>
+<b>passive interface-id under the OSPF</b> <br><br>
+
+makes all interfaces passive. <br>
+<b>passive interface default</b> <br><br>
+
+advertise the default route <br>
+<b>default-information originate [always] [metric metric-value] [metric-type type-value] </b> <br><br>
+
+Plaintext authentication  enabled <br>
+<b>area area-id authentication</b> <br><br>
+
+MD5 authentication enabled <br>
+<b>area area-id authentication message-digest. </b><br><br>
+
+Area configured as a stub <br>
+<b>area area-id stub</b>. <br><br>
+
+Totally stubby area configuration. <br>
+<b>area area-id stub no-summary</b> <br><br>
+
+NSSA Configuration <br>
+<b>area area-id nssa [default-information-originate]</b> <br><br>
+
+totally NSSA <br>
+<b>area area-id nssa no-summary</b>. <br><br>
+
+changes the reference bandwidth for all OSPF interfaces associated with that process. <br>
+<b>auto-cost reference-bandwidth bandwidth-in-mbps</b> <br><br>
+
+ECMP setting overwritten <br>
+<b>maximum-paths maximum-paths</b><br><br>
+
+define the summarization range and associated <br>
+<b>area area-id range network subnet-mask [advertise | not-advertise] [cost metric]</b><br><br>
+
+external summarization <br>
+<b>summary-address network subnet-mask</b> <br><br>
+
+configure the virtual link <br>
+<b>area area-id virtual-link endpoint-RID</b> <br><br>
+
+
+
+<hr><h2>under interface</h2>
+
+Setting an interface priority<br>
+<b>ip ospf priority <0-255></b> <br><br>
+
+sets an interface as an OSPF broadcast network type <br>
+<b>ip ospf network broadcast</b> <br><br>
+
+sets an interface as an OSPF nonbroadcast network type. <br>
+<b>ip ospf network non-broadcast</b> <br><br>
+
+Neighbors are statically defined <br>
+<b>neighbor ip-address</b> <br><br>
+
+Set The OSPF network type point-to-multipoint <br>
+<b> ip ospf network point-to-multipoint </b>  <br><br>
+
+The OSPF hello timer is modified with <br>
+<b>ip ospf hello-interval 1-65,535.</b> <br><br>
+
+change the OSPF dead interval <br>
+<b>ip ospf dead-interval 1-65,535</b> <br><br>
+
+sets plaintext authentication only on that interface.<br>
+<b> ip ospf authentication</b> <br><br>
+
+plaintext password is configured<br>
+<b>ip ospf authentication-key password</b> <br><br>
+
+sets MD5 authentication for that interface <br>
+<b>ip ospf authentication message-digest</b> <br><br>
+
+sets the MD5 password. <br>
+<b>ip ospf message-digest-key key-number md5 password</b>  <br><br>
+
+
+OSPF cost set manually <br>
+<b>ip ospf cost 1-65535 under the interface. </b><br><br>
+
+<hr>
+
+<h2>view</h2>
+
+the process of forming an adjacency (detailed information for all of the states) <br>
+<b>debug ip ospf adj debug ip ospf adj</b> <br><br>
+
+OSPF-enabled interfaces <br>
+<b>show Ip ospf interface [brief </b> | interface-id]. <br><br>
+
+The network type <br>
+<b>show ip ospf interface | include Type</b> <br><br>
+
+Verifying OSPF Timers <br>
+<b>show ip ospf interface | i Timer|line</b> <br><br>
+
+provides the OSPF neighbor table <br>
+<b>show ip ospf neighbor [detail]</b>  <br><br>
+
+display OSPF routes <br>
+<b>show Ip route ospf</b> <br><br>
+
+Verifying authentication <br>
+<b>show ip ospf interface | i line|authentication </b> <br><br>
+
+OSPF LSAs 1<br>
+<b>show ip ospf database router</b> <br><br>
+
+OSPF LSAs 2 <br>
+<b>show ip ospf database network</b> <br><br>
+
+Type 3 LSAs <br>
+<b>show ip ospf database summary</b> <br><br>
+
+Type 5 LSAs in detail <br>
+<b>show ip ospf database external</b>.  <br><br>
+
+Type 4 LSAs <br>
+<b>show ip ospf database asbr-summary</b> <br><br>
+
+Type 7 LSA <br>
+<b>show ip ospf database nssa-external</b> <br><br>
+
+To verify the virtual link status <br>
+<b>show ip ospf virtual-links</b> <br><br>
+
+
+
+
+<!-- 
+
+<h1></h1> protoclo
+<h2></h2> tema
+<h3></h3> subtema
+<h4></h4>
+<h5></h5>
+<b></b>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+.

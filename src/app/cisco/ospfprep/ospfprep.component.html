@@ -1,0 +1,225 @@
+<p>ospfprep works!</p>
+<h1>Prepare for the Exam OSPF</h1>
+
+
+<h2>Description</h2>
+
+OSPF Areas
+
+OSPF backbone
+
+Area border routers
+
+OSPF packet types
+
+OSPF neighbor states
+
+Requirements of neighbor adjacency
+
+OSPF network statement
+
+Interface-specific configuration
+External OSPF routes
+
+The designated router
+
+Designated router elections
+
+DR and BDR placement
+OSPF network types
+
+Authentication
+
+
+<h2>Terms</h2>
+
+Router ID (RID)
+
+Hello packets
+
+Hello interval
+
+Dead interval
+
+Designated router (DR)
+
+Backup designated router
+(BDR)
+
+Interface priority
+
+Passive interface
+
+Shortest path first tree (SPT)
+
+Area border router (ABR)
+
+Backbone area
+
+Intra-area route
+
+Router LSA
+
+Network LSA
+
+Summary LSA
+
+Inter-area route
+
+External OSPF route
+
+
+<table border="1">
+<tr>
+<th>Task</th>
+<th> Command Syntax</th>
+</tr>
+<tr>
+<td>Initialize the OSPF process</td>
+<td> router ospf process-id</td>
+</tr>
+
+<tr>
+<td>Enable OSPF on network interfaces that match a specified network range for a specific OSPF area</td>
+<td> network ip-address wildcard-mask area area-id</td>
+</tr>
+
+<tr>
+<td>Enable OSPF on an explicit specific network interface for a specific OSPF area</td>
+<td> ip ospf process-id area area-id</td>
+</tr>
+
+
+<tr>
+<td>Configure a specific interface as passive</td>
+<td> passive interface-id</td>
+</tr>
+
+
+<tr>
+<td>Configure all interfaces as passive</td>
+<td>  passive interface default</td>
+</tr>
+
+<tr>
+<td>Advertise a default route into OSPF</td>
+<td>default-information originate [always] [metric metric-value] [metric-type type-value </td>
+</tr>
+
+<tr>
+<td>Modify the OSPF reference bandwidth for dynamic interface metric costing</td>
+<td>auto-cost reference-bandwidth bandwidth-in-mbps</td>
+</tr>
+
+<tr>
+<td>Configure the OSPF priority for a DR/BDR election</td>
+<td>ip ospf priority 0-255</td>
+</tr>
+
+<tr>
+<td>Statically configure an interface as a broadcast OSPF network type</td>
+<td>ip ospf network broadcast</td>
+</tr>
+
+<tr>
+<td>Statically configure an interface as a nonbroadcast OSPF network type</td>
+<td>ip ospf network non-broadcast</td>
+</tr>
+
+<tr>
+<td>Statically configure an interface as a point-to-point OSPF network type</td>
+<td>ip ospf network point-to-point</td>
+</tr>
+
+<tr>
+<td>Statically configure an interface as a point-to-multipoint OSPF network type</td>
+<td>ip ospf network point-to-multipoint</td>
+</tr>
+
+<tr>
+<td>Enable OSPF authentication for an area</td>
+<td> area area-id authentication [message-digest]</td>
+</tr>
+
+<tr>
+<td>Define the plaintext password for an interface</td>
+<td> ip ospf authentication-key password</td>
+</tr>
+
+<tr>
+<td>Define the MD5 password for an interface</td>
+<td>  ip ospf message-digest-key key-number md5 password</td>
+</tr>
+
+<tr>
+<td>Restart the OSPF process</td>
+<td>clear ip ospf process</td>
+</tr>
+
+<tr>
+<td>Display the OSPF interfaces on a router</td>
+<td> show ip ospf interface [brief | interface-id]</td>
+</tr>
+
+<tr>
+<td>Display the OSPF neighbors and their current states</td>
+<td>show ip ospf neighbor [detail]</td>
+</tr>
+
+<tr>
+<td>Display the OSPF routes that are installed in the RIB</td>
+<td>show ip route ospf</td>
+</tr>
+</table>
+
+<!-- 
+<h1></h1> protoclo
+<h2></h2> tema
+<h3></h3> subtema
+<h4></h4>
+<h5></h5>
+<b></b>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.

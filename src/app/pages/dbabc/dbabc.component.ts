@@ -4,7 +4,7 @@ import {PuntosComponent} from '../puntos/puntos.component';
 
 @Component({
   selector: 'app-dbabc',
-  imports: [CommonModule, PuntosComponent],
+  imports: [CommonModule],
   templateUrl: './dbabc.component.html',
   styleUrl: './dbabc.component.css'
 })

@@ -1,10 +1,10 @@
 .encabezado{
     display: flex;
-    color: aliceblue;
+    color: 84E296;
     justify-content: space-around;
     align-items: center;
     /*background-image: url("../land.jpg");*/
-    background-color: #C2EABD;
+    background-color: #81F499;
     /*border: 2px solid rgb(181, 0, 0);*/
     background-size: contain; 
     font-family: Arial, Helvetica, sans-serif;
@@ -23,13 +23,13 @@
 }
 
 .footer{
-    background-color: gray; 
+    background-color: #508AA8; 
     padding: 3px;
     display: flex;
     flex-direction: column;
     /*background-image: url("../cuadros.jpg");*/
     background-size: auto;
-    color: rgb(255, 254, 254);
+    color: #ffffff;
     justify-content: space-around;
     align-items: center;
         

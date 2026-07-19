@@ -5,7 +5,7 @@ import {PuntosComponent} from '../puntos/puntos.component';
 
 @Component({
   selector: 'app-brute25',
-  imports: [CommonModule, PuntosComponent],
+  imports: [CommonModule],
   templateUrl: './brute25.component.html',
   styleUrl: './brute25.component.css'
 })

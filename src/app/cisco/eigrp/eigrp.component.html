@@ -1,0 +1,559 @@
+<p>eigrp works!</p>
+<h1>EIGRP Enhanced interior Gateway Routing Protocol </h1>
+Characteristics
+<br>
+- is a distance vector routing protocol
+<br>
+- derivative of Interior Gateway Routing Protocol (IGRP) but includes support for variable length subnet masking (VLSM) and metrics capable of supporting higher-speed interfaces.
+<br>
+-  overcomes the deficiencies: with features such as unequal-cost load balancing, support for networks 255 hops away, and rapid convergence features.
+<br>
+-  uses a diffusing update algorithm (DUAL) to identify network paths and provides for fast convergence using precalculated loop-free backup paths.
+<br>
+- advertise incremental updates only as topology changes occur within a network.
+main concepts 
+<br>
+Successor route: The route with the lowest path metric to reach a destination
+<br>
+
+Successor:  The first next-hop router for the successor route.
+<br>
+Feasible distance (FD):  The metric value for the lowest-metric path to reach a destination. (lo que me cuesta llegar)
+<br>
+Reported distance: (RD):  Distance reported by a router to reach a prefix (el valor que reporta el next-hop)
+<br>
+Feasibility condition:  For a route to be considered a backup route, the RD received for that route must be less than the FD calculated locally RD <  FD
+<br>
+Feasible successor:  A route with that satisfies the feasibility condition is maintained as a backup route. The feasibility condition ensures that the backup route is loop free.
+<br>
+Successor route: La mejor ruta, tiene la metrica mas baja para llegar
+<br>
+Successor: el router que me indica la mejor ruta
+<br>
+Feasible distance: La metrica final del camino, agregando mis costos    
+<br>
+Reported distance: La metrica que cada router reporta, no agrego lo que me cuesta llegar a el
+<br>
+Feasible successor: La ruta que satisface la feasible condition, se vuelve el backup router 
+<br>
+Feasibility condition: la distancia que me reportan debe de ser menor a la distancia que me cuesta llegar usando la mejor ruta RD < FD
+
+<h3>show ip eigrp topology</h3>
+- Network prefix
+<br>
+- EIGRP neighbors that have advertised that prefix
+<br>
+- Metrics from each neighbor
+<br>
+- Values used for calculating the metric 
+
+
+<h1>Inter-Router Communication</h1>
+five different packet types
+<br>
+	Hello -> Used for discovery of EIGRP neighbors and for detecting when a neighbor is no longer available  
+<br>
+	Request -> Used to get specific information from one or more neighbors
+<br>
+	Update ->  Used to transmit routing and reachability information with other EIGRP neighbors
+<br>
+	Query ->  Sent out to search for another path during convergence
+<br>
+	Reply- >  Sent in response to a query packet
+<br>
+
+-  uses its own IP protocol number (88) and uses multicast packets where possible; it uses unicast packets when necessary. 
+<br>
+- Communication between routers is done with multicast using the group address 224.0.0.10 or the MAC address 01:00:5e:00:00:0a 
+<br>
+-  EIGRP uses multicast packets to reduce bandwidth consumed on a link (one packet to reach multiple devices). 
+<br>
+- Reliable Transport Protocol (RTP) to ensure that packets are delivered in order and to ensure that routers receive specific packets. A sequence number is included in each EIGRP packet. The sequence value zero does not require a response from the receiving EIGRP router; all other values require an ACK packet that includes the original sequence number.
+
+<h1>Forming EIGRP Neighbors</h1>
+The following parameters must match for the two routers to become neighbors:
+<br>
+• Metric formula K values
+<br>
+• Primary subnet matches
+<br>
+• Autonomous system number (ASN) matches
+<br>
+• Authentication parameters
+<br>
+
+<h2>Process EIGRP uses for forming neighbor adjacencies</h2>
+
+1 Hello / (both)
+<br>
+2 Update packet (Unicast) with Init Set / (beginner)
+<br>
+3 ACK / (receiver)<br>
+<br>
+4 Update packet (Unicast) routes sent / (beginner)
+<br>
+5 ACK / (receiver)<br>
+<br>
+6 Update Packet (Unicast) End of Table / (beginner)
+<br>
+7 ACK (receiver)
+<br>
+Use the show ip eigrp neighbors command to verify EIGRP neighbors The output lists:
+
+<br>
+
+- the IPv4 address of the neighboring device’s interface that sent the hello packet
+<br>
+- the local interface on the router used to reach that neighbor
+<br>
+- how long the local router will consider the neighboring router to be a neighbor
+<br>
+- how long the routers have been neighbors
+<br>
+- the amount of time it takes for the neighbors to communicate
+<br>
+- the number of EIGRP packets in a queue waiting to be sent to a neighbor
+<br>
+- a sequence number to keep track of the EIGRP packets to ensure that only newer packets from the neighbor are accepted and processed
+<br>
+
+When you use the network command, the EIGRP process is enabled on the interfaces that fall within the range of IP addresses identified by the command
+<br>
+
+You can confirm which interfaces are participating in the EIGRP process by using the show ip eigrp interfaces 
+
+<h1>EIGRP Configuration Modes</h1>
+
+two methods of EIGRP configuration are classic mode and named mode. 
+
+<h2>Classic Configuration Mode</h2>
+
+- Classic EIGRP :most of the configuration takes place in the EIGRP process, but some settings are configured under the interface configuration submode. Some of the settings that are set individually are hello advertisement interval, split-horizon, authentication, and summary route advertisements.
+
+<h1>command</h1>
+<h3>router eigrp as-number</h3>
+<h3>network ip-address [wildcard mask]</h3>
+<h4>named mode configuration </h4>
+Provides the following benefits:
+<br>
+- All the EIGRP configuration occurs in one location.
+<br>
+- Supports current EIGRP features and future developments.
+<br>
+- It supports multiple address families (including Virtual Routing and Forwarding [VRF] instances).
+<br>
+- Named mode provides a hierarchical configuration and stores settings in three 
+subsections
+<br>
+	- Address Family:  contains settings that are relevant to the global EIGRP AS operations, such as selection of network interfaces, EIGRP K values, logging settings, and stub settings
+<br>
+	- Interface:  submode contains settings  such as hello advertisement interval, split-horizon, authentication, and summary route advertisements. Commands can be assigned to a specific interface or to a default interface, in which case those settings are placed on all EIGRP-enabled interfaces. If there is a conflict between the default interface and a specific interface, the specific interface takes priority over the default interface
+<br>
+	- Topology: contains settings regarding the EIGRP topology database and how routes are presented to the router’s RIB. This section also contains route redistribution and administrative distance settings.
+
+<h3>show ip eigrp interfaces [&#123;interface-id [detail] | detail&#125;]</h3>
+
+Interface:  Interfaces running EIGRP.
+<br>
+Peers:  Number of peers detected on that interface.
+<br>
+Xmt Queue Un/Reliable:  Number of unreliable/reliable packets remaining in the transmit queue.
+<br>
+Mean SRTT:  Average time for a packet to be sent to a neighbor and a reply from that neighbor to be received, in milliseconds.
+<br>
+Multicast Flow Timer:  Maximum time (seconds) that the router sent multicast packets
+<br>
+Pending Routes:  Number of routes in the transmit queue that need to be sent.
+
+<h3> show ip eigrp neighbors [interface-id]</h3>
+Address: IP address of the EIGRP neighbor
+<br>
+Interface:  Interface the neighbor was detected on
+<br>
+Holdtime: Time left to receive a packet from this neighbor to ensure it is still alive
+<br>
+SRTT: Time for a packet to be sent to a neighbor and reply to be received from that neighbor in milliseconds
+<br>
+RTO: Timeout for retransmission (waiting for ACK)
+<br>
+Q cnt:  Number of packets (update/query/reply) in queue for sending
+<br>
+Seq Num: Sequence number that was last received from the router
+
+<h3> show ip route eigrp.</h3>
+
+- Routes originating within the autonomous system have an administrative distance (AD) of 90 and are indicated in the routing table with a D. 
+<br>
+- EIGRP routes have an AD of 170 and are indicated in the routing table with D EX.
+<br>
+- Placing external EIGRP routes into the RIB with a higher AD acts as a loop-prevention mechanism.
+
+<h3> eigrp router-id</h3>
+-  is a 32-bit number that uniquely identifies an EIGRP
+<br>
+-  The algorithm for dynamically choosing the EIGRP RID uses the highest IPv4 address of any up loopback interfaces. If there are not any up loopback interfaces, the highest IPv4 address of any active up physical interfaces becomes the RID 
+
+
+<h3>passive-interface interface-id</h3>
+- passive-interface interface-id under the EIGRP process for classic configuration. 
+<br>
+- advertise a network segment into EIGRP but need to prevent neighbors from forming adjacencies with other routers on that segment. In this scenario, you need to put the EIGRP interface in a passive state. Passive EIGRP interfaces do not send out or process EIGRP hellos, which prevents EIGRP from forming adjacencies on that interface.
+<br>
+named mode configuration, you place the passive-interface state on af-interface default for all EIGRP interfaces or on a specific interface with the af-interface interface-id section. 
+
+<h3> show ip protocols</h3>
+- displays the EIGRP process identifier, the ASN, K values that are used for path calculation, RID, neighbors, AD settings, and all the passive interfaces.
+
+<h2>Authentication</h2>
+
+EIGRP encrypts the password by using a Message Digest 5 (MD5) authentication, using the keychain function.
+<br>
+
+Step 1. Create the keychain by using the command key chain key-chain-name. 
+<br>
+Step 2. Identify the key sequence by using the command key key-number, where key-number can be anything from 0 to 2147483647. 
+<br>
+Step 3. Specify the preshared password by using the command key-string password.
+<br>
+
+- key-chain-name.
+<br>
+- key key-number (0 to 2147483647)
+<br>
+- key-string password
+<br>
+- classic configuration, authentication must be enabled on the interface under the interface configuration submode. 
+<br>
+- ip authentication key-chain eigrp as-number key-chain-name
+<br>
+- ip authentication mode eigrp as-number md5
+<br>
+- named mode configuration places the configurations under the EIGRP interface submode  af-interface default or the af-interface interface-id.
+<br>
+- Named mode configuration supports MD5 or Hashed Message Authentication Code-Secure Hash Algorithm-256 (HMAC-SHA-256) authentication. MD5 authentication 
+involves the following commands:
+<br>
+• authentication key-chain eigrp key-chain-name
+<br>
+• authentication mode md5
+<br>
+The HMAC-SHA-256 authentication involves the command 
+authentication mode hmacsha-256 password
+
+<h3>show key chain</h3>
+<h3>show ip eigrp int detail</h3>
+
+<h1>Path Metric Calculations</h1>
+
+K values to define which factors the formula uses and the impact associated with a factor when calculating the metric. BW represents the slowest link in the path, scaled to a 10 Gbps link (107). Link speed is collected from the configured interface bandwidth on an interface. Delay is the total measure of delay in the path, measured in tens of microseconds
+<br>
+
+The EIGRP formula is based on the IGRP metric formula, except the output is multiplied by 256 to change the metric from 24 bits to 32 bits
+<br>
+By default, K1 and K3 have a value of 1, and K2, K4, and K5 are set to 0. 
+<br>
+
+The EIGRP path attributes can include hop count, cumulative delay, minimum bandwidth link speed, and RD.
+<br>
+
+<h3> show ip eigrp topology </h3>
+query the parameters for the formula directly
+<br>
+
+Interface Type	 | Link Speed (Kbps) 	| Delay 	| Metric
+<br>
+Serial 			64 		20,000 μs 	40,512,000
+<br>
+T1 			1544 		20,000 μs 	2,170,031
+<br>
+Ethernet 		10,000 		1000 μs 	281,600
+<br>
+Fast Ethernet 		100,000 	100 μs 		28,160
+<br>
+GigabitEthernet 	1,000,000 	10 μs 		2816
+<br>
+TenGigabitEthernet 	10,000,000 	10 μs 		512
+<br>
+
+EIGRP includes support for a second set of metrics, known as wide metrics, that addresses the issue of scalability with higher-capacity interfaces. EIGRP wide metrics scale by 65,535 to accommodate higher-speed links. This provides support for interface speeds up to 655 terabits per second. 
+
+<br>
+Latency is the total interface delay measured in picoseconds (10−12)
+<br>
+
+The EIGRP classic metrics exist only with EIGRP classic configuration, while EIGRP wide metrics exist only in EIGRP named mode. The metric style used by a router is identified with the command show ip protocols; if a K6  metric is present, the router is using wide-style metrics.
+
+<br>
+EIGRP delay is set on an interface-by-interface basis, allowing for manipulation of traffic patterns flowing through a specific interface on a router. Delay is 
+configured with the interface parameter command <h3>delay</h3> tens-of-microseconds under the interface. 
+
+<br>
+The K values must match between EIGRP neighbors to form an adjacency and exchange routes. K values are included as part of the EIGRP hello packet.  
+
+<br>
+The K values are displayed with the show ip protocols command
+
+<h4>Load Balancing</h4>
+
+allows multiple successor routes (with the same metric) to be installed for the same prefix, is called equal-cost multipathing (ECMP) routing. The default maximum ECMP is four routes. You change the default ECMP setting with the command maximum-paths under the EIGRP process in classic mode and under the topology base submode in named mode.
+
+<br>
+EIGRP supports unequal-cost load balancing, which allows installation of both successor routes and feasible successors into the EIGRP RIB.
+
+<br>
+To use unequal-cost load balancing with EIGRP, change EIGRP’s variance multiplier. The EIGRP variance value is the feasible distance (FD) for a route multiplied by the EIGRP variance multiplier. Any feasible successor’s FD with a metric below the EIGRP variance value is installed into the RIB.
+
+<br>
+
+EIGRP hello packets are sent out in intervals according to the hello timer.  The hold timer is the amount of time EIGRP deems the router reachable and functioning. The hold time value defaults to three times the hello interval. The hold time decrements, and upon receipt of a hello packet, the hold time resets and restarts the countdown. If the hold time reaches 0, EIGRP declares the neighbor unreachable and notifies the diffusing update algorithm (DUAL) of a topology change.
+
+<br>
+
+classic configuration mode the interface command ip hello-interval eigrp as-number seconds, and the hold timer is modified with the command ip hold-time eigrp as-number seconds. hello and hold timers are verified by viewing the EIGRP interfaces with the command show ip eigrp interfaces detail
+
+<h3>EIGRP Query Packets</h3>
+
+If a feasible successor is not available for the prefix, DUAL must perform a new route. The route state changes from passive (P) to active (A) in the EIGRP topology table.
+<br>
+The router detecting the topology change sends out query packets to EIGRP neighbors for the route. Upon receipt of a query packet, an EIGRP router does one of the following.
+
+
+<br>
+- It replies to the query that the router does not have a route to the prefix.
+<br>
+- If the query came from the successor for the route, the receiving router detects the delay set for infinity, sets the prefix as active in the EIGRP topology, and sends out a query packet to all downstream EIGRP neighbors for that route.
+<br>
+
+A router receives an EIGRP query packet, that query happens to  come from the neighbor (successor) to reach a certain network. Inside that query,  "I no longer have a valid path — my metric to this network is infinite." This is  announcing the route just died on its end. The router's best path just disappeared,  it has to formally mark that route as Active in its topology table, meaning "I'm now actively searching for a new best path.". 
+<br>
+To find a new path, the router asks all of its other EIGRP neighbors (except the one): "Do you have a route to this network? What's your distance to it?"
+
+<br>
+
+- If the query did not come from the successor for that route, it detects that the delay is set for infinity but ignores it because it did not come from the successor. The receiving router replies with the EIGRP attributes for that route.  Instead of going Active and launching its own query, the router  answers  with its known route information (its distance/metric to that destination) — saying: "Here's my valid path to that network, in case it helps you."
+<br>
+
+The query process continues from router to router until a router establishes the query boundary.  query boundary is established when a router does not mark the prefix as active, meaning
+
+<br>
+
+- It says it does not have a route to the prefix. ( it has nothing to contribute either way, it just replies "unreachable" and the query goes no further in that direction)
+<br>
+- It replies with EIGRP attributes because the query did not come from the successor. (It just answers back with its route info (a normal Reply packet))
+<br>
+
+<h2>EIGRP Convergence Topology</h2>
+
+A router loses its successor → goes Active → queries everyone downstream.
+Each of those neighbors either hits a query boundary (replies immediately) or also goes Active and queries further outward.
+<br>
+
+This keeps expanding outward until it hits boundaries everywhere.
+<br>
+Then it reverses: each router, once all its own outstanding queries are answered, goes Passive and replies to whoever queried it.
+<br>
+
+This "unwinding" ripples backward, hop by hop, until the original router — the one where the failure was first detected — gets all its replies back, goes Passive, and DUAL is fully converged.
+<br>
+
+
+<h2>Stuck in Active</h2>
+
+EIGRP maintains a timer called “active timer” which has a default value of 3 minutes (180 seconds). EIGRP waits half of the active timer value (90 seconds) for a reply. If the router does not receive a response within 90 seconds, the originating router sends a stuck in active (SIA) query to EIGRP neighbors that did not respond
+
+<br>
+
+Upon receipt of an SIA query, the router should respond within 90 seconds with an SIA reply. An SIA reply contains the route information or provides information on the query process itself. 
+
+<br>
+
+If a router fails to respond to an SIA query by the time the active timer expires, EIGRP deems the router SIA.  DUAL deletes all routes from that neighbor,  the situation is as if the neighbor responded with unreachable  for all routes.
+<br>
+
+If a router fails to respond to an SIA query by the time the active timer expires, EIGRP deems the router SIA. If the SIA state is declared for a neighbor, DUAL deletes all routes from that neighbor, treating the situation as if the neighbor responded with unreachable message for all routes.
+
+<br>
+
+You show active queries with the command show ip eigrp topology.
+
+<h3>Configuration of SIA Timers</h3>
+
+the active timer can be disabled or modified with the command timers active-time &#123;disabled | 1-65535-minutes&#125; under the EIGRP process. with named mode configuration, the command runs under the topology base.
+ 
+<h2>Route Summarization</h2>
+
+<h3>EIGRP Hierarchical Summarization</h3>
+route summarization (shrinking the routing table of all the routers) creates a query boundary, shrinks the query domain when  route goes active during convergence,  reducing SIA scenarios
+
+<h3>Interface-Specific Summarization</h3>
+
+EIGRP summarizes network prefixes on an interface-by-interface basis
+
+<br>
+
+A summary aggregate is configured for the EIGRP interface.  (You manually configure a summary route directly on that specific interface)
+<br>
+
+The summary aggregate prefix is not advertised until a prefix matches it.   (The summary route doesn't get advertised  unless the router already has at least one  route in its topology table that actually falls within that summary range.)
+<br>
+
+Interface-specific summarization can be performed in any portion of the network topology. (You can configure a summary on literally any EIGRP-speaking interface, anywhere in the topology — core, distribution, access layer, WAN links, etc.)
+<br>
+
+classic EIGRP configuration mode, you use the interface parameter command ip summary address eigrp as-number network subnet-mask [leak-map route-map-name] to place an EIGRP summary aggregate on an interface
+<br>
+
+named mode under the af-interface interface-id, use the command summary-address network subnet-mask [leak-map route-map-name].
+<br>
+
+
+<h3>Summary Discard Routes</h3>
+
+EIGRP installs a discard route on the summarizing routers as a routing loop prevention mechanism
+<br>
+
+
+is a route that matches the summary aggregate prefix with the destination Null0. This prevents routing loops where portions of the summarized network range do not have a more specific entry in the Routing Information Base (RIB) on the summarizing router.  The AD for the Null0 route is 5 by default
+
+<h3>EIGRP Summarization Metrics</h3>
+
+the summary inherits the metric of whichever component route has the best (lowest) metric.
+<br>
+
+fluctuation in the path metric is resolved by statically setting the metric on the summary aggregate with the command summary-metric network &#123;/prefix-length | subnet-mask&#125; bandwidth delay reliability load MTU
+<br>
+
+
+<h2>WAN Considerations</h2>
+Some WAN topologies may require special consideration for bandwidth utilization, split horizon, or next-hop self.
+
+<h3>EIGRP Stub Router</h3>
+An EIGRP stub router does not advertise routes that it learns from other EIGRP peers. 
+<br>
+
+EIGRP stubs advertise only connected and summary routes, but they can be configured so that they only receive routes or advertise any combination of redistributed routes, connected routes, or summary routes.
+<br>
+
+The EIGRP stub router announces itself as a stub within the EIGRP hello packet
+If a route goes active, EIGRP does not send EIGRP queries to an EIGRP stub router.
+<br>
+
+You configure a stub router by placing the command eigrp stub &#123;connected |  receive-only | redistributed | static | summary&#125; under the EIGRP process for classic configuration and under the address family for named mode configuration.
+<br>
+ 
+
+EIGRP neighbors on WAN links do not send EIGRP queries to the remote site when a route becomes active.
+<br>
+
+The EIGRP stub site feature allows downstream routers to receive and advertise network prefixes across the WAN.
+<br>
+
+The EIGRP stub site feature prevents the EIGRP stub site route from being a transit site.
+Stub Site lets you apply stub behavior selectively, per interface — specifically on WAN interfaces 
+<br>
+
+EIGRP neighbors on WAN links do not send EIGRP queries to the remote site when a route becomes active.
+<br>
+
+The EIGRP stub site feature allows downstream routers to receive and advertise network prefixes across the WAN.
+<br>
+
+The EIGRP stub site feature prevents the EIGRP stub site route from being a transit site
+<br>
+
+<h3>EIGRP Stub Site Config</h3>
+stub site function is available only in EIGRP named mode configuration. 
+<br>
+
+The WAN interfaces are identified underneath the af-interface interface-id hierarchy and use the stub-site wan-interface command.
+<br>
+
+
+The stub site function and identifier are enabled with the command eigrp stub-site as-number:identifier.
+<br>
+ 
+
+<h3>Split Horizon</h3>
+Split horizon prevents the advertisement of reverse routes EIGRP enables split horizon on all interfaces by default. 
+<br>
+
+Disable split horizon on a specific interface by using the interface parameter command no ip split-horizon eigrp as-number with EIGRP classic configuration. 
+<br>
+
+Disable split horizon on EIGRP named mode configuration under the af-interface default or af-interface interface-id, using the command no split-horizon. 
+<br>
+
+
+<h3>Route Manipulation</h3>
+<h4>Route Filtering</h4>
+EIGRP supports filtering of routes as they are received or advertised from an interface.
+<br>
+Filtering of routes can be matched against:
+<br>
+
+Access control lists (ACLs) (named or numbered)
+<br>
+IP prefix lists
+<br>
+Route maps
+<br>
+Gateway IP addresses
+
+<br>
+
+inbound filtering drops routes prior to the DUAL processing, not installe on RIB. 
+<br>
+outbound filtering, the routes are processed by DUAL and are installed into the local RIB
+
+<h4>EIGRP Distribution List Filtering</h4>
+
+Filtering is accomplished with the command distribute-list &#123;acl-number | acl-name | prefix prefix-list-name | route-map route-map-name | gateway prefix-list-name&#125; &#123;in | out&#125; [interface-id].
+<br>
+ 
+EIGRP classic configuration places the command under the EIGRP process, while named mode configuration places the command under the topology base.
+<br>
+ 
+Prefixes that match against deny statements are filtered, and prefixes that match against a permit are passed.
+<br>
+
+<h4>Traffic Steering with EIGRP Offset Lists</h4>
+Offset lists allow for the modification of route attributes based on the direction of the update
+<br>
+
+An offset list is configured with the command offset-list offset-value &#123;acl-number | acl-name] &#123;in | out&#125; [interface-id] to modify the metric value of a route
+
+<br>
+
+The router ID (RID)
+<br>
+Routing Information Base (RIB)
+<br>
+Reliable Transport Protocol (RTP)
+<br>
+Enhanced interior Gateway Routing Protocol (EIGRP) 
+<br>
+Autonomous system number (ASN)
+<br>
+stuck in active (SIA)
+<br>
+Dynamic Multipoint Virtual Private Network (DMVPN) 
+
+<!-- 
+<p></p>
+<h1></h1>
+<h2></h2>
+<h3></h3>
+<h4></h4>
+<h5></h5>
+-->
+
+
+
+
+
+
+
+
+
+
+.

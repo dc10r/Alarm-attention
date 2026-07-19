@@ -4,7 +4,7 @@ import {PuntosComponent} from '../puntos/puntos.component';
 
 @Component({
   selector: 'app-interrumpcion-eventos',
-  imports: [PuntosComponent],
+  imports: [],
   templateUrl: './interrumpcion-eventos.component.html',
   styleUrl: './interrumpcion-eventos.component.css'
 })

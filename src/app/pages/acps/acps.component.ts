@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import{PuntosComponent} from '../puntos/puntos.component'
 @Component({
   selector: 'app-acps',
-  imports: [CommonModule, PuntosComponent],
+  imports: [CommonModule],
   templateUrl: './acps.component.html',
   styleUrl: './acps.component.css'
 })

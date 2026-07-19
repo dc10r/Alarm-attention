@@ -1,0 +1,1178 @@
+<h1>OSPF</h1>
+
+<h2>Foundation Topics</h2> 
+OSPF advertises link-state advertisements (LSAs) that contain the link state and link metric to neighboring routers.
+<br>
+
+LSAs are stored in a local database called the link-state database (LSDB)
+<br>
+
+All OSPF routers maintain a synchronized identical copy of the LSDB within an area. 
+<br>
+
+OSPF routers run Dijkstra’s shortest path first (SPF) algorithm to construct a loop-free topology of shortest paths.
+<br>
+
+Each router sees itself as the root or top of the SPF tree (SPT)
+<br>
+
+A router can run multiple OSPF processes. Each process maintains its own unique database, routes learned in one OSPF process are not available to a different OSPF process without redistribution between processes. The OSPF process numbers are locally significant and do not have to match among routers
+
+<h3>Router ID</h3>
+
+The OSPF router ID (RID) is a 32-bit number that uniquely identifies an OSPF router. Must be unique for each OSPF process in an OSPF domain and must be unique between OSPF processes on a router. OSPF process selects the RID when the OSPF process initializes, not change 
+until the process restarts.
+
+<br>
+
+dynamically allocated by default using: 
+<br>
+
+	-  highest IP address of any up loopback 
+<br>
+	
+	- (no up loopback interfaces) the highest IP address of any active up physical interfaces
+
+<br>
+
+a static RID helps with troubleshooting and reduces LSAs. The RID is four octets in length and is configured with the command <b>router-id router-id</b>  under the OSPF process
+
+<h3>Areas</h3>
+
+Area membership is set at the interface level, and the area ID is included in the OSPF hello packet. An interface can belong to only one area.
+<br>
+
+single area trade-offs:
+
+<br>
+A full SPT calculation runs when a link flaps within the area.
+the LSDB increases in size and becomes unmanageable. consumes more memory, and takes longer during the SPF computation process
+
+<br>
+With a single area, no summarization of route information occurs
+
+<br>
+If a router has interfaces in multiple areas, the router has multiple LSDBs (one for each area). 
+
+<h4>Area 0</h4>
+Area 0 is called the backbone. OSPF uses a two-tier hierarchy all areas must connect to the upper tier, Area 0. Area 0 advertises the routes into other non-backbone areas.
+
+<br>
+
+The area identifier (area ID) is a 32-bit field and can be simple decimal (0 through 4294967295) or dotted decimal (0.0.0.0 through 255.255.255.255). If you use decimal format on one router and dotted-decimal format on a different router,  routers will form an adjacency.  OSPF advertises the area ID in the OSPF packets
+
+<br>
+
+Area border routers (ABRs) are OSPF routers connected to Area 0 and another OSPF area
+ABRs are responsible for advertising routes from one area and injecting them into a different OSPF area. needs to participate in Area 0 to allow for the advertisement of routes into another area. ABRs compute an SPT for every area in which they participate
+
+<h3>Inter-Router Communication</h3>
+
+OSPF runs directly over IPv4, using its own protocol 89, reserved for OSPF by the Internet Assigned Numbers Authority (IANA). 
+
+<br>
+
+AllSPFRouters - IPv4 address 224.0.0.5 or MAC address 01:00:5E:00:00:05. All routers running OSPF should be able to receive these packets
+
+<br>
+AllDRouters - IPv4 address 224.0.0.6 or MAC address 01:00:5E:00:00:06. Communication with designated routers (DRs) uses this address
+
+<br>
+
+Within the OSPF protocol, five types of packets are communicated.
+
+<br>
+
+Type 	Packet Name				Functional overview
+
+1	Hello					Packets are sent out periodically on al ospf interfaces to discover new neighbors / ensuring that neighbors are still online
+
+<br>
+
+2	Database description (DBD or DDP)	Packets are exchanged when an ospf adjacency is first being formed, they describe the contents of the LSDB 
+
+<br>
+
+3	Link-state request (LSR)		router thinks part of it's LSDB is stale, it request a portion of a neighbor's database
+
+<br>
+
+4	Link-state update (LSU)			normally it is sent in response to an LSR
+
+<br>
+
+5	Link-state acknowledgment		sent in response to the flooding of LSAs, making the flooding a reliable transport feature	
+	
+<h3>OSPF Hello Packets</h3>
+
+OSPF hello packets are responsible for discovering and maintaining neighbors. In most instances, a router sends hello packets to the AllSPFRouters address (224.0.0.5). 
+
+
+<br>
+
+Data Field					Description
+
+<br>
+Router ID (RID)					A unique 32-bit ID within an OSPF domain.
+
+<br>
+
+Authentication Options				A field that allows secure communication between OSPF routers to prevent malicious activity. Options are none, plaintext, or Message Digest 5 (MD5) authentication.
+
+<br>
+
+Area ID						The OSPF area that the OSPF interface belongs to. It is a 32-bit number that can be written in dot-decimal format (0.0.1.0) or decimal (256).
+
+<br>
+
+Interface Address Mask				The network mask for the primary IP address for the interface out which the hello is sent.
+
+<br>
+
+Interface Priority				The router interface priority for DR elections.
+
+<br>
+
+Hello Interval					The time interval, in seconds, at which a router sends out hello packets on the interface.
+
+<br>
+
+Dead Interval					The time interval, in seconds, that a router waits to hear a hello from a neighbor router before it declares that router down
+
+<br>
+
+Designated Router and Backup Designated Router	The IP address of the DR and backup DR (BDR) for that network link.
+
+<br>
+
+Active Neighbor					A list of OSPF neighbors seen on that network segment. A router must have received a hello from the neighbor within the dead interval.
+
+
+<br>
+
+
+<h3>Neighbors</h3>
+An OSPF neighbor is a router that shares a common OSPF-enabled network link. neighbors are discover through the OSPF hello packets.  adjacent OSPF neighbor shares a synchronized OSPF database
+<br>
+
+Each OSPF process maintains a table for adjacent OSPF neighbors and the state of each router.
+<br>
+
+
+State		Description
+
+<br>
+
+Down		The initial state of a neighbor relationship. It indicates that the router has not received any OSPF hello packets.
+
+<br>
+
+Attempt		A state that is relevant to nonbroadcast multi-access (NBMA) networks that do not support broadcast and that require explicit neighbor configuration. This state indicates that no recent information has been received, but the router is still attempting communication.
+
+<br>
+
+Init		A state in which a hello packet has been received from another a router, but bidirectional communication has not been established.
+
+<br>
+
+2-Way		A state in which bidirectional communication has been established. If a DR or BDR is needed, the election occurs during this state.
+
+<br>
+
+ExStart		The first state in forming an adjacency. Routers identify which router will be the master or slave for the LSDB synchronization.
+
+<br>
+
+Exchange	A state during which routers are exchanging link states by using DBD packets.
+
+<br>
+
+Loading		A state in which LSR packets are sent to the neighbor, asking for the more recent LSAs that have been discovered (but not received) in the Exchange state.
+
+<br>
+
+Full		A state in which neighboring routers are fully adjacent.
+
+<h3>Requirements for Neighbor Adjacency</h3>
+
+- The RIDs must be unique between the two devicess, they should be unique for the entire OSPF routing domain.
+
+<br>
+
+- The interfaces must share a common subnet. The network mask (netmask) in the hello packet is used to extract the network ID of the hello packet.
+
+<br>
+
+- The interface maximum transmission unit (MTU) must match because the OSPF protocol does not support fragmentation.
+
+<br>
+
+- The area ID must match for that segment.
+
+<br>
+
+- The need for a DR must match for that segment.
+
+<br>
+
+-  OSPF hello and dead timers must match for that segment.
+
+<br>
+
+- The authentication type and credentials (if any) must match for that segment.
+
+<br>
+
+-  Area type flags must be identical for that segment (stub, NSSA, and so on)
+
+<h2>OSPF Configuration</h2>
+
+<h3>Enabling OSPF</h3>
+
+The command router ospf process-id defines and initializes the OSPF process.
+
+<br>
+
+the command network  <b>ip-address wildcard-mask area area-id</b> identifies the interfaces that the OSPF process will use and the area that those interfaces participate in, select and enable OSPF on the interfaces
+
+<br>
+
+The second method for enabling OSPF on an interface is to configure it specifically on the 
+interface with the command <b>ip ospf process-id area area-id [secondaries none]</b>. This method allows for secondary connected networks to be added to the LSDB, unless the secondaries none option is used. (If an interface has multiple IP addresses configured, enabling OSPF this way will, by default, advertise all of them into OSPF's Link-State Database (LSDB) )  
+
+<br>
+
+The command <b>passive interface-id under the OSPF</b> process makes the interface passive, and the command <b>passive interface default</b> makes all interfaces passive.
+
+<br>
+
+You view OSPF-enabled interfaces by using the command <b>show ip ospf interface [brief </b> | interface-id].
+
+<br>
+
+Field			Description
+
+<br>
+Interface 		Interfaces with OSPF enabled
+
+<br>
+PID			The OSPF process ID associated with this interface
+
+<br>
+Area			The area that this interface is associated with
+
+<br>
+IP Address/Mask		The IP address and subnet mask for the interface
+
+<br>
+Cost			A factor the SPF algorithm uses to calculate a metric for a path
+
+<br>
+State			The current interface state for segments with a designated router (DR,BDR, or DROTHER), P2P, LOOP, or Down
+
+<br>
+Nbrs F 			The number of neighbor OSPF routers for a segment that are fully adjacent
+
+<br>
+Nbrs C		The number of neighbor OSPF routers for a segment that have been detected and are in a 2-WAY state
+
+<br>
+
+The command <b>show ip ospf neighbor [detail]</b> provides the OSPF neighbor table
+Overview of the fields 
+
+<br>
+
+Field		Description
+
+<br>
+
+
+<br>
+Neighbor ID	The router ID (RID) of the neighboring router.
+
+<br>
+Pri		The priority for the neighbor's interface, which is used for DR/BDR elections.
+
+<br>
+State		The first State field is the neighbor state, as described in Table 6-4. The second State field is the DR, BDR, or DROTHER role if the interface requires a DR. For non-DR network links, the second field shows just ahyphen (-)-
+
+<br>
+Dead Time	The dead time left until the router is declared unreachable.
+
+<br>
+Address		The primary IP address for the OSPF neighbor.
+
+<br>
+Interface	The local interface to which the OSPF neighbor is attached.
+
+
+<br>
+
+display OSPF routes installed in the Routing Information Base (RIB) by using the command
+<b>show ip route ospf</b>. Output look like [110/2].  first number is the administrative distance (AD), is 110 by default for OSPF, the second number is the metric of the path used for that network along with the next-hop IP address.
+
+<h4>External OSPF Routes</h4>
+
+When a router redistributes routes into an OSPF domain, the router is called an autonomous system boundary router (ASBR). External routes are classified as Type 1 or Type 2. 
+
+<br>
+
+- Type 1 routes are preferred over Type 2 routes
+
+<br>
+
+- The Type 1 metric equals the redistribution metric plus the total path metric to the ASBR. Ss the LSA propagates away from the originating ASBR, the metric increases.
+
+<br>
+
+- The Type 2 metric equals only the redistribution metric. The metric is the same for the router next to the ASBR as the router 30 hops away from the originating ASBR. This is the default external metric type used by OSPF
+
+<h3>Default Route Advertisement</h3>
+
+OSPF supports advertising the default route into the OSPF domain. Use the command <b>default-information originate [always] [metric metric-value] [metric-type type-value] </b>underneath the OSPF process.  The always optional keyword causes the default route to be advertised even if a default route does not exist in the RIB. 
+
+<br>
+
+The route metric can be changed with the metric metric-value option, and the metric type can be changed with the metric-type type-value option.
+
+<br>
+
+<h2>The Designated Router and Backup Designated Router</h2> 
+
+The Designated Router (DR) reduces the number of OSPF adjacencies on a multi-access network segment because routers form full OSPF adjacencies only with the DR and not each other
+
+
+<br>
+
+Having too many adjacencies per segment consumes more bandwidth, more CPU processing, and more memory to maintain each of the neighbor states
+
+<br>
+
+Creating a pseudonode (that is, a virtual router) to manage the adjacency state with all the other routers on that broadcast network segment. designated router (DR), assumes the role of the pseudonode.
+
+<br>
+
+The DR is then responsible for flooding the update to all OSPF routers on that segment as 
+updates occur.
+
+<br>
+
+DR/BDR process distributes LSAs in the following manner:
+<br>
+
+- Step 1. All OSPF routers (DR, BDR, and DROTHER) on a segment form a full OSPF adjacency 
+with the DR and BDR. As an OSPF router learns of a new route, it sends the updated LSA to the AllDRouters (224.0.0.6) address, which only the DR and BDR receive and process,
+
+<br>
+
+- Step 2. The DR sends a unicast acknowledgment to the router that sent the initial LSA update
+
+<br>
+
+- Step 3. The DR floods the LSA to all the routers on the segment via the AllSPFRouters 224.0.0.5)
+
+<br>
+
+<h3>Designated Router Elections</h3>
+
+The DR/BDR election occurs during OSPF neighborship. During the last phase of the 2-Way neighbor state, just before the ExStart state
+
+<br>
+
+All OSPF interfaces use a priority of 1. OSPF priority of 1 to 255 (Highest priority wins).
+
+<br>
+
+Routers receive and examine OSPF hellos from neighboring routers. If a router identifies itself as a more favorable router than the OSPF hellos it receives, it continues to send out hellos with its RID and priority listed.
+
+<br>
+
+
+If the hello received is more favorable, the router updates its OSPF hello packet to use the more preferable RID in the DR field.  If the OSPF priority is the same, the higher RID is more favorable
+
+<br>
+
+When routers agreed on the same DR, all routers for that segment become adjacent with the DR. BDR election follows the same logic, except that the DR does not add its RID to the BDR field of the hello packet.
+
+<br>
+
+The priority can be set manually under the interface configuration with the command <b>ip ospf priority 0-255 </b> Setting an interface priority to 0 removes that interface from the DR/BDR election immediately.
+
+<h2>OSPF Network Types</h2>
+The default OSPF network type is set based on the media used for the connection and can be changed independently of the actual media type used.
+
+<br>
+
+Cisco’s implementation of OSPF considers five OSPF network types:  Broadcast, Nonbroadcast, Point-to-point, Point-to-Multipoint and Loopback.
+
+<br>
+
+<table border="1">
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>DR/BDR Field in Timers (OSPF Hellos)</th>
+<th>Timers</th>
+</tr>
+<tr>
+<td>Broadcast</td>
+<td>Default setting on OSPF-enabled Ethernet links.</td>
+<td>Yes</td>
+<td>Hello: 10 Wait: 40 Dead: 40</td>
+</tr>
+<tr>
+<td>Nonbroadcast</td>
+<td>Default setting on enabled OSPF Frame Relay main interface or Frame Relay multipoint subinterfaces.</td>
+<td>Yes</td>
+<td>Hello: 30 Wait: 120 Dead: 120</td>
+</tr>
+
+<tr>
+<td>Point-to-point</td>
+<td>Default setting on enabled OSPF Frame. Relay point-to-point subinterfaces.</td>
+<td>No</td>
+<td>Hello: 10 Wait: 40 Dead: 40</td>
+</tr>
+
+<tr>
+<td>Point-to-multipoint</td>
+<td>Not enabled by default on any interface type. Interface is advertised as a host route (/32), and sets the next-hop address to the outbound interface. Primarily used for hub-and-spoke topologies.</td>
+<td>No</td>
+<td>Hello: 30 Wait: 120 Dead: 120</td>
+</tr>
+
+
+<tr>
+<td>Loopback</td>
+<td>Default setting on OSPF-enabled loopback interfaces. Interface is advertised as a host route (/32).</td>
+<td>N/A</td>
+<td>N/A</td>
+</tr>
+</table>
+<h3>Broadcast</h3>
+are multi-access in that they are capable of connecting more than two devices, and broadcasts sent out one interface are capable of reaching all interfaces attached to that segment. Is set to broadcast by default for Ethernet interfaces.
+
+<br>
+
+the possibility that LSA flooding needs to be controlled a DR is required. hello timer defaults to10 seconds, as defined in RFC 2328
+
+<br>
+
+The interface parameter command <b>ip ospf network broadcast</b> overrides the automatically configured setting and statically sets an interface as an OSPF broadcast network type.
+
+<h3>Nonbroadcast</h3>
+Frame Relay, ATM, and X.25 are considered nonbroadcast multi-access (NBMA)  in that they can connect more than two devices. 
+
+<br>
+
+Frame Relay interfaces set the OSPF network type to nonbroadcast by default.  the DR functionality is used.
+
+<br>
+
+Neighbors are statically defined with the <b>neighbor ip-address</b> command because multicast and broadcast functionality do not exist on this type of circuit.
+
+<br>
+
+The interface parameter command <b>ip ospf network non-broadcast</b> manually sets an interface as an OSPF nonbroadcast network type.
+
+<br>
+
+The nonbroadcast network type is verified by filtering the output of the show ip ospf interface command with the Type keyword. <b>show ip ospf interface | include Type</b>
+
+<h3>Point-to-Point</h3>
+
+A network circuit that allows only two devices to communicate is considered a point-to point (P2P) network
+
+<br>
+
+The OSPF network type is set to point-to-point by default for serial interfaces (HDLC or PPP encapsulation), Generic Routing Encapsulation (GRE) tunnels, and point-to-point Frame Relay subinterfaces
+
+<br>
+
+To verify that the OSPF network type is set to point-to-point, use the show ip ospf interface command with the Type keyword. <b>show ip ospf interface | include Type</b>
+
+<h3>Point-to-Multipoint Networks</h3>
+
+It requires manual configuration. The IOS interface parameter command <b> ip ospf network point-to-multipoint </b> manually sets an interface as an OSPF point-to-multipoint network type.
+
+<br>
+
+A point-to-multipoint OSPF network type supports hub-and-spoke connectivity while using the same IP subnet and is commonly found in Frame Relay and Layer 2 VPN (L2VPN) topologies.
+
+<br>
+
+Interfaces set for the OSPF point-to-multipoint network type add the interface’s IP address to the OSPF LSDB as a /32 network.
+
+<br>
+
+When advertising routes to OSPF peers on that interface, the next-hop address is set to the IP address of the interface even if the next-hop IP address resides on the same IP subnet
+
+<br>
+
+To verify that the OSPF network type is set to point-to-Multipoint, use the show ip ospf interface command with the Type keyword. <b>show ip ospf interface | include Type</b>
+
+
+<h3>Loopback Networks</h3>
+
+The OSPF network type loopback is enabled by default for loopback interfaces and can be used only on loopback interfaces.
+
+<br>
+
+The OSPF loopback network type indicates that the IP address is always advertised with a /32 prefix length, even if the loopback IP address does not have a /32 prefix length.
+
+<h2>Failure Detection</h2>
+
+The hello timer and the dead interval timer determine how long the OSPF process waits before declaring a neighbor state to be down
+
+<h3>Timers</h3>
+
+A secondary function of OSPF hello packets is to ensure that adjacent OSPF neighbors are still healthy and available.
+
+<br>
+
+OSPF sends hello packets at set intervals, according to the hello timer. the OSPF dead interval timer, defaults to four times the hello timer.
+
+<h4>Hello Timer</h4>
+The default OSPF hello timer interval varies based on the OSPF network type. OSPF allows modification to the hello timer interval with values between 1 and 65,535 seconds.
+Changing the hello timer interval modifies the default dead interval, too. 
+<br>
+
+The OSPF hello timer is modified with the interface configuration submode command <b>ip ospf hello-interval 1-65,535.</b>
+
+<h4>Dead Interval Timer</h4>
+You can change the dead interval timer to a value between 1 and 65,535 seconds. You change the OSPF dead interval timer by using the command <b>ip ospf dead-interval 1-65,535</b> under the interface configuration submode
+
+<br>
+
+Verifying OSPF Timers, you view the timers for an OSPF interface by using the command <b>show ip ospf interface</b>
+
+
+<h2>Authentication</h2>
+
+<h3>Authentication Types</h3>
+OSPF supports two types of authentication:
+
+<br>
+
+Plaintext 
+<br>
+
+	- Provides little security, as anyone with access to the link can see the password by using a network sniffer. 
+
+<br>
+
+	- Plaintext authentication for an OSPF area is enabled with the command <b>area area-id authentication</b>
+
+<br>
+
+	- The interface parameter command <b>ip ospf authentication</b> sets plaintext authentication only on that interface.
+
+<br>
+
+	- The plaintext password is configured by using the interface parameter command <b>ip ospf authentication-key password</b>
+
+<br>
+
+MD5 cryptographic hash
+
+<br>
+
+	- This type of authentication uses a hash, so the password is never sent out the wire.
+<br>
+
+	- MD5 authentication for an OSPF area is enabled using the command <b>area area-id authentication message-digest. </b>
+
+<br>
+
+	-  The interface parameter command <b>ip ospf authentication message-digest</b> sets MD5 authentication for that interface.
+
+<br>
+
+	- The interface parameter command <b>ip ospf message-digest-key key-number md5 password</b> sets the MD5 password.
+
+
+<h2>Link-State Advertisements</h2>
+<h3>LSA Types</h3> 
+
+
+OSPF uses six LSA types for IPv4 routing:
+
+<br>
+
+Type 1, router - LSAs that advertise network prefixes within an area
+<br>
+
+Type 2, network - LSAs that indicate the routers attached to broadcast segment within an area
+<br>
+
+Type 3, summary - LSAs that advertise network prefixes that originate from a different area
+<br>
+
+Type 4, ASBR summary - LSA used to locate the ASBR from a different area
+
+<br>
+Type 5, AS external - LSA that advertises network prefixes that were redistributed into OSPF
+
+<br>
+Type 7, NSSA external - LSA for external network prefixes that were redistributed in a local NSSA area
+
+<br>
+
+LSA Types 1, 2, and 3 are used for building the SPF tree for intra-area and interarea route routes. LSA Types 4, 5, and 7 are related to external OSPF routes (that is, routes that were redistributed into the OSPF routing domain).
+
+<br>
+
+The LSA sequence number is a 32-bit number used to control versioning. When the originating router sends out LSAs, the LSA sequence number is incremented.
+
+<br>
+
+If a router receives an LSA sequence that is greater than the one in the LSDB, it processes the LSA. If the LSA sequence number is lower than the one in the LSDB, the router deems the LSA old and discards it
+
+<br>
+
+
+Every OSPF LSA includes an age that is entered into the local LSDB that increments by 1 every second. When a router’s OSPF LSA age exceeds 1800 seconds (30 minutes) for its networks, the originating router advertises a new LSA with the LSA age set to 0
+
+<br>
+
+The repetitive flooding of LSAs is a secondary safety mechanism to ensure that all routers maintain a consistent LSDB within an area
+
+
+<h3>LSA Type 1</h3>
+
+the essential building blocks in the LSDB. Type 1 LSAs are not advertised outside the Area, thus making the underlying topology in an area invisible to other areas.
+
+
+
+<table border="1">
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+<tr>
+<th>Link ID</th>
+<th>Identifies the object that the link connects to. It can refer to the neighboring router's RID, the IP address of the DR's interface, or the IP network address.</th>
+</tr>
+
+<tr>
+<th>ADV Router</th>
+<th>The OSPF router ID for this LSA.</th>
+</tr>
+
+<tr>
+<th>AGE</th>
+<th>The age of the LSA on the router on which the command is being run. Values over 1800 are expected to refresh soon.</th>
+</tr>
+
+<tr>
+<th>Seg #</th>
+<th>The sequence number for the LSA to protect out-of-order LSAs.</th>
+</tr>
+
+<tr>
+<th>Link Count</th>
+<th>The number of links on this router in the Type 1 LSA.</th>
+</tr>
+</table>
+
+You can examine the Type 1 OSPF LSAs by using the command <b>show ip ospf database router</b>
+
+Each network link on a router contains the following information, in this order:
+Link type, 
+Link ID, using the values based on the link type listed 
+Link data (when applicable)
+Metric for the interface
+
+<table border="1">
+<tr>
+<th>OSPF Neighbor States for Type 1 LSAs</th>
+</tr>
+<tr>
+<th>Description</th>
+<th>Link Type</th>
+<th>Link ID Value</th>
+<th>Link Data</th>
+</tr>
+<tr>
+<th>Point-to-point link (IP address assigned)</th>
+<th>1</th>
+<th>Neighbor RID</th>
+<th>Interface address</th>
+</tr>
+<tr>
+<th>Point-to-point link (using IP unnumbered)</th>
+<th>1</th>
+<th>Neighbor RID</th>
+<th>MIB II IfIndex value</th>
+</tr>
+<tr>
+<th>Link to transit network</th>
+<th>2</th>
+<th>Interface address of DR</th>
+<th>Interface IP address</th>
+</tr>
+<tr>
+<th>Link to stub network</th>
+<th>3</th>
+<th>Network address</th>
+<th>Subnet mask</th>
+</tr>
+<tr>
+<th>Virtual link</th>
+<th>4</th>
+<th>Neighbor RID</th>
+<th>Interface IP address</th>
+</tr>
+</table>
+
+<h4>Link Types</h4>
+
+This text explains how OSPF builds its internal roadmap—the SPF (Shortest Path First) tree. OSPF categorizes these links into three primary types based on whether neighbors exist and how they communicate.
+<br>
+
+During the SPF tree calculation, network link types are one of the following:
+
+<br>
+
+Transit - A transit network indicates that an adjacency was formed and that a DR was elected on that link.
+
+<br>
+
+Point-to-point - Point-to-point links indicate that an adjacency was formed on a network type that does not use a DR. point-to-point Interfaces advertise two links. One link is the point-to-point link type that identifies the OSPF neighbor RID for that segment. This tells the SPF algorithm, "I am connected to neighbor Router ID X.X.X.X on this interface." (This builds the topology topology map).
+
+<br>
+
+the other link is a stub network link that provides the subnet mask for that network. The Stub Link: This tells the SPF algorithm the actual IP subnet and subnet mask assigned to that link so routers know how to route data to that IP space.
+
+<br>
+
+Stub - A stub network (dead-end link from OSPF's perspective) indicates that no neighbor adjacencies were established on that link. Point-to-point and transit link types that did not become adjacent with another OSPF router are classified as a stub network link type. It represents a network where no OSPF neighbors exist.
+
+<h3>LSA Type 2</h3>
+A Type 2 LSA represents a multi-access network segment that uses a DR. The DR always advertises the Type 2 LSA and identifies all the routers attached to that network segment
+
+<br>
+
+<b>If a DR has not been elected, a Type 2 LSA is not present in the LSDB </b>because the corresponding Type 1 transit link type LSA is a stub. Type 2 LSAs are not flooded outside the originating OSPF area in an identical fashion to Type 1 LSAs.
+
+<br>
+
+To see detailed Type 2 LSA information, command <b>show ip ospf database network</b>
+
+
+
+
+<h3>LSA Type 3</h3>
+Type 3 LSAs represent networks from other areas. ABRs do not forward Type 1 or Type 2 LSAs into other areas. 
+
+<br>
+
+The ABR then advertises the Type 3 LSA into other areas. When an ABR receives a Type 1 LSA it creates a Type 3 LSA referencing the network in the original Type 1 LSA. 
+
+<br>
+
+If an ABR receives a Type 3 LSA from Area 0 (backbone), it regenerates a new Type 3 LSA for the nonbackbone area and lists itself as the advertising router with the additional cost metric. 
+
+<br>
+
+For a summary view of the Type 3 LSAs command <b>show ip ospf database summary</b>
+
+<br>
+
+<table border="1">
+<tr>
+<th>Type 3 LSA Fields</th>
+</tr>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+<tr>
+<th>Link ID</th>
+<th>Network number</th>
+</tr>
+<tr>
+<th>Advertising Router</th>
+<th>RID of the router advertising the route (ABR)</th>
+</tr>
+<tr>
+<th>Network Mask</th>
+<th>Prefix length for the advertised network</th>
+</tr>
+<tr>
+<th>Metric</th>
+<th>Metric for the LSA</th>
+</tr>
+</table>
+
+The metric in the Type 3 LSA uses the following logic:
+
+<br>
+
+If the Type 3 LSA is created from a Type 1 LSA, it is the total path metric to reach the
+originating router in the Type 1 LSA. &#123;Advertised Metric&#125; = &#123;ABR's cost to reach the originating router&#125; ABR sits in the same area as the originating router, the ABR has the full topological map (SPF tree) of that area.
+
+<br>
+
+If the Type 3 LSA is created from a Type 3 LSA from Area 0, it is the total path metric
+to the ABR plus the metric in the original Type 3 LSA. &#123;Advertised Metric&#125; = &#123;ABR-2's cost to reach ABR-1 (through Area 0)&#125; + &#123;Metric inside the received Type 3 LSA&#125;. ABR does not have a detailed topology map of the distant area where the route originally started.
+
+<br>
+
+
+<h3>LSA Type 5 </h3>
+
+When a route is redistributed into OSPF, the router is known as an autonomous system boundary router (ASBR). The external route is flooded throughout the entire OSPF domain as a Type 5 LSA. 
+
+<br>
+
+You can see Type 5 LSAs in detail by using the command <b>show ip ospf database external</b>. 
+ABRs only modify the LSA age as the Type 5 LSA propagates through the OSPF domain.
+
+<br>
+
+
+<table border="1">
+<tr>
+<th>Type 5 LSA Fields</th></tr>
+<tr>
+<th>Field</th>
+<th>Description</th></tr>
+<tr>
+<th>Link ID</th>
+<th>External network number</th></tr>
+<tr>
+<th>Network Mask</th>
+<th>Subnet mask for the external network</th>
+</tr>
+<tr>
+<th>Advertising Router</th>
+<th>RID of the router advertising the route (ASBR)</th>
+</tr>
+<tr>
+<th>Metric Type</th>
+<th>OSPF external metric type (Type 1 O E1 or Type 2 O E2)</th>
+</tr>
+<tr>
+<th>Metric</th>
+<th>Metric upon redistribution</th>
+</tr>
+<tr>
+<th>External Route Tag</th>
+<th>32-bit field included with an external route, which is not used by OSPF under normal operations but can be used to communicate AS boundaries or other relevant information to prevent routing loops
+</th>
+</tr>
+</table>
+
+<h3>LSA Type 4 </h3>
+
+A Type 4 LSA locates the ASBR for a Type 5 LSA. Type 4 LSAs provide a way for routers to locate the ASBR when the router is in a different area from the ASBR. A Type 4 LSA is created by the first ABR, and it provides a summary route strictly for the ASBR of a Type 5 LSA.
+
+<br>
+
+A Type 4 LSA locates the ASBR for a Type 5 LSA.
+OSPF routers cannot route packets to a naked Router ID; they need a path through the network topology to reach that specific router. The Type 4 LSA provides that missing topological map pointer. It essentially says: "To reach the ASBR with RID X.X.X.X, route your packets towards me."
+
+<br>
+
+Think of the Type 5 LSA as the What (What external networks exist?) and the Type 4 LSA as the Where (Where do I go to exit the OSPF network?)
+
+<br>
+
+To view the details of the Type 4 LSAs, you use the command <b>show ip ospf database asbr-summary</b>.
+
+<br>
+
+<h3>LSA Type 7</h3>
+
+A Type 7 LSA exists only in NSSAs where route redistribution is occurring
+
+<br>
+
+An ASBR injects external routes as Type 7 LSAs in an NSSA. The ABR does not advertise Type 7 LSAs outside the originating NSSA, but it converts the Type 7 LSA into a Type 5 LSA for the other OSPF areas. If the Type 5 LSA crosses Area 0, the second ABR creates a Type 4 LSA for the Type 5 LSA. 
+
+<br>
+
+To see the specific Type 7 LSA details, you use the command <b>show ip ospf database nssa-external</b>.
+
+
+<table border="1">
+<tr>
+<th>Type 7 LSA Fields</th>
+</tr>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+<tr>
+<th>Link ID</th>
+<th>External network number</th>
+</tr>
+<tr>
+<th>Network Mask</th>
+<th>Subnet mask for the external network</th>
+</tr>
+<tr>
+<th>Advertising Router</th>
+<th>RID of the router advertising the route (ASBR)</th>
+</tr>
+<tr>
+<th>Metric Type</th>
+<th>OSPF external metric type (Type 1 O N1 or Type 2 O N2)</th>
+</tr>
+<tr>
+<th>Metric</th>
+<th>Metric upon redistribution</th>
+</tr>
+<tr>
+<th>External Route Tag</th>
+<th>32-bit field that is included with an external route, which is not used by OSPF itself and can be used to communicate AS boundaries or other relevant information to prevent routing loops</th>
+</tr>
+</table>
+
+<h3>LSA Types Summary</h3>
+
+<table border="1">
+<tr>
+<th>OSPF LSA Types</th>
+</tr>
+<tr>
+<th>LSA Type</th>
+<th>Description</th>
+</tr>
+<tr>
+<th>1</th>
+<th>Router link</th>
+</tr>
+<tr>
+<th>2</th>
+<th>Network link</th>
+</tr>
+<tr>
+<th>3</th>
+<th>Summary link</th>
+</tr>
+<tr>
+<th>4</th>
+<th>ASBR summary</th>
+</tr>
+<tr>
+<th>5</th>
+<th>AS external</th>
+</tr>
+<tr>
+<th>7</th>
+<th>NSSA external</th>
+</tr>
+</table>
+<hr>
+<h2>OSPF Stubby Areas</h2>
+OSPF stubby areas provide a method to filter out external routes and the option to block interarea routes.
+
+<h3>Stub Areas</h3> 
+<br>
+OSPF stub areas prohibit Type 5 LSAs (external routes) and Type 4 LSAs (ASBR summary LSAs) from entering the area at the ABR. 
+<br>
+RFC 2328 states that when a Type 5 LSA reaches the ABR of a stub area, the ABR generates a default route for the stub via a Type 3 LSA. 
+<br>
+
+RFC 2328 states that when the ABR intercepts and drops an external Type 5 LSA, it should automatically replace it with a Type 3 LSA containing a default route (0.0.0.0/0). This tells the stub routers: "If you don't know where to send a packet, just send it to me (the ABR)."
+<br>
+A Cisco ABR generates a default route when the area is configured as a stub and has an OSPF-enabled interface configured for Area 0.  
+<br>
+All routers in the stub area must be configured as stubs, or an adjacency cannot form because the area type flags in the hello packets do not match. An area is configured as a stub with the OSPF process command <b>area area-id stub</b>. 
+<br>
+<h3>Totally Stubby Areas</h3> 
+
+
+Totally stubby areas prohibit Type 3 LSAs (interarea), Type 4 LSAs (ASBR summary LSAs), and Type 5 LSAs (external routes) from entering the area at the ABR
+<br>
+When an ABR of a totally stubby area receives a Type 3 or Type 5 LSA, the ABR generates a default route for the totally stubby area.
+<br>
+ABRs for totally stubby areas advertise the default route into the totally stubby areas the instant an interface is assigned to Area 0. Assigning the interface acts as the trigger for the Type 3 LSA that leads to the generation of the default route
+<br>
+Only intra-area and default routes should exist within a totally stubby area.
+<br><br>
+ABRs of a totally stubby area have no-summary appended to the configuration. The command <b>area area-id stub no-summary</b> is configured under the OSPF process.
+<br>
+
+<h3>Not-So-Stubby Areas</h3> 
+
+
+NSSA is the compromise: "not-so-stubby" because it still blocks Type 5 LSAs from coming in from the rest of the OSPF network (via the ABR), but it allows an ASBR that lives inside the NSSA to redistribute external routes.
+<br>
+The not-so-stubby-area (NSSA) prohibits Type 5 LSAs from entering at the ABR but allows for redistribution of external routes into the NSSA. 
+<br>
+As the ASBR redistributes the network into OSPF in the NSSA, the ASBR advertises the network with a Type 7 LSA instead of a Type 5 LSA. 
+<br>
+When the Type 7 LSA reaches the ABR, the ABR converts the Type 7 LSA to a Type 5 LSA. The ABR does not automatically advertise a default route when a Type 5 or Type 7 LSA is blocked. 
+
+<br><br>
+The command <b>area area-id nssa [default-information-originate]</b> is placed under the OSPF process on the ABR. All routers in an NSSA must be configured with the nssa option, or they do not become adjacent because the area type flags must match in the OSPF hello protocol in order to become adjacent. 
+<br>
+A default route is not injected on the ABRs automatically for NSSAs, but the optional command <b>default-information-originate</b> can be appended to the configuration if a default route is needed in the NSSA. This is typically configured on the ABR. It tells the ABR: "Generate a Type 7 default route (0.0.0.0/0) and advertise it into the NSSA," giving internal routers a path out even though they can't see the real external routes.
+
+<h3>Totally NSSAs</h3>
+
+Totally stubby areas prohibit Type 3 LSAs (interarea), Type 4 LSAs (ASBR summary LSAs), and Type 5 LSAs (external routes) from entering the area at the ABR, and they prohibit routes from being redistributed within that area. OSPF areas that need to block Type 3 and Type 5 LSAs and still provide the capability of redistributing external networks into OSPF should use the totally NSSA.
+<br><br>
+
+Member routers of a totally NSSA use the same configuration as members of an NSSA. ABRs of a totally stubby area have no summary appended to the configuration. The command <b>area area-id nssa no-summary</b> is configured under the OSPF process.
+
+
+<h2>OSPF Path Selection</h2>
+
+Interface cost is an essential component for Dijkstra’s SPF calculation because the shortest path metric is based on the cumulative interface cost (that is, metric) from the router to the destination
+<br>
+OSPF assigns the OSPF link cost (that is, metric) for an interface using the fomrula. cost = (Reference Bandwidth/ Interface Bandwith)
+
+<br>
+Under the OSPF process, the command <b>auto-cost reference-bandwidth bandwidth-in-mbps</b> changes the reference bandwidth for all OSPF interfaces associated with that process. If the reference bandwidth is changed on one router, it is a best practice to set the same reference bandwidth for all OSPF routers. 
+<br>
+The OSPF cost can be set manually with the command ip ospf cost 1-65535 under the interface. 
+
+<h3>Intra-Area Routes</h3>
+
+If multiple intra-area routes exist, the path with the lowest total path metric is installed in the OSPF Routing Information Base (RIB) and is then presented to the router’s global RIB. If there is a tie in metric, both routes are installed into the OSPF RIB.
+
+<h3>Interarea Route Selection</h3>
+
+The next priority for selecting a path to a network is selection of the path with the lowest total path metric to the destination. If there is a tie in metric, both routes are installed in the OSPF RIB. All interarea paths for a route must go through Area 0 to be considered
+
+<h3>External Route Selection</h3>
+External routes are classified as Type 1 or Type 2. The main differences between Type 1 and Type 2 external OSPF routes are as follows:
+<br>
+Type 1 routes are preferred over Type 2 routes.
+<br>
+The Type 1 metric equals the redistribution metric plus the total path metric to the ASBR. In other words, as the LSA propagates away from the originating ASBR, the metric increases.
+<br>
+The Type 2 metric equals only the redistribution metric. The metric is the same for the router next to the ASBR as it is for the router 30 hops away from the originating ASBR. This is the default external metric type that OSPF uses.
+
+<h3>E1 and N1 External Routes</h3>
+
+External OSPF Type 1 route calculation uses the redistribution metric plus the lowest path metric to reach the ASBR that advertised the network. If there is a tie in the path metric, both routes are installed into the RIB. 
+<br>
+If the ASBR is in a different area, the path of the traffic must go through Area 0. 
+<br>
+An ABR does not install O E1 and O N1 routes into the RIB at the same time. O N1 is always given preference for a typical NSSA, and its presence prevents the O E1 from being installed on the ABR.
+
+<h3>E2 and N2 External Routes</h3>
+External OSPF Type 2 routes do not increment in metric, regardless of the path metric to the ASBR. If there is a tie in the redistribution metric, the router compares the forwarding cost.
+<br>
+The forwarding cost is the metric to the ASBR that advertised the network, and the lower.
+<br>
+forwarding cost is preferred. If there is a tie in forwarding cost, both routes are installed into the routing table. 
+<br>
+An ABR does not install O E2 and O N2 routes into the RIB at the same time. O N2 is always given preference for a typical NSSA, and its presence prevents the O E2 from being installed on the ABR.
+
+<h3>Equal-Cost Multipathing</h3>
+
+If OSPF identifies multiple paths in the algorithms discussed so far in this chapter, those routes are installed into the routing table using equal-cost multipathing (ECMP). 
+<br>
+The default maximum number of ECMP paths is four. 
+<br>
+The default ECMP setting can be overwritten with the command <b>maximum-paths maximum-paths</b> under the OSPF process to modify the default setting.
+
+
+<h2>Summarization of Routes</h2>
+
+
+Summarization of routes helps SPF calculations run faster. All routers within an area must maintain an identical copy of the LSDB, summarization occurs between areas on the ABRs. Summarization can eliminate the SPF calculation outside the area for the summarized prefixes because the smaller prefixes are hidden
+<br>
+Interarea summarization reduces the number of Type 3 LSAs that an ABR advertises into an area when it receives Type 1 LSAs. The network summarization range is associated with a specific source area for Type 1 LSAs.
+<br>
+When a Type 1 LSA in the summarization range reaches the ABR from the source area, the ABR creates a Type 3 LSA for the summarized network range. The ABR suppresses the more specific Type 1 LSAs, thereby reducing the number of Type 1 LSAs being generated. Interarea summarization does not impact the Type 1 LSAs within the source area. 
+<br>
+You define the summarization range and associated area by using the command <b>area area-id range network subnet-mask [advertise | not-advertise] [cost metric]</b> under the OSPF process. 
+<br>
+The default behavior is to advertise the summary prefix, so the keyword advertise is not necessary. Appending cost metric to the command statically sets the metric on the summary route.
+<br>
+The ABR performing interarea summarization installs discard routes, which are routes to the Null0 interface that match the summarized network. 
+
+
+<h3>External Summarization</h3>
+
+
+External summarization reduces the number of external LSAs in an OSPF domain. 
+An external network summarization range is configured on the ASBR router, and network prefixes that match the network range do not generate a Type 5/Type 7 LSA for the specific prefix. Instead, a Type 5/Type 7 LSA with the external network summarization range is created, and the smaller routes in the summary range are suppressed. 
+<br>
+To configure external summarization, you use the command <b>summary-address network subnet-mask</b> under the OSPF process. 
+<br>
+The summarizing ASBR installs a discard route to Null0 that matches the summarized network range as part of a loop-prevention mechanism. 
+
+<h2>Discontiguous Network</h2>
+
+
+An OSPF network with interarea traffic that is trying to cross a non-backbone area. has a design call discontiguous 
+<br>
+ABRs follow three fundamental rules for creating Type 3 LSAs:
+- Type 1 LSAs received from an area create Type 3 LSAs into backbone area and non-backbone areas.
+- Type 3 LSAs received from Area 0 are created for the non-backbone area.
+- Type 3 LSAs received from a non-backbone area are only inserted into the LSDB for the source area. ABRs do not create a Type 3 LSA for the other areas (including a segmented Area 0).
+<br>
+The simplest fix for a discontiguous network is to ensure that Area 0 is contiguous
+
+<h2>Virtual Links</h2>
+
+OSPF virtual links provide a method to overcome discontiguous networks
+<br>
+Using a virtual link is similar to running a virtual tunnel within OSPF between an ABR and another multi-area OSPF router. The tunnel belongs to the backbone (Area 0), and therefore the router terminating the virtual link becomes an ABR if it does not have an interface already associated to Area 0.
+<br><br>
+Virtual links are built between routers in the same area. The area in which the virtual link endpoints are established is known as the transit area. Each router identifies the remote router by its RID. The virtual link can be one hop or multiple hops away from the remote device. 
+<br><br>
+You configure the virtual link by using the command <b>area area-id virtual-link endpoint-RID</b>. The configuration is performed on both endpoints of the virtual link. At least one endpoint virtual link router has to be a member of Area 0, and virtual links cannot be formed on any OSPF stubby areas.
+<br>
+To verify the virtual link status, you use the command <b>show ip ospf virtual-links</b>
+<hr>
+<br><br>
+shortest path first (SPF)<br>
+link-state advertisements (LSAs)<br>
+link-state database (LSDB)<br>
+SPF tree (SPT)<br>
+Area border routers (ABRs) <br>
+Internet Assigned Numbers Authority (IANA). <br>
+Database description (DBD or DDP)<br>
+Link-state request (LSR)<br>
+Link-state update (LSU)<br>
+router ID (RID)<br>
+backup DR (BDR)<br>
+nonbroadcast multi-access (NBMA)<br>
+Routing Information Base (RIB)<br>
+designated router (DR)<br>
+Autonomous System Boundary Router (ASBR)<br>
+equal-cost multipathing (ECMP)<br>
+
+
+
+<!-- 
+<h1></h1> protoclo
+<h2></h2> tema
+<h3></h3> subtema
+<h4></h4>
+<h5></h5>
+<b></b>
+<hr>
+
+<table border="1">
+<tr>
+<th>x</th>
+</tr>
+<tr>
+<th>x</th>
+<th>x</th>
+</tr>
+</table>
+
+
+<br>
+-->
+
+
+
+
+
+
+
+
+.

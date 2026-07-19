@@ -1,6 +1,7 @@
-import { Component, signal  } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal  } from '@angular/core';
 import {VpnsComponent} from '../vpns/vpns.component'
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {AcpsComponent} from '../acps/acps.component'
 import { AbcComponent } from "../abc/abc.component";
 import { BruteforceComponent } from "../bruteforce/bruteforce.component";
@@ -16,25 +17,38 @@ import { DadosComponent } from '../dados/dados.component';
 
 @Component({
   selector: 'app-window',
-  imports: [CommonModule, NeabcComponent, DadosComponent, ApliabcComponent, AcpsComponent, VpnsComponent, AbcComponent, BruteforceComponent, InterrumpcionEventosComponent, TableSpaceComponent, BdMovComponent, SoabcComponent, DbabcComponent, Brute25Component],
+  imports: [CommonModule, FormsModule, NeabcComponent, DadosComponent, ApliabcComponent, AcpsComponent, VpnsComponent, AbcComponent, BruteforceComponent, InterrumpcionEventosComponent, TableSpaceComponent, BdMovComponent, SoabcComponent, DbabcComponent, Brute25Component],
   templateUrl: './window.component.html',
   styleUrl: './window.component.css'
 })
-export class WindowComponent {
+export class WindowComponent implements OnInit{
 
   alerta= signal<string>('Inicio');
-  alertas: string[] = ['Inicio','VPN','ACPS','App abc','DB abc','SO abc','NE abc', 'BD Mov Crea Modi Dep' , 'Interrupción de Eventos','Dados de baja','Brute Force .25','Brute Force (.30/.50/.100)', 'Table Space'];
+  alertas: string[] = ['Inicio','VPN','ACPS','App abc','DB abc','SO abc','NE abc', 'Interrupción de Eventos','Dados de baja','Brute Force .25','Brute Force (.30/.50/.100)', 'Table Space'];
 
 
   tiempo = signal<string>('Buenos días');
   tiempos: string[] = ['Buenos días', 'Buenas tardes', 'Buenas noches'];
+  private timerId: any; 
+  ngOnInit() {
+    this.setAutoGreetingBasedOnTime();
 
-  atendido_Por = signal<string>('N/A')
-  atendidoPorChangeHandler (event: Event) {
-      const input = event.target as HTMLInputElement;
-      const newValue = input.value.trim();
-      this.atendido_Por.set(newValue);
-    };
+  }
+ 
+setAutoGreetingBasedOnTime() {
+    const currentHour = new Date().getHours(); // Returns 0 - 23
+
+    let automaticGreeting = 'Buenas noches'; // Default fallback
+
+    if (currentHour >= 6 && currentHour < 12) {
+      automaticGreeting = 'Buenos días';
+    } else if (currentHour >= 12 && currentHour < 19) {
+      automaticGreeting = 'Buenas tardes';
+    }
+
+    // 2. Set the signal. Angular & [(ngModel)] handle the dropdown selection automatically!
+    this.tiempo.set(automaticGreeting);
+  }  
 
 
 
