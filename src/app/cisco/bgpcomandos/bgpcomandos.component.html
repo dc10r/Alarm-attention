@@ -1,0 +1,100 @@
+<p>bgpcomandos works!</p>
+<h1>BGP Commands</h1>
+
+Initialize the BGP process with the global  <br>
+<b>router bgp as-number</b><br><br>
+
+
+<hr><h2>BGP process</h2>
+
+disables the automatic activation standard IPv4 Unicast<br>
+<b>no bgp default ip4-unicast</b> disables the automatic activation<br><br>
+
+configuring BGP RID <br>
+<b>bgp router-id router-id</b><br><br>
+
+Configure  BGP neighbor’s IP address and autonomous system number<br>
+<b>neighbor ip-address remote-as as-number</b><br><br>
+
+
+Specify the interface for BGP session for a  neighbor <br>
+<b>neighbor ip-address updatesource interface-id</b><br><br>
+
+To enable BGP authentication<br>
+<b>neighbor ip-address password password </b> <br><br>
+
+
+The BGP timers can be modified <br>
+<b>neighbor ip-address timers keepalive holdtime [minimum-holdtime]</b><br><br>
+
+Initialize the address family<br>
+<b>address-family afi safi</b><br><br>
+
+Activate the address family for the BGP neighbor <br>
+<b>neighbor ip-address activate</b><br><br>
+
+BGP neighbor session state, timers, and other  <br>
+<b>show bgp afi safi neighbors ip-address</b><br><br>
+
+Statically set the source address to an interface’s primary IP address <br>
+<b>neighbor ip-address update-source interface-id</b> command.<br><br>
+
+modifies the next-hop address in the NLRI for external BGP prefixes <br>
+<b>neighbor ip-address next-hop-self [all]</b><br><br>
+
+BGP route reflection<br>
+<b>neighbor ip-address route-reflector-client</b> <br><br>
+
+
+<hr><h2>view</h2>
+
+shows an established BGP session <br>
+<b>show tcp brief </b><br><br>
+
+A BGP session is verified <br>
+<b>show bgp afi safi summary</b><br><br>
+
+Earlier commands<br>
+<b>show ip bgp summary</b><br><br>
+
+displays the contents of the BGP database<br>
+<b>show bgp afi safi</b><br><br>
+
+Displays the contents of the Adj-RIB-Out table for a neighbor<br>
+<b>bgp afi safi neighbors ip-address advertised-routes</b><br><br>
+
+verify the exchange of NLRI routes between nodes<br>
+<b>show bgp ipv4 unicast summary</b> <br><br>
+
+BGP routes in the global IP routing table (RIB)<br>
+<b>show ip route bgp</b><br><br>
+
+
+<!-- 
+<h1></h1> protoclo
+<h2></h2> tema
+<h3></h3> subtema
+<h4></h4>
+<h5></h5>
+<b></b>
+<hr>
+
+<table border="1">
+<tr>
+<th>x</th>
+</tr>
+<tr>
+<th>x</th>
+<th>x</th>
+</tr>
+</table>
+
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+
+
+<br>
+-->

@@ -8,6 +8,8 @@ import { EigrpComponent } from './cisco/eigrp/eigrp.component';
 import { OspfCommandsComponent } from './cisco/ospf-commands/ospf-commands.component';
 import { OspfprepComponent } from './cisco/ospfprep/ospfprep.component';
 import { OspfComponent } from './cisco/ospf/ospf.component';
+import { BgpComponent } from './cisco/bgp/bgp.component';
+import { BgpcomandosComponent } from './cisco/bgpcomandos/bgpcomandos.component';
 
 export const routes: Routes = [
 
@@ -22,22 +24,6 @@ export const routes: Routes = [
         component: ApuntesComponent
     },
 
-    
-    {
-        path: 'vpns', 
-        component: VpnsComponent
-    },
-
-    {
-        path: 'abc',
-        component: AbcComponent
-    },
-
-    {
-        path: 'acps',
-        component: AcpsComponent
-    },
-
     {
         path: 'eigrp',
         component: EigrpComponent
@@ -47,12 +33,20 @@ export const routes: Routes = [
         component: OspfComponent
     },
     {
-        path: 'OspfCom',
+        path: 'ospfcomandos',
         component: OspfCommandsComponent
     },
         {
-        path: 'OspfPrep',
+        path: 'ospfPrep',
         component: OspfprepComponent
+    },
+    {
+        path: 'bgp',
+        component: BgpComponent
+    },
+    {
+        path: 'bgpcomandos',
+        component: BgpcomandosComponent
     },
 
 ];

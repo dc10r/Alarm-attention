@@ -4,6 +4,14 @@ initializes the OSPF process.<br>
 <b>router ospf process-id</b>
 
 <h2>under OSPF process</h2> <br>
+
+Enables OSPF routing and enters router configuration mode.<br>
+<b>router ospf process-id </b> <br><br>
+
+Defines an interface on which OSPF runs and defines the area ID for that interface. <br>
+<b>network ip-address wildcard-mask area area-id</b> <br><br>
+
+
 <b>router-id router-id</b> <br><br>
 
 makes the interface passive <br>
@@ -52,6 +60,10 @@ configure the virtual link <br>
 
 <hr><h2>under interface</h2>
 
+Interface configuration mode. <br>
+<b>ip ospf process-id area area-id </b> <br><br>
+
+
 Setting an interface priority<br>
 <b>ip ospf priority <0-255></b> <br><br>
 
@@ -89,9 +101,10 @@ sets the MD5 password. <br>
 OSPF cost set manually <br>
 <b>ip ospf cost 1-65535 under the interface. </b><br><br>
 
-<hr>
 
-<h2>view</h2>
+
+
+<hr><h2>view</h2>
 
 the process of forming an adjacency (detailed information for all of the states) <br>
 <b>debug ip ospf adj debug ip ospf adj</b> <br><br>
@@ -112,7 +125,8 @@ display OSPF routes <br>
 <b>show Ip route ospf</b> <br><br>
 
 Verifying authentication <br>
-<b>show ip ospf interface | i line|authentication </b> <br><br>
+<b>show ip ospf interface | i line|authentication </b> <br>
+<b>show ip ospf</b> <br><br>
 
 OSPF LSAs 1<br>
 <b>show ip ospf database router</b> <br><br>
@@ -135,8 +149,34 @@ Type 7 LSA <br>
 To verify the virtual link status <br>
 <b>show ip ospf virtual-links</b> <br><br>
 
+who should be the neighbors<br>
+<b>show cdp neighbors </b> <br><br> 
 
+Verify router OSPF configurations and status <br>
+<b>show ip interface brief</b> <br>
+<b>and show ip protocols</b><br><br>
 
+Verify current timers on an OSPF interface <br>
+<b>show ip ospf interface interface_type interface_number</b> <br><br>
+
+troubleshooting adjacencies to reveal mismatched timers <br>
+<b>debug ip ospf hello</b> <br><br>
+
+verify the area an OSPF interface <br>
+<b>show ip ospf interface interface_type interface_number</b> <br>
+<b>show ip ospf interface brief</b><br><br>
+
+when troubleshooting adjacencies to find mismatched area numbers:
+<b>debug ip ospf adj</b>
+
+the key ID being used on an interface-by-interface <br>
+<b>show ip ospf interface interface_type interface_number</b><br><br>
+
+the case-sensitive key string that is being used 
+<b>show running-config</b>
+
+To determine the network type associated with an OSPF-enabled interface <br>
+<b>show ip ospf interface interface_type interface_number</b> <br> <br>
 
 <!-- 
 
@@ -148,16 +188,3 @@ To verify the virtual link status <br>
 <b></b>
 -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-.

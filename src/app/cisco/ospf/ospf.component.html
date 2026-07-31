@@ -158,40 +158,51 @@ An OSPF neighbor is a router that shares a common OSPF-enabled network link. nei
 Each OSPF process maintains a table for adjacent OSPF neighbors and the state of each router.
 <br>
 
+<table border="1">
+<tr>
+<th>Adjacency States</th>
+</tr>
+<tr>
+<td>State</td>
+<td>Description</td>
+</tr>
+<tr>
+<td>Down</td>
+<td>This state indicates that no hellos have been received from a neighbor.</td>
+</tr>
+<tr>
+<td>Attempt</td>
+<td>This state occurs after a router sends a unicast hello (as opposed to a multicast hello) to a configured neighbor and has not yet received a hello from that neighbor.</td>
+</tr>
+<tr>
+<td>Init</td>
+<td>This state occurs on a router that has received a hello message from its neighbor; however, the OSPF RID of the receiving router was not contained in the hello message. If a router remains in this state for a long period, something is probably preventing that router from correctly receiving hello packets from the neighboring router.</td>
+</tr>
+<tr>
+<td>2-Way</td>
+<td>This state occurs when two OSPF routers have received hello messages from each other, and each router saw its own OSPF RID in the hello message it received. The 2-Way state is an acceptable state to stay in between DROTHERs on an Ethernet LAN.</td>
+</tr>
+<tr>
+<td>ExStart</td>
+<td>This state occurs when the routers forming a full neighbor adjacency decide who will send their routing information first. This is accomplished using the RID. The router with the higher RID becomes the master, and the other one becomes the slave. The master sends the routing information first. In a multi-access network, the DR and BDR have to be determined before this state starts. However, the DR does not have to be the master because each master/slave election is on a per-neighbor basis. If a router remains in this state for a long period, a maximum transmission unit (MTU) mismatch could exist between the neighboring routers, or a duplicate OSPF RID might exist.</td>
+</tr>
+<tr>
+<td>Exchange</td>
+<td>This state occurs when the two routers forming an adjacency send one another database descriptor (DBD) packets containing information about a router's link-state database. Each router compares the DBD packets received from the other router to identify missing entries in its own database. If a router remains in this state for a long period, an MTU mismatch could exist between the neighboring routers.</td>
+</tr>
+<tr>
+<td>Loading</td>
+<td>Based on the missing link-state database entries identified in the Exchange state, the Loading state occurs when each neighboring router requests the other router to send those missing entries. If a router remains in this state for a long period, a packet might have been corrupted, or a router might have a memory issue. Alternatively, it is possible that such a condition could result from the neighboring routers having an MTU mismatch.
+</td>
+</tr>
+<tr>
 
-State		Description
+<td>Pull</td>
+<td>This state indicates that the neighboring OSPF routers have successfully exchanged their link-state information with one another, and an adjacency has been formed
+</td>
+</tr>
+</table>
 
-<br>
-
-Down		The initial state of a neighbor relationship. It indicates that the router has not received any OSPF hello packets.
-
-<br>
-
-Attempt		A state that is relevant to nonbroadcast multi-access (NBMA) networks that do not support broadcast and that require explicit neighbor configuration. This state indicates that no recent information has been received, but the router is still attempting communication.
-
-<br>
-
-Init		A state in which a hello packet has been received from another a router, but bidirectional communication has not been established.
-
-<br>
-
-2-Way		A state in which bidirectional communication has been established. If a DR or BDR is needed, the election occurs during this state.
-
-<br>
-
-ExStart		The first state in forming an adjacency. Routers identify which router will be the master or slave for the LSDB synchronization.
-
-<br>
-
-Exchange	A state during which routers are exchanging link states by using DBD packets.
-
-<br>
-
-Loading		A state in which LSR packets are sent to the neighbor, asking for the more recent LSAs that have been discovered (but not received) in the Exchange state.
-
-<br>
-
-Full		A state in which neighboring routers are fully adjacent.
 
 <h3>Requirements for Neighbor Adjacency</h3>
 
@@ -280,34 +291,42 @@ Nbrs C		The number of neighbor OSPF routers for a segment that have been detecte
 
 The command <b>show ip ospf neighbor [detail]</b> provides the OSPF neighbor table
 Overview of the fields 
-
-<br>
-
-Field		Description
-
-<br>
+<br><br>
 
 
-<br>
-Neighbor ID	The router ID (RID) of the neighboring router.
+<table border="1">
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>Neighbor ID</td>
+<td>The router ID (RID) of the neighboring router.</td>
+</tr>
+<tr>
+<td>Priority</td>
+<td>The priority of the neighbor for the router election process</td>
+</tr>
+<tr>
+<td>State</td>
+<td>Whether the neighbor is a DR, BDR, or DROTHER</td>
+</tr>
+<tr>
+<td>Dead Time</td>
+<td>How long the router waits until it declares the neighbor down if it does not hear</td>
+</tr>
+<tr>
+<td>Address</td>
+<td>The neighbor’s interface IP address from which the hello packet was sent</td>
+</tr>
+<tr>
+<td>Interface</td>
+<td>The local router interface used to reach that neighbor</td>
+</tr>
+</table>
 
-<br>
-Pri		The priority for the neighbor's interface, which is used for DR/BDR elections.
 
-<br>
-State		The first State field is the neighbor state, as described in Table 6-4. The second State field is the DR, BDR, or DROTHER role if the interface requires a DR. For non-DR network links, the second field shows just ahyphen (-)-
-
-<br>
-Dead Time	The dead time left until the router is declared unreachable.
-
-<br>
-Address		The primary IP address for the OSPF neighbor.
-
-<br>
-Interface	The local interface to which the OSPF neighbor is attached.
-
-
-<br>
+<br><br>
 
 display OSPF routes installed in the Routing Information Base (RIB) by using the command
 <b>show ip route ospf</b>. Output look like [110/2].  first number is the administrative distance (AD), is 110 by default for OSPF, the second number is the metric of the path used for that network along with the next-hop IP address.
@@ -417,7 +436,7 @@ Cisco’s implementation of OSPF considers five OSPF network types:  Broadcast, 
 </tr>
 <tr>
 <td>Broadcast</td>
-<td>Default setting on OSPF-enabled Ethernet links.</td>
+<td>Default setting on OSPF-enabled Ethernet links. </td>
 <td>Yes</td>
 <td>Hello: 10 Wait: 40 Dead: 40</td>
 </tr>
@@ -811,12 +830,12 @@ The metric in the Type 3 LSA uses the following logic:
 <br>
 
 If the Type 3 LSA is created from a Type 1 LSA, it is the total path metric to reach the
-originating router in the Type 1 LSA. &#123;Advertised Metric&#125; = &#123;ABR's cost to reach the originating router&#125; ABR sits in the same area as the originating router, the ABR has the full topological map (SPF tree) of that area.
+originating router in the Type 1 LSA. &#123; Advertised Metric&#125;  = &#123; ABR's cost to reach the originating router&#125;  ABR sits in the same area as the originating router, the ABR has the full topological map (SPF tree) of that area.
 
 <br>
 
 If the Type 3 LSA is created from a Type 3 LSA from Area 0, it is the total path metric
-to the ABR plus the metric in the original Type 3 LSA. &#123;Advertised Metric&#125; = &#123;ABR-2's cost to reach ABR-1 (through Area 0)&#125; + &#123;Metric inside the received Type 3 LSA&#125;. ABR does not have a detailed topology map of the distant area where the route originally started.
+to the ABR plus the metric in the original Type 3 LSA. &#123; Advertised Metric&#125;  = &#123; ABR-2's cost to reach ABR-1 (through Area 0)&#125;  + &#123; Metric inside the received Type 3 LSA&#125; . ABR does not have a detailed topology map of the distant area where the route originally started.
 
 <br>
 
@@ -1125,6 +1144,339 @@ You configure the virtual link by using the command <b>area area-id virtual-link
 <br>
 To verify the virtual link status, you use the command <b>show ip ospf virtual-links</b>
 <hr>
+
+<h2>Troubleshooting OSPFv2</h2> 
+
+<h3>Troubleshooting OSPFv2 Neighbor Relationships</h3>
+
+The following are some of the reasons an OSPFv2 neighbor relationship might not form:
+
+<ul>
+  <li>Interface is down - The interface must be up/up.</li>
+  <li>Interface not running the OSPF process - If the interface is not enabled for OSPF, it does not send</li>
+  <li>Mismatched timers - Hello and dead timers must match between neighbors.</li>
+  <li>Mismatched area numbers - The two ends of a link must be in the same OSPF area.</li>
+  <li>Mismatched area type - In addition to a normal OSPF area type, an area type could be a stub area or a not-so-stubby area (NSSA). The routers must agree on the type of area they are in.</li>
+  <li>Different subnets - Neighbors must be in the same subnet.</li>
+  <li>Passive interface - The passive interface feature suppresses the sending and receiving of hello packets while still allowing the interface’s network to be advertised</li>
+  <li>Mismatched authentication information - Both OSPF interfaces must be configured for matching authentication</li>
+  <li>ACLs - An ACL may be denying packets to the OSPF multicast address 224.0.0.5</li>
+  <li>MTU mismatch - The maximum transmission unit of neighboring interfaces must match.</li>
+  <li>Duplicate router IDs - Router IDs must be unique.</li>
+  <li>Mismatched network types - neighbors configured with a different OSPF network type might not form an adjacency</li>
+</ul>
+
+<h3>Adjacency States</h3>
+
+Adjacencies are not established upon the immediate receipt of hello messages. Rather, an adjacency transitions through the various states.
+
+<table border="1">
+<tr>
+<th>Adjacency States</th>
+</tr>
+<tr>
+<td>State</td>
+<td>Description</td>
+</tr>
+<tr>
+<td>Down</td>
+<td>This state indicates that no hellos have been received from a neighbor.</td>
+</tr>
+<tr>
+<td>Attempt</td>
+<td>This state occurs after a router sends a unicast hello (as opposed to a multicast hello) to a configured neighbor and has not yet received a hello from that neighbor.</td>
+</tr>
+<tr>
+<td>Init</td>
+<td>This state occurs on a router that has received a hello message from its neighbor; however, the OSPF RID of the receiving router was not contained in the hello message. If a router remains in this state for a long period, something is probably preventing that router from correctly receiving hello packets from the neighboring router.</td>
+</tr>
+<tr>
+<td>2-Way</td>
+<td>This state occurs when two OSPF routers have received hello messages from each other, and each router saw its own OSPF RID in the hello message it received. The 2-Way state is an acceptable state to stay in between DROTHERs on an Ethernet LAN.</td>
+</tr>
+<tr>
+<td>ExStart</td>
+<td>This state occurs when the routers forming a full neighbor adjacency decide who will send their routing information first. This is accomplished using the RID. The router with the higher RID becomes the master, and the other one becomes the slave. The master sends the routing information first. In a multi-access network, the DR and BDR have to be determined before this state starts. However, the DR does not have to be the master because each master/slave election is on a per-neighbor basis. If a router remains in this state for a long period, a maximum transmission unit (MTU) mismatch could exist between the neighboring routers, or a duplicate OSPF RID might exist.</td>
+</tr>
+<tr>
+<td>Exchange</td>
+<td>This state occurs when the two routers forming an adjacency send one another database descriptor (DBD) packets containing information about a router's link-state database. Each router compares the DBD packets received from the other router to identify missing entries in its own database. If a router remains in this state for a long period, an MTU mismatch could exist between the neighboring routers.</td>
+</tr>
+<tr>
+<td>Loading</td>
+<td>Based on the missing link-state database entries identified in the Exchange state, the Loading state occurs when each neighboring router requests the other router to send those missing entries. If a router remains in this state for a long period, a packet might have been corrupted, or a router might have a memory issue. Alternatively, it is possible that such a condition could result from the neighboring routers having an MTU mismatch.
+</td>
+</tr>
+<tr>
+
+<td>Pull</td>
+<td>This state indicates that the neighboring OSPF routers have successfully exchanged their link-state information with one another, and an adjacency has been formed
+</td>
+</tr>
+</table>
+
+<h3>OSPF Basic Configuration Errors</h3>
+
+When an OSPF neighbor relationship does not form you need the assistance of an accurate physical and logical network diagram and the <b>show cdp neighbors </b> command to verify who should be the neighbors
+
+When troubleshooting OSPF adjacencies, you need to verify router OSPF configurations and status with various show commands like <b>show ip interface brief</b> <b>and show ip protocols</b>
+
+<ul>
+  <li>Router interfaces must be up/up if you plan on forming an OSPF neighbor adjacency.</li>
+  <li>OSPF <b>passive-interface</b> interface command targeting the wrong interface will prevent hello packets from being sent and neighbor adjacency from forming</li>
+  <li>Router OSPF <b>network ip_address wildcard_mask area area_id</b> command or <b>ip ospf process_id area area_id</b> interface command configured on the wrong interfaces or in the wrong area IDs can also prevent neighbor relationships from forming.</li>
+  <li>If an interface is enabled for OSPF with both the <b>network ip_address wildcard_mask area area_id</b> command and the <b>ip ospf process_id area area_id</b> command, the <b>ip ospf process_id area area_id</b> command takes precedence</li>
+</ul>
+
+<h3>Mismatched Timers</h3>
+
+OSPF timers must match for neighbor adjacencies to form (with EIGRP they do not). The hello timer defaults to 10 seconds for broadcast and point-to-point network types and 30 seconds for nonbroadcast and point-to-multipoint network types
+
+The dead timer defaults to 40 seconds for broadcast and point-to-point network types and 120 seconds for nonbroadcast and point-to-multipoint network types.
+
+Verify current timers on an OSPF interface, with the <b>show ip ospf interface interface_type interface_number</b> command
+
+You can use the <b>debug ip ospf hello</b> command when troubleshooting adjacencies to reveal mismatched timers
+
+For OSPF routers to form neighbor adjacencies, their neighboring interfaces must be in the same area. You can verify the area an OSPF interface by using either one of the following show commands:
+<b>show ip ospf interface interface_type interface_number</b>
+<b>show ip ospf interface brief</b>
+You can use a debug command when troubleshooting adjacencies to find mismatched area numbers:
+<b>debug ip ospf adj</b>
+
+<h3>Mismatched Area Type</h3>
+
+For routers within an area to form adjacencies, they must agree on the area type. Within the hello packet, a stub area flag is designed to indicate the type of area the neighbor is in.
+
+You can verify the types of areas connected to a router by using the <b>show ip protocols</b> command.
+
+If there is a router with multiple areas connected to it, you can verify the areas and their type by using the <b>show ip ospf</b> command
+
+he <b>debug ip ospf hello</b> command is used to find mismatched area types.
+
+
+<h3>Subnets and Passive Interfaces</h3> 
+
+Different Subnets - To form an OSPF neighbor adjacency, the router interfaces must be on the same subnet
+
+Passive Interface - Ensures that rogue routers will not be able to form adjacencies with a legitimate router on an interface since it is not sending or receiving OSPF packets on that interface. 
+
+<h3>Mismatched Authentication Information</h3>
+
+
+Both routers must agree on the settings for a neighbor relationship to form. To verify whether authentication has been enabled for the entire area on a router, you use the <b>show ip ospf</b> command.
+
+To verify the key ID being used on an interface-by-interface basis use the <b>show ip ospf interface interface_type interface_number</b> command.
+
+In addition, you must verify the case-sensitive key string that is being used by using the <b>show running-config</b> command.
+
+If you configure authentication on an interface-by-interface basis you need to check the output of <b>show ip ospf interface</b> command.
+
+You can use the <b>debug ip ospf adj</b> command to find mismatched authentication information.
+
+<h3>ACL and MTU Mismatch</h3>
+
+ACL (Access List) - If an ACL is applied to an interface, and the ACL is not permitting OSPF packets, a neighbor relationship does not form. Notice that ACL 100 is applied inbound on interface GigabitEthernet1/0. Note that outbound ACLs do not affect OSPF packets. Therefore, if there is an outbound ACL configured on an interface and a neighbor adjacency is not forming, the ACL is not the problem because the outbound ACL does not apply to OSPF packets generated on the local router.
+
+MTU Mismatch - For OSPF routers to become neighbors and achieve full adjacency, the interface of each router forming the adjacency must have the same MTU. If they don’t, the routers can see each other but get stuck in the ExStart/Exchange state.
+
+To solve this issue, you can manually modify the MTU values of the interfaces so that they match, or you can use the <b>ip ospf mtu-ignore</b> interface configuration command, which stops OSPF from comparing the MTU when trying to form an adjacency.
+
+<h3>Duplicate Router ID</h3> 
+
+
+OSPF neighbor relationships do not form between routers if they have the same RID. When a duplicate RID exists, you receive a syslog message
+
+If you manually change the RID with the <b>router-id ip_address</b> command in router OSPF configuration mode, you must reset the OSPF process by using the <b>clear ip ospf process</b> command in order for it to take effect
+
+
+<h3>Mismatched Network Types</h3>
+
+OSPF supports multiple network types. Different network types have different default values. Therefore, if two OSPF routers that are trying to form a neighbor adjacency are configured with noncompatible network types, a neighbor relationship does not form
+
+
+
+<table border="1">
+<tr>
+<th>OSPF Network Types and Characteristics</th>
+</tr>
+<tr>
+<th>Type</th>
+<th>Default</th>
+<th>Neighbors</th>
+<th>DR/BR</th>
+<th>Timers</th>
+</tr>
+<tr>
+<td>Broadcast</td>
+<td>Default on LAN interfaces</td>
+<td>Discoveredautomatically</td>
+<td>DR/BDR DR and BDR elected automatically</td>
+<td>Hello:10 <br>Dead: 40</td>
+</tr>
+<tr>
+<td>NBMA (nonbroadcast)</td>
+<td>Default on Frame Relay main and point-to-multipoint interfaces </td>
+<td>Statically configured</td>
+<td>DR must be manually configured on the hub router </td>
+<td>Hello:30 <br>Dead: 120</td>
+</tr>
+<tr>
+<td>Point-to-point</td>
+<td>Default on point-to-point serial and point-to-point Frame Relay subinterfaces</td>
+<td>Discovered automatically</td>
+<td>No DR or BDR</td>
+<td>Hello:10 <br>Dead: 40</td>
+</tr>
+<tr>
+<td>Point-to-multipoint</td>
+<td>(Not a default) Optimal for hub-and-spoke topologies (Frame Relay)</td>
+<td>Discovered automatically</td>
+<td>No DR or BDR</td>
+<td>Hello:30 <br>Dead: 120</td>
+</tr>
+<tr>
+<td>Point-to-multipoint nonbroadcast</td>
+<td>(Not a default) Optimal for hub-and-spoke topologies (Frame Relay) that do not support broadcast or multicast traffic</td>
+<td>Statically Configured</td>
+<td>No DR or BDR</td>
+<td>Hello:30 <br>Dead: 120</td>
+</tr>
+</table>
+
+To determine the network type associated with an OSPF-enabled interface, you can issue the command <b>show ip ospf interface interface_type interface_number</b>.
+
+<h2>Troubleshooting OSPFv2 Routes</h2>
+
+
+
+OSPF routers receive LSAs from every router within the same area. Every router in an area must have exactly the same link-state database (LSDB) for that area. If you have no neighbors, you will not learn any routes.
+
+Following is a list of common reasons OSPF routes might be missing either from the LSDB or the routing table:
+
+
+<ul>
+  <li>Interface not running the OSPF process - If the interface is not participating in the OSPF process, the network the interface is part of is not injected into the OSPF process and is therefore not advertised to neighbors.</li>
+  <li>Better source of information - If exactly the same network is learned from a more reliable source, it is used instead of the OSPF-learned information.</li>
+  <li>Route filtering - A filter might be preventing a route from being installed in the routing table.</li>
+  <li>Stub area configuration - If the wrong type of stub area is chosen, you might be receiving a default route instead of the actual route.</li>
+  <li>Interface is shut down - The OSPF-enabled interface must be up/up for the network associated with the interface to be advertised.</li>
+  <li>Wrong designated router elected - In a hub-and-spoke environment, if the wrong router is the DR, routes are not exchanged properly.</li>
+  <li>Duplicate RIDs - If there are two or more routers with the same RID, routes are missing in the topology.</li>
+</ul>
+
+
+<h3>Route Filtering</h3>
+
+
+A distribute list applied to an OSPF process controls which routes are installed into the routing table from the LSDB. Note that this differs from EIGRP, where the distribute list controls routes sent and received between neighbors.
+
+The reason this difference exists is that all OSPF routers in an area must have the same LSDB. To apply a route filter to OSPF, the distribute list is applied in OSPF configuration mode inbound (meaning into the routing table), and the routes installed are controlled by ACLs, prefix lists, or route maps.
+
+The show ip protocols command identifies whether a distribute list is applied to the OSPF
+process.
+
+To verify the entries in the prefix list, you issue the <b>show ip prefix-list TEST</b> command,  If an ACL is applied, you issue the <b>show access-list</b> command. If a route map is applied, you issue the <b>show route-map</b> command. You can verify the command that was used to apply the distribute list in the running configuration
+
+
+<h3>Stub Area Configuration</h3>
+
+Stub areas or NSSAs, suppress Type 5 External LSAs from entering an area at the ABR. Totally stubby areas and totally NSSAs, suppress Type 5 External and Type 3 Summary LSAs from entering an area at the ABR. The routes that would have been learned from the Type 5 and Type 3 LSAs are now replaced by a default route. 
+
+With only a default route, the router loses visibility of the overall network, which could produce suboptimal routing in redundant environments.
+
+ou can verify whether the area connected to the router is a stub area or an NSSA by using the <b>show ip ospf</b> 
+
+With totally stubby areas or totally NSSAs you configure the <b>no-summary</b> keyword on the ABR. 
+
+<h3>Wrong DR Elected</h3>
+
+In a subnet with multiple routers it does not matter which router is elected as the DR (multi-access Ethernet topology or a full-mesh Frame Relay topology) because every router is able to reach the DR
+
+It does matter who the DR is over a hub-and-spoke nonbroadcast multi-access (NBMA) network such as Frame Relay or with a Dynamic Multipoint VPN (DMVPN), because the underlying Layer 2 topology does not line up with the Layer 3 addressing.
+
+The DR router needs to be reachable through a single hop because of how OSPF neighbor relationships are formed and how routers communicate with the DR. Hellos are established with the multicast address 224.0.0.5, and the DR is reachable at the multicast address 224.0.0.6. Packets destined to these two multicast addresses are not relayed by other routers
+
+Because the DR is responsible for relaying learned routes in a multi-access network, it needs to be centrally located
+
+<h3>Duplicate Router IDs</h3>
+
+The OSPF router ID (RID) is used in forming neighbor relationships and to determine which router is advertising a specific LSA, it is imperative that the RIDs are unique in the 
+domain.
+
+Having duplicate RIDs in different areas would cause the physical OSPF topology to be different from the way the SPF algorithm sees it. This can cause routing issues because some routes may not be passed between areas, causing the LSDB and the routing tables to be incomplete
+
+
+
+<h2>Troubleshooting Miscellaneous OSPFv2 Issues</h2>
+
+<h3>Tracking OSPF Advertisements Through a Networ</h3>
+
+
+
+<table border="1">
+<tr>
+<th>OSPF LSAs</th>
+</tr>
+<tr>
+<td>LSA Type</td>
+<td>Description</td>
+</tr>
+<tr>
+<td>1</td>
+<td>All OSPF routers source Type 1 LSAs. These advertisements list information about directly connected subnets, the OSPF connection types of a router, and the known OSPF adjacencies of a router. A Type 1 LSA is not sent out its local area.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>The designated router on a multi-access network sends a Type 2 LSA for that network if the network contains at least two routers. A Type 2 LSA contains a list of routers connected to the multi-access network and, like a Type 1 LSA, is constrained to its local area.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>A Type 3 LSA is sourced by an ABR. Each Type 3 LSA sent into an area contains information about a network reachable in a different area. Note that network information is exchanged only between the backbone area and a nonbackbone area, as opposed to being exchanged between two nonbackbone areas.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Much like a Type 3 LSA, a Type 4 LSA is sourced by an ABR. However, instead of containing information about OSPF networks, a Type 4 LSA contains information stating how to reach an autonomous system boundary router (ASBR).</td>
+</tr>
+<tr>
+<td>5</td>
+<td>A Type 5 LSA is sourced by an ASBR and contains information about networks reachable outside the OSPF domain. A Type 5 LSA is sent to all OSPF areas except for stub areas. Note that the ABR for a stub area sends default route information into the stub area rather than sending the network-specific Type 5 LSAs.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>A Type 7 LSA is sourced from an ASBR within an NSSA. Whereas a stub area cannot connect to an external autonomous system, an NSSA can. The Type 7 LSA exists only in the NSSA; therefore, the external routes are announced by the ABR(s) of the NSSA into Area 0 using Type 5 LSAs. In addition, as with a stub area, external routes known to another OSPF area are not forwarded into an NSSA since Type 5 LSAs are not permitted in an NSSA. </td>
+</tr>
+</table>
+
+
+<h3>Route Summarization</h3>
+
+With OSPF, manual route summarization is enabled on an area-by-area basis on an ABR and on an ASBR to summarize external routes being injected into an area.
+
+Remember that interarea summaries are created on ABRs with the <b>area area-id range ip-
+prefix</b> command and that external summaries are created on ASBRs with the <b>summary-
+address ip prefix/length</b> command.
+
+When a summary route is created on a router, so is a summary route to Null0
+
+This route to Null0 is created and installed in the routing table to prevent routing loops. It is imperative that this route be in the table to ensure that if a packet received by this router and destined to a network that falls within the summary, but for which the router does not know how to reach (longer match), it is dropped.
+
+<h3>Discontiguous Areas and Virtual Links</h3>
+Common virtual link mistakes are, not configuring the area with the transit area or incorrectly configuring the router-ids
+
+he output of <b>show ip ospf virtual-links</b>, which provides more details about the virtual link. It is not only important to verify that the virtual link is up but that the state is full, which indicates that LSAs have been successfully exchanged
+
+
+<h3>Load Balancing</h3> 
+
+OSPF supports only equal-cost load balancing. Therefore, when troubleshooting load balancing
+for OSPF, your two primary points of concern are the overall end-to-end cost and the maximum number of paths permitted for load balancing
+
+To verify the maximum number of equal-cost paths an OSPF router is currently configured to support, use the <b>show ip protocols</b> command.
+
+
+
+<hr>
 <br><br>
 shortest path first (SPF)<br>
 link-state advertisements (LSAs)<br>
@@ -1142,8 +1494,6 @@ Routing Information Base (RIB)<br>
 designated router (DR)<br>
 Autonomous System Boundary Router (ASBR)<br>
 equal-cost multipathing (ECMP)<br>
-
-
 
 <!-- 
 <h1></h1> protoclo
@@ -1163,6 +1513,12 @@ equal-cost multipathing (ECMP)<br>
 <th>x</th>
 </tr>
 </table>
+
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
 
 
 <br>

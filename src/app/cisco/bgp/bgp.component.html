@@ -1,0 +1,457 @@
+<p>bgp works!</p>
+<h1>BGP</h1>
+
+
+<h2>BGP Fundamentals</h2>
+<h3>Autonomous System Numbers (ASNs)</h3>
+
+
+
+In BGP, an autonomous system (AS) is a collection of routers under a single organization’s control. BGP can use one or more Interior Gateway Protocols (IGPs) and common metrics to route packets within an AS, although an AS can use BGP as the only routing protocol.
+<br>
+
+
+An organization requiring connectivity to the internet must obtain an ASN. ASNs were originally 2 bytes (in the 16-bit range) which made 65,535 ASNs possible. Due to exhaustion, RFC 4893 expanded the ASN field to accommodate 4 bytes (in the 32-bit range). This allows for 4,294,967,295 unique ASNs.
+<br>
+
+Two blocks of private ASNs are available for any organization to use, as long as these ASNs are never exchanged publicly on the internet. 
+<ul>
+  <li>ASNs 64,512 through 65,535 are private ASNs in the 16-bit range</li>
+  <li>ASNs 4,200,000,000 through 4,294,967,294 are private ASNs in the 32-bit range</li>
+</ul>
+
+It is imperative to use only the ASN assigned by the IANA, the ASN assigned by your service provider, or a private ASN. Using another organization’s ASN without permission could result in traffic loss and cause havoc on the internet
+
+<h3>BGP Sessions</h3>
+
+
+A BGP session is an established adjacency between two BGP routers. Multi-hop sessions require that the router use an underlying route installed in the Routing Information Base (RIB) (static or from any routing protocol) to establish the TCP session with the remote endpoint.
+<br>
+BGP sessions are categorized into two types:
+<ul>
+  <li> Internal BGP (iBGP) - Sessions established with an iBGP router that are in the same AS or that participate in the same BGP confederation</li>
+  <li>External BGP (eBGP) - Sessions established with a BGP router that is in a different AS</li>
+</ul>
+
+<h3>Path Attributes</h3>
+
+BGP uses path attributes (PAs) associated with each network path. The PAs provide BGP with granularity and control of routing policies in BGP. The BGP prefix PAs are classified as any of the following:
+
+<ul>
+  <li>Well-known mandatory: must be included with every prefix advertisement</li>
+  <li>Well-known discretionary: may or may not be included with the prefix advertisement</li>
+  <li>Optional transitive: stays with the route advertisement from AS to AS</li>
+  <li>Optional non-transitive: cannot be shared from AS to AS</li>
+</ul>
+
+Well-known attributes must be recognized by all BGP implementations. Optional attributes do not have to be recognized by all BGP implementations. 
+<br>
+In BGP, the Network Layer Reachability Information (NLRI) is the routing update that consists of the network prefix, prefix length, and any BGP PAs for that specific route.
+<br>
+<h3>Loop Prevention</h3>
+
+
+<ul>
+  <li> BGP is a path vector routing protocol and does not contain a complete topology of the network, as do link-state routing protocols. </li>
+  <li> BGP behaves like distance vector protocols, ensuring that a path is loop free.</li>
+  <li> The BGP attribute AS_Path is a well-known mandatory attribute and includes a complete list of all the ASNs that the prefix advertisement has traversed from its source AS.</li>
+  <li> AS_Path is used as a loop-prevention mechanism in BGP. If a BGP router receives a prefix advertisement with its AS listed in AS_Path, it discards the prefix because the router thinks the advertisement forms a loop</li>
+</ul>
+
+
+<h3>Address Families</h3>
+
+BGP was intended for only routing IPv4 prefixes, but RFC 2858 added Multi-Protocol BGP (MP-BGP) capability by adding an extension called the address family identifier (AFI). 
+<br>
+An address family correlates to IPv4 or IPv6, and additional granularity is provided through a subsequent address family identifier (SAFI), such as unicast or multicast.
+<br>
+Multiprotocol BGP (MP-BGP) achieves this separation by using the BGP path attributes (PAs) MP_REACH_NLRI and MP_UNREACH_NLRI. These attributes are held inside BGP update messages and are used to carry network reachability information for different address families.
+<br>
+Every address family maintains a separate database and configuration for each protocol (address family plus sub-address family) in BGP. This allows for a routing policy in one address family to be different from a routing policy in a different address family. 
+<br>
+BGP includes an AFI and a SAFI with every route advertisement to differentiate between the AFI and SAFI databases
+
+<br>
+<h3>Inter-Router Communication</h3>
+
+BGP does not use hello packets to discover neighbors, and it cannot discover neighbors dynamically. Inter-autonomous system routing adjacencies should not change frequently and are coordinated. A BGP session refers to the established adjacency between two BGP routers.
+<br>
+BGP neighbors are defined by IP address and BGP uses TCP port 179 to communicate with other routers which can cross networks (multi-hop capable). BGP can form directly connected neighbor adjacencies as well as adjacencies that are multiple hops away.
+<br>
+Multi-hop sessions require that the router use an underlying route installed in the RIB (static or from any routing protocol) to establish the TCP session with the remote endpoint.
+
+<h3>BGP Messages</h3> 
+
+BGP communication uses four message types: OPEN, UPDATE, NOTIFICATION and KEEPALIVE 
+<br>
+<table border="1">
+<tr>
+	<th>BGP Packet Types</th>
+</tr>
+<tr>
+	<th>Type</th>
+	<th>Name</th>
+	<th>Functional Overview</th>
+</tr>
+<tr>
+	<td>1</td>
+	<td>OPEN</td>
+	<td>Sets up and establishes BGP adjacency</td>
+</tr>
+<tr>
+	<td>2</td>
+	<td>UPDATE</td>
+	<td>Advertises, updates, or withdraws routes</td>
+</tr>
+<tr>
+	<td>3</td>
+	<td>NOTIFICATION</td>
+	<td>Indicates an error condition to a BGP neighbor</td>
+</tr>
+<tr>
+	<td>4</td>
+	<td>KEEPALIVE</td>
+	<td>Ensures that BGP neighbors are still alive</td>
+</tr>
+</table>
+
+<h4>OPEN</h4>
+
+OPEN is used to set up and establish a BGP adjacency. The OPEN message contains the BGP version number, the ASN of the originating router, the hold time, the BGP identifier, and other optional parameters that establish the session capabilities: 
+<br>
+Hold time - When establishing a BGP session, the routers use the smaller hold time value contained in the two routers’ OPEN messages. The hold time value must be at least 3 seconds, or the hold time is set to 0 to disable KEEPALIVE messages. For Cisco routers, the default hold time is 180 seconds. When the hold timer reaches zero, the BGP session is torn down and routes are removed.  An update message is sent to other BGP neighbors for the affected prefixes
+<br>
+BGP identifier - the BGP router ID (RID) is a 32-bit unique number that identifies the BGP router in the advertised prefixes. The RID can be used as a loop-prevention mechanism for routers advertised within an autonomous system.  The RID can be set manually or dynamically for BGP. A nonzero value must be set in order for routers to become neighbors.
+
+<h4>UPDATE</h4>
+This message advertises any feasible routes, withdraws previously advertised routes, or both. The UPDATE message holds the NLRI, which includes the prefix and associated BGP PAs when advertising prefixes. Withdrawn NLRI routes include only the prefix. An UPDATE message can act as a keepalive to reduce unnecessary traffic
+
+<h4>NOTIFICATION</h4>
+
+This message is sent when an error is detected with the BGP session, such as a hold timer expiring, neighbor capabilities changing, or a BGP session reset being requested. This causes the BGP connection to close
+
+<h4>KEEPALIVE</h4>
+
+These messages are exchanged ever one-third of the hold timer agreed upon between the two BGP routers. Cisco devices have a default hold time of 180 seconds, and a default keepalive interval of 60 seconds. If the hold time is set to 0, no KEEPALIVE messages are sent between the BGP neighbors.
+<br>
+<h3>BGP Neighbor States</h3> 
+BGP forms a TCP session with neighbor routers called peers. BGP uses the finite-state machine (FSM)
+<br>
+
+Idle - BGP detects a start event and tries to initiate a TCP connection to the BGP peer and also listens for a new connection from a peer router. If an error causes BGP to go back to the Idle state a second time, the ConnectRetry timer is set to 60 seconds and must decrement to 0 before the connection can be initiated again. Further failures to leave the Idle state result in the ConnectRetry timer doubling in length from the previous time
+<br>
+
+Connect - BGP initiates the TCP connection. The router initiating the request uses a dynamic source port, but the destination port is always 179. If the three-way TCP handshake completes, the established BGP session resets the ConnectRetry timer, sends the OPEN message to the neighbor, changes to the OpenSent state. 
+During the connect state, the router with the higher  IP address manages the connection
+<br>
+Active - BGP starts a new three-way TCP handshake. If a connection is established, an OPEN message is sent, the hold timer is set to 4 minutes, and the state moves to OpenSent. If this attempt for TCP connection fails, the state moves back to the Connect state and resets the ConnectRetry timer.
+<br>
+OpenSent - An OPEN message has been sent and is awaiting an OPEN message from the other router. When the router receives the OPEN message from the other router, both OPEN messages are checked for errors. The following items are compared:
+<br>
+<ul>
+  <li>BGP versions must match.</li>
+  <li>OPEN message source IP must match the configured neighbor IP.</li>
+  <li>OPEN message AS number must match the configured neighbor AS.</li>
+  <li>BGP identifiers (RIDs) must be unique. If no RID exists condition is not met.</li>
+  <li>Security parameters (such as password and TTL) must be set correctly.</li>
+</ul>
+<br>
+If the OPEN messages do not have any errors, the hold time is negotiated and a KEEPALIVE message is sent. The connection state is then moved to OpenConfirm. If an error is found in the OPEN message, a NOTIFICATION message is sent, and the state is moved back to Idle. If TCP receives a disconnect message, BGP closes the connection, resets the ConnectRetry timer, and sets the state to Active.
+<br>
+OpenConfirm - BGP waits for a KEEPALIVE or NOTIFICATION message. Upon receipt of a neighbor’s KEEPALIVE, the state is moved to Established. If the hold timer expires, a stop event occurs, or a NOTIFICATION message is received, the state is moved to Idle.
+<br>
+
+Established - The BGP session is established. BGP neighbors exchange routes through UPDATE messages. As UPDATE and KEEPALIVE messages are received, the hold timer is reset. If the hold timer expires, an error is detected, and BGP moves the neighbor back to the Idle state
+<br>
+shows an established BGP session with the command <b>show tcp brief </b>
+<br>
+<h2>Basic BGP Configuration</h2>
+
+<h3>BGP Configuration Components</h3> 
+
+BGP router configuration requires the following components:
+<br>
+BGP session parameters - settings for establishing communication to the remote BGP neighbor including: ASN of the BGP peer, authentication, keepalive timers, and source and destination IP address settings for the session.
+<br>
+Address family initialization - initialized under the BGP router configuration mode. Network advertisement and summarization occur within the address family
+<br>
+Activation of the address family on the BGP peer - must be activated for a BGP peer in order for BGP to initiate a session with that peer. The router’s IP address is added to the neighbor table, and BGP attempts to establish a BGP session or accepts a BGP session initiated from the peer router.
+<br>
+
+<h3>BGP Configuration Steps</h3>
+
+Step 1. Initialize the BGP process with the global command <b>router bgp as-number</b>.
+<br><br>
+Step 2. Statically configure the BGP router ID (RID) (optional). The dynamic RID allocation uses the highest IP of the loopback interfaces. If there is not a loopback interface, then the highest IP address of any active up interfaces becomes the RID. Statically configuring the BGP RID using the command <b>bgp router-id router-id</b> is a best practice. When the router ID changes, all BGP sessions reset and need to be reestablished.
+
+<br><br>
+Step 3. Configure the BGP neighbor’s IP address and autonomous system number with the BGP router configuration command <b>neighbor ip-address remote-as as-number</b>
+<br><br>
+Step 4. Specify the source interface for the BGP session (Optional). The source IP address of the BGP packets still reflects the IP address of the outbound interface. When a BGP packet is received, the router correlates the source IP address of the packet to the IP address configured for that neighbor. If the BGP packet source does not match an entry in the neighbor table, the packet cannot be associated to a neighbor and is discarded. Specify the interface for the BGP session for a specific neighbor with the command <b>neighbor ip-address updatesource interface-id</b>
+<br><br>
+Step 5. Enable BGP authentication (optional) using a Message Digest 5 (MD5) authentication hash. To enable BGP authentication, place the command <b>neighbor ip-address password password </b> under the neighbor session parameters
+<br><br>
+
+Step 6. Modify the BGP timers (optional). The default hold timer requires that a packet be received every 3 minutes (180 seconds) to maintain the BGP session. By default, BGP sends a KEEPALIVE message to a BGP neighbor every 60 seconds. The BGP keepalive timer and hold timer can be set at the process level or per neighbor session. The BGP timers can be modified for a session with the command <b>neighbor ip-address timers keepalive holdtime [minimum-holdtime]</b>
+<br><br>
+BGP KEEPALIVE and UPDATE messages ensure that the BGP neighbor is established. 
+<br><br>
+Step 7. Initialize the address family with the BGP router configuration command <b>address-family afi safi</b>. Examples of AFIs are IPv4 and IPv6 and examples of SAFIs are unicast and multicast.
+
+<br><br>
+Step 8. Activate the address family for the BGP neighbor by using the BGP address family  configuration command <b>neighbor ip-address activate</b>
+<br><br>
+
+By default, when you configure a neighbor under a Cisco BGP process, Cisco IOS automatically assumes you want to exchange standard IPv4 Unicast routes with that neighbor. The command <b>no bgp default ip4-unicast</b> disables the automatic activation
+
+<h3>Verification of BGP Sessions</h3>
+
+A BGP session is verified with the <b>show bgp afi safi summary</b> .Earlier commands, such as <b>show ip bgp summary</b>, came out before MP-BGP and do not provide a structure for the current multiprotocol capabilities in BGP
+<br>
+
+<table border="1">
+<tr>
+	<th>BGP Summary Fields</th>
+</tr>
+<tr>
+	<td>Field</td>
+	<td>Description</td>
+</tr>
+<tr>
+	<td>Neighbor</td>
+	<td>IP address of the BGP peer</td>
+</tr>
+<tr>
+	<td>V</td>
+	<td>BGP version used by the BGP peer</td>
+</tr>
+<tr>
+	<td>AS</td>
+	<td>Autonomous system number of the BGP peer</td>
+</tr>
+<tr>
+	<td>MsgRcvd</td>
+	<td>Count of messages received from the BGP peer</td>
+</tr>
+<tr>
+	<td>MsgSent</td>
+	<td>Count of messages sent to the BGP peer</td>
+</tr>
+<tr>
+	<td>TblVer</td>
+	<td>Last version of the BGP database sent to the peer</td>
+</tr>
+<tr>
+	<td>InQ</td>
+	<td>Number of messages queued to be processed from the peer</td>
+</tr>
+<tr>
+	<td>OutQ</td>
+	<td>Number of messages queued to be sent to the peer</td>
+</tr>
+<tr>
+	<td>Up/Down</td>
+	<td>Length of time the BGP session is established, or the current status if the session is not in an established state</td>
+</tr>
+<tr>
+	<td>State/PfxRcd</td>
+	<td>Current state of the BGP peer or the number of prefixes received from the peer</td>
+</tr>
+</table>
+
+<br>
+You can get BGP neighbor session state, timers, and other essential peering information by using the <b>show bgp afi safi neighbors ip-address</b> command,
+<br>
+<h3>Prefix Advertisement – BGP Tables</h3>
+BGP uses three tables for maintaining the network paths and path attributes (PAs) for a prefix.
+<br>
+Adj-RIB-in - Contains the Network Layer Reachability Information (NLRI) routes in original form (before inbound route policies are processed). The table is purged after all route policies are processed to save memory. a "mailbox" per neighbor, holding routes exactly as received, before any policy is applied. BGP's own local best-path table
+<br>
+
+Loc-RIB - Contains all the NLRI routes that originated locally or were received from other BGP peers. After NLRI routes pass the validity and next-hop reachability check, the BGP best-path algorithm selects the best NLRI for a specific prefix. The Loc-RIB table is the table used for presenting routes to the IP routing table.
+<br>
+Adj-RIB-out - Contains the NLRI routes after outbound route policies have been processed. a per-neighbor "outbox" holding what you're actually about to advertise, after outbound policy.
+<br>
+You install network prefixes in the BGP Loc-RIB table with the <b>network network mask subnet-mask [route-map route-map-name] </b> command under the appropriate BGP address family configuration. 
+<br>
+The optional route-map provides a method to set specific BGP PAs when the prefix installs into the Loc-RIB table. 
+<br>
+<h3>Prefix Advertisement</h3>
+it's about how the network command works in BGP.
+<br>
+When you configure a network statement under router bgp, you're telling the router: "take this prefix from my regular routing table and advertise it via BGP."
+<br>
+That's it — the network command doesn't create a route. It just picks an existing route out of the router's global routing table (the RIB) and injects it into BGP.
+<br>
+After verifying that the network statement matches a prefix in the global RIB, the prefix is installed into the BGP Loc-RIB table. As the BGP prefix is installed into the Loc-RIB table, the following BGP PAs are set, depending on the RIB prefix type:
+<br>
+Connected network - The next-hop BGP attribute is set to 0.0.0.0, the BGP origin attribute is set to i (for IGP), and the BGP weight is set to 32,768
+<br>
+Static route or routing protocol - The next-hop BGP attribute is set to the next-hop IP address in the RIB, the BGP origin attribute is set to i (for IGP), the BGP weight is set to 32,768, and the multi-exit discriminator (MED) is set to the IGP metric
+<br>
+When a route is received from a peer, BGP performs the following route processing steps
+<br>
+
+<ul>
+  <li>Step 1. Store the route(raw) in the Adj-RIB-In table in the original state and apply the inbound route policy, based on the neighbor from which it was received</li>
+  <li>Step 2. Update the Loc-RIB table with the latest entry. The Adj-RIB-In table is cleared to save memory.</li>
+  <li>Step 3. Pass a validity check to verify that the route is valid and that the next-hop address is resolvable in the global RIB. If the route fails, the route remains in the Loc-RIB table but is not processed further. "why isn't this BGP route in my routing table?" → often the next-hop isn't resolvable.</li>
+  <li>Step 4. Identify the BGP best path and pass only the best path and its path attributes to step 5.</li>
+  <li>Step 5. Install the best-path route into the global RIB, process the outbound route policy, store the non-discarded routes in the Adj-RIB-Out table, and advertise to BGP peers</li>
+</ul>
+
+The <b>show bgp afi safi</b> command displays the contents of the BGP database (Loc-RIB table). Every entry in the BGP Loc-RIB table contains at least one path but could contain multiple paths for the same network prefix.
+<br>
+
+<table border="1">
+<tr>
+	<th>BGP Table Fields</th>
+</tr>
+<tr>
+	<td>Field</td>
+	<td>Description</td>
+</tr>
+<tr>
+	<td>Network</td>
+	<td>A list of the network prefixes installed in BGP. If multiple NLRI routes exist for the same prefix, only the first prefix is identified, and others leave a blank space.
+Valid NLRI routes are indicated by the *. The NLRI selected as the best path is indicated by an angle bracket (>).</td>
+</tr>
+<tr>
+	<td>Next Hop</td>
+	<td>A well-known mandatory BGP path attribute that defines the IP address for
+the next hop for that specific NLRI.</td>
+</tr>
+<tr>
+	<td>Metric</td>
+	<td>Multiple-exit discriminator (MED), an optional non-transitive BGP path attribute used in the BGP best-path algorithm for that specific NLRI.</td>
+</tr>
+<tr>
+	<td>LocPrf</td>
+	<td>Local preference, a well-known discretionary BGP path attribute used in the BGP best-path algorithm for that specific NLRI.</td>
+</tr>
+<tr>
+	<td>Weight</td>
+	<td>A locally significant Cisco-defined attribute used in the BGP best-path algorithm for that specific NLRI.</td>
+</tr>
+<tr>
+	<td>Path and Origin</td>
+	<td>AS Path, a well-known mandatory BGP path attribute used for loop prevention and in the BGP best-path algorithm for that specific NLRI. Origin, a well-known mandatory BGP path attribute used in the BGP best-path algorithm. The value i represents an IGP, e is for EGP, and ? is for a route that was redistributed into BGP.</td>
+</tr>
+
+</table>
+
+
+<h3>Prefix Advertisement – Adj-RIB-OUT Table</h3>
+<br>
+The Adj-RIB-Out table is a unique table maintained for each BGP peer. It enables a network engineer to view routes advertised to a specific router. The show <b>bgp afi safi neighbors ip-address advertised-routes</b> command displays the contents of the Adj-RIB-Out table for a neighbor
+<br>
+The <b>show bgp ipv4 unicast summary</b> command is also used to verify the exchange of NLRI routes between nodes
+<br>
+
+You display the BGP routes in the global IP routing table (RIB) by using the <b>show ip route bgp</b> command
+<br>
+<h2>Understanding BGP Session Types and Behavior </h2>
+
+BGP sessions are always point-to-point between two routers and are categorized into two types:
+
+<ul>
+  <li> Internal BGP (iBGP) - Sessions established with an iBGP routers that are in the same AS or that participate in the same confederation</li>
+  <li>External BGP (eBGP) - Sessions established with a BGP router in a different AS</li>
+</ul>
+
+<h3>iBGP</h3>
+<br>
+Internal BGP (iBGP) - Sessions established with iBGP routers that are in the same AS or that participate in the same confederation.
+<br>
+The need for BGP within an AS typically occurs when multiple routing policies are needed or when transit connectivity is provided between autonomous systems.
+<br>
+iBGP prefixes are assigned an administrative distance of 200.
+<br>
+External BGP (eBGP) - Sessions established with a BGP router that are in a different AS. eBGP prefixes are assigned an AD of 20.
+<br>
+Note: Service providers provide transit connectivity. Enterprise organizations are consumers and should not provide transit connectivity between autonomous systems across the internet. 
+
+<h3>Peering Using Loopback Addresses</h3>
+<br>
+You can use either of two solutions to overcome the link failure:
+<br>
+<ul>
+  <li> Add a second link between each pair of routers (so that three links become six links) and establish two BGP sessions between each pair of routers</li>
+  <li>Configure an IGP on the router’s transit links, advertise loopback interfaces into the IGP, and then configure the BGP neighbors to establish a session to the remote router’s loopback address. This method is preferable of the two methods because the loopback interface is virtual and always stays up.</li>
+  <li></li>
+</ul>
+<br>
+It is not enough to update the BGP configuration to connect the session to the remote router’s loopback IP address. When the BGP packet source does not match an entry in the neighbor table, the packet cannot be associated to a neighbor and is discarded. 
+<br>
+packet cannot be associated to a neighbor and is discarded. You can statically set the source address to an interface’s primary IP address using the <b>neighbor ip-address update-source interface-id</b> command.
+<br>
+"Hey, when you send BGP packets to this neighbor, don't use your physical interface IP as the source. Forcefully use my loopback interface IP instead." <b>neighbor ip-address update-source interface-id</b> command.
+<br>
+<h3>eBGP</h3>
+
+eBGP peerings are the core component of BGP on the internet. eBGP involves the exchange of network prefixes between autonomous systems. The following behaviors are different on eBGP sessions than on iBGP sessions:
+<br>
+<ul>
+  <li>The time-to-live (TTL) on eBGP packets is set to 1. BGP packets drop in transit if a multi-hop BGP session is attempted. The TTL on iBGP packets is set to 255, which allows for multi-hop sessions.</li>
+  <li>The advertising router modifies the BGP next hop to the IP address sourcing the BGP connection.</li>
+  <li>The advertising router prepends its ASN to the existing AS_Path.</li>
+  <li>The receiving router verifies that the AS_Path does not contain an ASN that matches the local routers. BGP discards the NLRI if it fails the AS_Path loop-prevention check. </li>
+</ul>
+
+<h3>eBGP and iBGP Topologies</h3>
+<br>
+Combining eBGP sessions with iBGP sessions can cause confusion in terminology and concepts.
+<br>
+As an eBGP prefix is advertised to an iBGP neighbor, issues may arise with the NLRI passing the validity check and next-hop reachability check, preventing advertisements to other BGP peers. 
+<br>
+The most common issue involves the failure of the next-hop accessibility check. iBGP peers do not modify the next-hop address if the NLRI has a next-hop address other than 0.0.0.0. The next-hop address must be resolvable in the global RIB in order for it to be valid and advertised to other BGP peers.
+<br>
+the prefix is not advertised to any peer because the next-hop is inaccessible.To correct the issue:
+<ul>
+  <li>IGP advertisement (Remember to use the passive interface to prevent an accidental adjacency forming.)</li>
+  <li>Advertise the networks into BGP </li>
+</ul>
+
+<br>
+Another technique to ensure that the next-hop address check passes without advertising peering networks into a routing protocol involves the modification of the next-hop address.
+The next-hop IP address can be modified on inbound or outbound neighbor routing policies.
+<br>
+By default, when an edge router receives a route from an external BGP (eBGP) peer, it keeps the external router's IP address as the Next-Hop IP. When that edge router advertises the route to internal BGP (iBGP) peers inside the same company, it does not change that Next-Hop IP.
+<br>
+The next-hop-self feature modifies the next-hop address in the NLRI for external BGP prefixes in the IP address sourcing the BGP session.
+Tell the edge router: "When you pass external routes to internal peers, rewrite the Next-Hop IP to be YOUR OWN IP address."
+<br>
+The <b>neighbor ip-address next-hop-self [all]</b> command is used for each neighbor under the address family configuration. The next-hop-self feature does not modify the next-hop address for iBGP prefixes by default.
+<br>
+<h3>iBGP Scalability Enhancements</h3>
+
+The inability of BGP to advertise a prefix learned from one iBGP peer to another iBGP peer leads to scalability issues in an AS. The formula n(n − 1)/2 provides the number of sessions required, where n represents the number of routers. A full mesh topology of 10 routers requires 45 sessions.
+<br>
+Route Reflectors - RFC 1966 introduces the idea that an iBGP peering can be configured so that it reflects routes to another iBGP peer.  The router that is reflecting routes is known as a route reflector (RR), and the router that is receiving reflected routes is a route reflector client. Route reflectors and route reflection involve three basic rules:
+<br>
+
+<ul>
+  <li> Rule 1 - If an RR receives an NLRI from a non-RR client, the RR advertises the NLRI to an RR client. It does not advertise the NLRI to a non-RR client.</li>
+  <li>Rule 2 - If an RR receives an NLRI from an RR client, it advertises the NLRI to RR clients and non-RR clients. Even the RR client that sent the advertisement receives a copy of the route, but it discards the NLRI because it sees itself as the route originator</li>
+  <li>If an RR receives a route from an eBGP peer, it advertises the route to RR clients and non-RR clients.</li>
+</ul>
+
+<h3>Route Reflector Configuration</h3>
+
+Only route reflectors are aware of the change in behavior because no additional BGP configuration is performed on route reflector clients.
+BGP route reflection is specific to each address family. The <b>neighbor ip-address route-reflector-client</b> command is used under the neighbor address family configuration
+<br>
+<br><br><br>
+
+Routing Information Base (RIB)<br>
+autonomous system (AS)<br>
+Autonomous System Numbers (ASNs)<br>
+path attributes (PAs)<br>
+Network Layer Reachability Information (NLRI)<br>
+address family identifier (AFI).<br>
+subsequent address family identifier (SAFI)<br>
+Multiprotocol BGP (MP-BGP)<br>
+finite-state machine (FSM)<br>
+Internal BGP (iBGP)<br>
+External BGP (eBGP)<br>
+route reflector (RR)<br>
